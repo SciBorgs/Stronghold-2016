@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drive extends Subsystem {
-	public CANTalon frontRightTalon, midRightTalon, backRightTalon, frontLeftTalon, midLeftTalon, backLeftTalon;
+	public CANTalon frontRightTalon, midRightTalon, backRightTalon,
+			frontLeftTalon, midLeftTalon, backLeftTalon;
 
 	public Drive() {
 
@@ -18,7 +19,7 @@ public class Drive extends Subsystem {
 		frontLeftTalon = Hardware.INSTANCE.frontLeftTalon;
 		midLeftTalon = Hardware.INSTANCE.midLeftTalon;
 		backLeftTalon = Hardware.INSTANCE.backLeftTalon;
-		
+
 		midRightTalon.changeControlMode(CANTalon.ControlMode.Follower);
 		midRightTalon.set(frontRightTalon.getDeviceID());
 		backRightTalon.changeControlMode(CANTalon.ControlMode.Follower);
@@ -30,16 +31,18 @@ public class Drive extends Subsystem {
 		midLeftTalon.set(frontLeftTalon.getDeviceID());
 	}
 
-	public void initDefaultCommand() {
-	}
-
 	public void setSpeed(double speedLeft, double speedRight) {
 		frontRightTalon.set(speedRight);
 		frontLeftTalon.set(speedLeft);
-		// NOTE: Do not give mid and back wheels a speed if they are in follower
-		// mode.
 	}
 
-	//Continues to turn until reaches angle parameter
-	
+	public void stopMoving() {
+		frontRightTalon.set(0);
+		frontLeftTalon.set(0);
+	}
+
+	public void initDefaultCommand() {
+		stopMoving();
+	}
+
 }

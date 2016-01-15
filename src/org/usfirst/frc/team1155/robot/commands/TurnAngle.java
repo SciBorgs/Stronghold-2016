@@ -1,21 +1,27 @@
 package org.usfirst.frc.team1155.robot.commands;
 
+import org.usfirst.frc.team1155.robot.Hardware;
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.UltraSubSystem;
+import org.usfirst.frc.team1155.robot.subsystems.Drive;
 
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.command.Command;
 /*
  * This is the Command used to do a 180 degree turn using Gyro
  * Written by Ankith
  * */
 public class TurnAngle extends Command {
-	public enum Turn {//Enum stuff for angle measures
+	
+	//Enum stuff for angle measures
+	public enum Turn {
 		RIGHT_ANGLE (90),
 		FORTYFIVE_ANGLE (45),
-		THREEQUARTER_ANGLE (270),
-		STRAIGHT_ANGLE (180);
+		STRAIGHT_ANGLE (180),
+		THREEQUARTER_ANGLE (270);
 		
 		private final double angle;
+		
+		//Sets angle from OI
 		Turn(double angle) {
 			this.angle = angle;
 		}
@@ -25,42 +31,72 @@ public class TurnAngle extends Command {
 		}
 	}
 	
-	private double angle;
-	private double gyroAngle, originalAngle;//Required vars
-	private boolean finished;
-	private Ultrasonics ultra = Robot.ultrasub;
+	//Field variables
+	private Drive drive = Robot.drive;
+	
 
-	public TurnAngle(TurnAngle.Turn angleChoice){//given an enum value
-		requires(Robot.ultrasub);
+	
+	private double angle;
+	private double gyroAngle, originalAngle; //Required vars
+	private boolean finishedTurning;
+
+
+	//Parameter is from preset values in Enum
+	public TurnAngle(Turn angleChoice){
+		requires(Robot.drive);
 		angle = angleChoice.getAngle();
 	}
 	
-	public TurnAngle(double a){//given an ACTUAL value
-		requires(Robot.ultrasub);
+	//Parameter is any angle wanted
+	public TurnAngle(double a){
+		requires(Robot.drive);
 		angle = a;
 	}
 	
 	@Override
 	protected void initialize() {
-		originalAngle = ultra.gyro.getAngle();//Gets original gyro value so we don't have to reset and meddle
+		//Gets original gyro value so we don't have to reset and meddle
+		originalAngle = gyro.getAngle();
 		
 	}
 
 	@Override
 	protected void execute() {
-		gyroAngle = ultra.gyro.getAngle();//gets the current gyro value while turning
-		finished = ultra.turnAngle(angle, originalAngle, gyroAngle);
+		gyroAngle = drive.gyro.getAngle();//gets the current gyro value while turning
+		finishedTurning = drive.turnAngle(angle, originalAngle, gyroAngle);
+		
+		
+		
+		
+		//Fix dis
+		
+		/*public boolean checkTurning(double angle, double originalAngle, double gyroAngle) {
+			// Gets the current gyro value while turning
+			gyroAngle = gyro.getAngle();
+			if ((gyroAngle - originalAngle) < angle) {
+				return false;
+			} else {
+				return true;
+			}
+
+		}*/
+		
+		
+		
+		
+		
+		
 	}
 
 	@Override
 	protected boolean isFinished() {
 			
-		return finished;//end command if 180 turn is finished
+		return finishedTurning;//end command if 180 turn is finished
 	}
 
 	@Override
 	protected void end() {
-		ultra.setSpeed(0, 0);
+		drive.setSpeed(0, 0);
 
 	}
 

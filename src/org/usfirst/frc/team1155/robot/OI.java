@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1155.robot;
 
-import org.usfirst.frc.team1155.robot.commands.AlignWall;
 import org.usfirst.frc.team1155.robot.commands.Feeding;
 import org.usfirst.frc.team1155.robot.commands.TurnAngle;
 
@@ -45,7 +44,7 @@ public class OI extends Command{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		alignButton.whenPressed(new AlignWall());
+		//alignButton.whenPressed(new AlignWall());
 		turnAngleButton.whenPressed(new TurnAngle(TurnAngle.Turn.STRAIGHT_ANGLE));
 	}
 

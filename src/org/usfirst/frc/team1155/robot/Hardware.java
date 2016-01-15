@@ -12,19 +12,14 @@ public enum Hardware {
 	public CANTalon topAxle;
 	public DigitalInput limitSwitch;
 	
-	public Joystick gamepad;
-	public Joystick leftJoystick;
-	public Joystick rightJoystick;
+	//User input devices
+	public Joystick gamepad, leftJoystick, rightJoystick;
 	
-	public Ultrasonic leftUltrasonic;
-	public Ultrasonic rightUltrasonic;
-	public CANTalon frontRightTalon;
+	//Ultrasonic sensors
+	public Ultrasonic leftUltrasonic, rightUltrasonic;
 	
-	public CANTalon midRightTalon;
-	public CANTalon backRightTalon;
-	public CANTalon frontLeftTalon;
-	public CANTalon midLeftTalon;
-	public CANTalon backLeftTalon;
+	//CANTalons
+	public CANTalon frontRightTalon, midRightTalon, backRightTalon, frontLeftTalon, midLeftTalon, backLeftTalon;
 
 	public Gyro gyro;
 	

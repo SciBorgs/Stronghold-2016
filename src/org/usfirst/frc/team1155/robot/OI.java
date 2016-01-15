@@ -14,16 +14,17 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class OI extends Command{
 	
-	private Joystick gamepad;
-	private Joystick leftJoystick, rightJoystick;
+	private Joystick gamepad, leftJoystick, rightJoystick;
+
 	private Button feederButton;
-	private JoystickButton alignButton;
-	private JoystickButton turnAngleButton;
+	
+	private JoystickButton alignButton, turnAngleButton;
 	
 	public OI() {
 		gamepad = Hardware.INSTANCE.gamepad;
 		leftJoystick = Hardware.INSTANCE.leftJoystick;
 		rightJoystick = Hardware.INSTANCE.rightJoystick;
+		
 		feederButton = new JoystickButton(gamepad, 1);
 		alignButton = new JoystickButton(leftJoystick, 2);
 		turnAngleButton = new JoystickButton(leftJoystick, 3);

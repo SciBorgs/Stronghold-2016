@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 public enum Hardware {
 	INSTANCE;
 	
-	public CANTalon topAxle;
+	//Limit switch
 	public DigitalInput limitSwitch;
 	
 	//User input devices
@@ -19,12 +19,11 @@ public enum Hardware {
 	public Ultrasonic leftUltrasonic, rightUltrasonic;
 	
 	//CANTalons
-	public CANTalon frontRightTalon, midRightTalon, backRightTalon, frontLeftTalon, midLeftTalon, backLeftTalon;
+	public CANTalon topAxle, frontRightTalon, midRightTalon, backRightTalon, frontLeftTalon, midLeftTalon, backLeftTalon;
 
 	public Gyro gyro;
 	
 	Hardware() {
-		topAxle = new CANTalon(0);
 		limitSwitch = new DigitalInput(0);
 		
 		gamepad = new Joystick(0);
@@ -33,14 +32,15 @@ public enum Hardware {
 		
 		leftUltrasonic = new Ultrasonic(0,1);
 		rightUltrasonic = new Ultrasonic(2,3);
-		frontRightTalon = new CANTalon(4);
 		
-		midRightTalon = new CANTalon(5);
-		backRightTalon = new CANTalon(6);
-		frontLeftTalon = new CANTalon(7);
-		midLeftTalon = new CANTalon(8);
-		backLeftTalon = new CANTalon(9);
+		topAxle = new CANTalon(0);
+		frontRightTalon = new CANTalon(1);
+		midRightTalon = new CANTalon(2);
+		backRightTalon = new CANTalon(3);
+		frontLeftTalon = new CANTalon(4);
+		midLeftTalon = new CANTalon(5);
+		backLeftTalon = new CANTalon(6);
 		
-		gyro = new Gyro(11);
+		gyro = new Gyro(0);
 	}
 }

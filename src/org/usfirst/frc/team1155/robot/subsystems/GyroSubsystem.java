@@ -5,10 +5,10 @@ import org.usfirst.frc.team1155.robot.Hardware;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class GyroSubSystem extends Subsystem {
+public class GyroSubsystem extends Subsystem {
 	private Gyro gyro;
 
-	public GyroSubSystem() {
+	public GyroSubsystem() {
 		gyro = Hardware.INSTANCE.gyro;
 	
 		//Calibrates gyro upon start

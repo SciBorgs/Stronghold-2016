@@ -12,6 +12,7 @@ public class UltrasonicSubsystem {
 	//In feet
 	private static final double CLOSEST_DISTANCE = 12;
 	private static final double DISTANCE_BETWEEN_ULTRASONICS = 12;
+
 	
 	public UltrasonicSubsystem() {
 		leftUltrasonic = Hardware.INSTANCE.leftUltrasonic;

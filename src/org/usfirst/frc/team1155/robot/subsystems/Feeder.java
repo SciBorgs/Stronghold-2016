@@ -7,28 +7,28 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Feeder extends Subsystem {
-	
+
 	private CANTalon axle;
 	private DigitalInput limit;
-	private final int movingUp, stopMoving;
-	
+	private static final int MOVING_UP = 1;
+	private static final int STOP_MOVING = 0;
+
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		
-	}
-	
-	public Feeder(){
-		axle = Hardware.INSTANCE.topAxle;
-		limit = Hardware.INSTANCE.limitSwitch;
-		movingUp = 1; //assuming 1 points up
-		stopMoving = 0;
+
 	}
 
-	public void feedingMotion(){
-		if (limit.get())
-			axle.set(movingUp); //if limit switch is true (not pressed), keep moving
-		axle.set(stopMoving);
+	public Feeder() {
+		axle = Hardware.INSTANCE.topAxle;
+		limit = Hardware.INSTANCE.limitSwitch;
 	}
-	
+
+	public void feedingMotion() {
+		// if limit switch is true (not pressed), keep moving
+		if (limit.get())
+			axle.set(MOVING_UP);
+		axle.set(STOP_MOVING);
+	}
+
 }

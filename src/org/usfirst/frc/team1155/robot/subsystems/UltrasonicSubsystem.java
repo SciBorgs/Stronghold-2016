@@ -5,7 +5,9 @@ import org.usfirst.frc.team1155.robot.Hardware;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class UltrasonicSubsystem {
-	Ultrasonic leftUltrasonic, rightUltrasonic;
+	public static Ultrasonic leftUltrasonic;
+
+	public static Ultrasonic rightUltrasonic;
 	
 	//In feet
 	private static final double CLOSEST_DISTANCE = 12;

@@ -27,7 +27,18 @@ public class GyroSubsystem extends Subsystem {
 		//"Removes" gyro from use
 		gyro.free();
 	}
+	
+	public boolean turn(double angle, double originalAngle) {
+		// Gets the current gyro value while turning
+		double gyroAngle = gyro.getAngle();
+		if ((gyroAngle - originalAngle) < angle) {
+			return false;
+		} else {
+			return true;
+		}
 
+	}
+			
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub

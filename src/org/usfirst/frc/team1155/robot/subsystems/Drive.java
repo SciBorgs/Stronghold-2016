@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drive extends Subsystem {
 	private CANTalon frontRightTalon, backRightTalon, frontLeftTalon, backLeftTalon;
+	private Gyro gyro;
 
 	public Drive() {
 
@@ -16,6 +17,7 @@ public class Drive extends Subsystem {
 		backRightTalon = Hardware.INSTANCE.backRightTalon;
 		frontLeftTalon = Hardware.INSTANCE.frontLeftTalon;
 		backLeftTalon = Hardware.INSTANCE.backLeftTalon;
+		gyro = Hardware.INSTANCE.gyro;
 
 		// Sets back right talons as followers to the front right talon
 		backRightTalon.changeControlMode(CANTalon.ControlMode.Follower);
@@ -28,14 +30,19 @@ public class Drive extends Subsystem {
 	}
 
 	public void setSpeed(double speedLeft, double speedRight) {
-		frontLeftTalon.set(speedLeft);
 		frontRightTalon.set(speedRight);
+		frontLeftTalon.set(speedLeft);
 
 	}
 
 	public void stopMoving() {
 		frontRightTalon.set(0);
 		frontLeftTalon.set(0);
+	}
+	
+	public void turnRobot(double angle){
+		frontRightTalon.set();
+		frontLeftTalon.set();
 	}
 
 	public void initDefaultCommand() {

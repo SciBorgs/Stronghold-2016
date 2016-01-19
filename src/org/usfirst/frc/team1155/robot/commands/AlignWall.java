@@ -50,7 +50,7 @@ public class AlignWall extends Command {
 
 	protected void end() {
 		// Stops
-		drive.Stop();
+		drive.stopMoving();
 	}
 
 	protected void interrupted() {

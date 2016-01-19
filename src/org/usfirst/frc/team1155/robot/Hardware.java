@@ -27,6 +27,9 @@ public enum Hardware {
 	//CANTalons for winch
 	public CANTalon winchTalon, winchFollowerTalon;
 	
+	//CANTalons for feeder
+	public CANTalon topAxle, botAxle;
+	
 	public Gyro gyro;
 	
 	Hardware() {
@@ -48,6 +51,9 @@ public enum Hardware {
 		
 		winchTalon = new CANTalon(7);
 		winchFollowerTalon = new CANTalon(8);
+		
+		topAxle = new CANTalon(9);
+		botAxle = new CANTalon(10);
 		
 		gyro = new Gyro(0);
 	}

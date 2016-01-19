@@ -6,29 +6,29 @@ import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveArm extends Command {
-	private ClimbSubsystem arms = Robot.arms;
-	private double speed;
+	private static ClimbSubsystem arms = Robot.arms;
+	private static double position;
 	
-	public enum Direction {
-		UP_HALF_SPEED (.5),
-		UP_FULL_SPEED (1),
-		DOWN_HALF_SPEED (-.5),
-		DOWN_FULL_SPEED(-1);
+	public enum Position {
+		BOTTOM (0),
+		TOP (1023),
+		UP (10),
+		DOWN (-10);
 		
-		private double speed;
+		private final double position;
 		
-		Direction(double speed) {
-			this.speed = speed;
+		Position(double position) {
+			this.position = position;
 		}
 		
-		public double getSpeed() {
-			return speed;
+		public double getPosition() {
+			return position;
 		}
 	}
 	
 	
-	public MoveArm(Direction d) {
-		speed = d.getSpeed();
+	public MoveArm(Position p) {
+		position = p.getPosition();
 	}
 	
 	@Override
@@ -38,17 +38,24 @@ public class MoveArm extends Command {
 
 	@Override
 	protected void execute() {
-		arms.setSpeed(speed);
+		if (position == Position.TOP.getPosition())
+			arms.extendArm();
+		else if (position == Position.BOTTOM.getPosition())
+			arms.retractArm();
+		else {
+			double newPos = position + arms.getArmPosition();
+			arms.setArmPosition(newPos);
+		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return arms.cannotMove();
+		return (arms.cannotMoveArmUp() && position >= Position.BOTTOM.getPosition())
+				|| (arms.cannotMoveArmDown() && position <= Position.BOTTOM.getPosition());
 	}
 
 	@Override
 	protected void end() {
-		ClimbSubsystem.setStill();
 	}
 
 	@Override

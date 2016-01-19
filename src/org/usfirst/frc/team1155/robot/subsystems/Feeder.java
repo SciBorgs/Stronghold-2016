@@ -13,18 +13,23 @@ public class Feeder extends Subsystem {
 	 */
 
 	private DigitalInput limit;
+	private CANTalon topAxle, botAxle;
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
 
 	public Feeder() {
 		limit = Hardware.INSTANCE.limitSwitch;
+		topAxle = Hardware.INSTANCE.topAxle;
+		botAxle = Hardware.INSTANCE.botAxle;
+		
+		botAxle.changeControlMode(CANTalon.ControlMode.Follower);
 	}
 
 	public void feedingMotion() {
 		// if limit switch is true (not pressed), keep moving
 		if (limit.get())
-			axle.set(MOVING_UP);
-		axle.set(STOP_MOVING);
+			topAxle.set(MOVING_UP);
+		topAxle.set(STOP_MOVING);
 	}
 
 	@Override

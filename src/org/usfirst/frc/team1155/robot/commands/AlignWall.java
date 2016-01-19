@@ -16,8 +16,8 @@ public class AlignWall extends Command {
 	private static final double ERROR_MARGIN = 30;
 	private static final double TALON_SPEED = 0.2;
 
-	private Drive drive;
-	private UltrasonicSubsystem ultrasonics;
+	private static Drive drive;
+	private static UltrasonicSubsystem ultrasonics;
 
 	public AlignWall() {
 		requires(Robot.drive);
@@ -50,7 +50,7 @@ public class AlignWall extends Command {
 
 	protected void end() {
 		// Stops
-		Robot.drive.setSpeed(0, 0);
+		drive.Stop();
 	}
 
 	protected void interrupted() {

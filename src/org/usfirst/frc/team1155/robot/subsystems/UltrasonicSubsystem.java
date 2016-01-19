@@ -3,8 +3,9 @@ package org.usfirst.frc.team1155.robot.subsystems;
 import org.usfirst.frc.team1155.robot.Hardware;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class UltrasonicSubsystem {
+public class UltrasonicSubsystem extends Subsystem{
 	public static Ultrasonic leftUltrasonic;
 
 	public static Ultrasonic rightUltrasonic;
@@ -66,5 +67,11 @@ public class UltrasonicSubsystem {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -8,13 +8,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Feeder extends Subsystem {
 
-	private CANTalon axle;
+	/*
+	 * Needs Hardware. Please add necessary hardware to both Hardware class and update this subsystem
+	 */
+
 	private DigitalInput limit;
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
 
 	public Feeder() {
-		axle = Hardware.INSTANCE.topAxle;
 		limit = Hardware.INSTANCE.limitSwitch;
 	}
 

@@ -10,11 +10,10 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class CollisionDetection extends Command {
-	double range; // store range from ultrasonic sensor (in inches)
-	private static final double MIN_RANGE = .05, BUFFER = 1; // when the ultrasonic sensor returns this range, stop the robot
-	                                                         // will stop when within minRange + or - buffer
-
-	
+	// store range from ultrasonic sensor (in inches)
+	private static double range; 
+	// when the ultrasonic sensor returns this range, stop the robot will stop when within minRange + or - buffer
+	private static final double MIN_RANGE = .05, BUFFER = 1;
 	private static UltrasonicSubsystem ultrasonics = Robot.ultrasonics;
 	private static Drive drive = Robot.drive;
 	
@@ -34,7 +33,7 @@ public class CollisionDetection extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	range = ultrasonicSubsystem.findClosestRange();
+    	range = ultrasonics.findClosestRange();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -44,8 +43,7 @@ public class CollisionDetection extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	TalonSubsystem.talonWheelLeft.set(0);
-    	TalonSubsystem.talonWheelRight.set(0);
+    	drive.setSpeed(0,0);
     }
 
     // Called when another command which requires one or more of the same

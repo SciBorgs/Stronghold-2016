@@ -1,12 +1,12 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.ArmSubsystem;
+import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveArm extends Command {
-	private ArmSubsystem arms = Robot.arms;
+	private ClimbSubsystem arms = Robot.arms;
 	private double speed;
 	
 	public enum Direction {
@@ -48,7 +48,7 @@ public class MoveArm extends Command {
 
 	@Override
 	protected void end() {
-		ArmSubsystem.setStill();
+		ClimbSubsystem.setStill();
 	}
 
 	@Override

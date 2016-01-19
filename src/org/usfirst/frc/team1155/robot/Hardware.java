@@ -18,9 +18,15 @@ public enum Hardware {
 	//Ultrasonic sensors
 	public Ultrasonic leftUltrasonic, rightUltrasonic;
 	
-	//CANTalons
-	public CANTalon topAxle, frontRightTalon, midRightTalon, backRightTalon, frontLeftTalon, midLeftTalon, backLeftTalon;
+	//CANTalons for driving
+	public CANTalon frontRightTalon, backRightTalon, frontLeftTalon, backLeftTalon;
 
+	//CANTalon for Arm movement
+	public CANTalon armTalon;
+	
+	//CANTalons for winch
+	public CANTalon winchTalon, winchFollowerTalon;
+	
 	public Gyro gyro;
 	
 	Hardware() {
@@ -33,13 +39,15 @@ public enum Hardware {
 		leftUltrasonic = new Ultrasonic(0,1);
 		rightUltrasonic = new Ultrasonic(2,3);
 		
-		topAxle = new CANTalon(0);
-		frontRightTalon = new CANTalon(1);
-		midRightTalon = new CANTalon(2);
-		backRightTalon = new CANTalon(3);
-		frontLeftTalon = new CANTalon(4);
-		midLeftTalon = new CANTalon(5);
-		backLeftTalon = new CANTalon(6);
+		frontRightTalon = new CANTalon(0);
+		backRightTalon = new CANTalon(2);
+		frontLeftTalon = new CANTalon(3);
+		backLeftTalon = new CANTalon(5);
+		
+		armTalon = new CANTalon(6);
+		
+		winchTalon = new CANTalon(7);
+		winchFollowerTalon = new CANTalon(8);
 		
 		gyro = new Gyro(0);
 	}

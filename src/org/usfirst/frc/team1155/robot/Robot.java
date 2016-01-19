@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1155.robot;
 
 import org.usfirst.frc.team1155.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1155.robot.subsystems.ArmSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.Drive;
 import org.usfirst.frc.team1155.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.Feeder;
@@ -27,6 +28,7 @@ public class Robot extends IterativeRobot {
 	public static final Drive drive = new Drive();
 	public static final GyroSubsystem gyros = new GyroSubsystem();
 	public static final UltrasonicSubsystem ultrasonics = new UltrasonicSubsystem();
+	public static final ArmSubsystem arms = new ArmSubsystem();
 	public static OI oi;
 
 

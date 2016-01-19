@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.TalonSubsystem;
+import org.usfirst.frc.team1155.robot.subsystems.Drive;
 import org.usfirst.frc.team1155.robot.subsystems.UltrasonicSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,13 +15,12 @@ public class CollisionDetection extends Command {
 	                                                         // will stop when within minRange + or - buffer
 
 	
-	private static UltrasonicSubsystem ultrasonicSubsystem = Robot.ultrasonicSubsystem;
-	private static TalonSubsystem talonSubsystem = Robot.talonSubsystem;
+	private static UltrasonicSubsystem ultrasonics = Robot.ultrasonics;
+	private static Drive drive = Robot.drive;
 	
     public CollisionDetection() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.ultrasonicSubsystem);
-        requires(Robot.talonSubsystem);
+        requires(Robot.ultrasonics);
     }
 
     // Called just before this Command runs the first time

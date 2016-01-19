@@ -13,12 +13,6 @@ public class Feeder extends Subsystem {
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
 
-	@Override
-	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public Feeder() {
 		axle = Hardware.INSTANCE.topAxle;
 		limit = Hardware.INSTANCE.limitSwitch;
@@ -31,4 +25,9 @@ public class Feeder extends Subsystem {
 		axle.set(STOP_MOVING);
 	}
 
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+
+	}
 }

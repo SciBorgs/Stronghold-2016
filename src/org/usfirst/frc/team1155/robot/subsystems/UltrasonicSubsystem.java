@@ -50,15 +50,21 @@ public class UltrasonicSubsystem {
 		double leftDistance = leftUltrasonic.getRangeInches();
 		double rightDistance = rightUltrasonic.getRangeInches();
 		//get the angle
+		//will be commented later -Christina
 		if (rightDistance - leftDistance > 0){
 			double e = Math.sqrt(Math.pow(DISTANCE_BETWEEN_ULTRASONICS, 2) + Math.pow((rightDistance-leftDistance) , 2));
 			double f = Math.sqrt(Math.pow(DISTANCE_BETWEEN_ULTRASONICS, 2) + Math.pow(rightDistance, 2));
-			return Math.acos(Math.pow(leftDistance, 2) - Math.pow(e, 2) - Math.pow(f, 2) + 2 * e * f);
+			double d = Math.acos(Math.pow(leftDistance, 2) - Math.pow(e, 2) - Math.pow(f, 2) + 2 * e * f);
+			double c = Math.atan2(DISTANCE_BETWEEN_ULTRASONICS, rightDistance);
+			return 180 - (90 - d - c);
 		} else if (rightDistance - leftDistance < 0) {
-			//needs to be implemented; 
+			double e = Math.sqrt(Math.pow(DISTANCE_BETWEEN_ULTRASONICS, 2) + Math.pow((leftDistance-rightDistance), 2));
+			double f = Math.sqrt(Math.pow(DISTANCE_BETWEEN_ULTRASONICS, 2) + Math.pow(leftDistance, 2));
+			double d = Math.acos(Math.pow(leftDistance, 2) - Math.pow(e, 2) - Math.pow(f, 2) + 2 * e * f);
+			double c = Math.atan2(DISTANCE_BETWEEN_ULTRASONICS, leftDistance);
+			return 180 - (90 - d - c);
 		} else {
 			return 0;
 		}
-		return 0;
 	}
 }

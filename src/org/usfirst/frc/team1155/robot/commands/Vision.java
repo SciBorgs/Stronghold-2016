@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision extends Command {
 	private static Image i = Robot.image;
-	private static SmartDashboard l_a = new SmartDashboard();
 	
 	public Vision() {
 		requires(Robot.image);

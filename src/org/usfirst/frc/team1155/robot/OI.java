@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1155.robot;
 
+import org.usfirst.frc.team1155.robot.commands.AlignWall;
 import org.usfirst.frc.team1155.robot.commands.Feeding;
+import org.usfirst.frc.team1155.robot.commands.MoveArm;
 import org.usfirst.frc.team1155.robot.commands.TurnRobot;
+import org.usfirst.frc.team1155.robot.commands.Winch;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -15,19 +17,20 @@ import edu.wpi.first.wpilibj.command.Command;
 public class OI extends Command{
 	
 	private Joystick gamepad, leftJoystick, rightJoystick;
-
-	private Button feederButton;
 	
-	private JoystickButton alignButton, turnAngleButton;
+	private JoystickButton alignButton, feederButton, moveArmButton, turnAngleButton, winchButton;
 	
 	public OI() {
 		gamepad = Hardware.INSTANCE.gamepad;
 		leftJoystick = Hardware.INSTANCE.leftJoystick;
 		rightJoystick = Hardware.INSTANCE.rightJoystick;
 		
-		feederButton = new JoystickButton(gamepad, 1);
-		alignButton = new JoystickButton(leftJoystick, 2);
-		turnAngleButton = new JoystickButton(leftJoystick, 3);
+		
+		alignButton = new JoystickButton(gamepad, 1);
+		feederButton = new JoystickButton(gamepad, 2);
+		moveArmButton = new JoystickButton(gamepad, 3);
+		turnAngleButton = new JoystickButton(gamepad, 4);
+		winchButton = new JoystickButton(gamepad, 5);
 	}
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
@@ -39,14 +42,16 @@ public class OI extends Command{
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		feederButton.whenPressed(new Feeding());
 	}
 
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		//alignButton.whenPressed(new AlignWall());
+		alignButton.whenPressed(new AlignWall());
+		feederButton.whenPressed(new Feeding());
+		moveArmButton.whenPressed(new MoveArm(MoveArm.Position.TOP));
 		turnAngleButton.whenPressed(new TurnRobot(TurnRobot.Turn.STRAIGHT_ANGLE));
+		winchButton.whenPressed(new Winch());
 	}
 
 	@Override

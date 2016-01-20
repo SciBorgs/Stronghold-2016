@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveArm extends Command {
 	private static ClimbSubsystem arms = Robot.arms;
-	private static double position;
+	private static Position position;
 	
-	public enum Position {
+	public static enum Position {
 		BOTTOM (0),
 		TOP (1023),
 		UP (10),
@@ -28,7 +28,7 @@ public class MoveArm extends Command {
 	
 	
 	public MoveArm(Position p) {
-		position = p.getPosition();
+		position = p;
 	}
 	
 	@Override
@@ -38,20 +38,24 @@ public class MoveArm extends Command {
 
 	@Override
 	protected void execute() {
-		if (position == Position.TOP.getPosition())
+		switch (position) {
+		case TOP:
 			arms.extendArm();
-		else if (position == Position.BOTTOM.getPosition())
+			break;
+		case BOTTOM:
 			arms.retractArm();
-		else {
-			double newPos = position + arms.getArmPosition();
+			break;
+		default:
+			double newPos = position.getPosition() + arms.getArmPosition();
 			arms.setArmPosition(newPos);
+			break;
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return (arms.cannotMoveArmUp() && position >= Position.BOTTOM.getPosition())
-				|| (arms.cannotMoveArmDown() && position <= Position.BOTTOM.getPosition());
+		return (arms.cannotMoveArmUp() && (position == Position.TOP || position == Position.UP)) ||
+			   (arms.cannotMoveArmDown() && (position == Position.BOTTOM || position == Position.DOWN));
 	}
 
 	@Override
@@ -61,7 +65,6 @@ public class MoveArm extends Command {
 	@Override
 	protected void interrupted() {
 		end();
-		
 	}
 
 }

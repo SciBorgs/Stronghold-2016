@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +25,7 @@ public class Robot extends IterativeRobot {
 	public static final Drive drive = new Drive();
 	public static final ClimbSubsystem arms = new ClimbSubsystem();
 	public static final Image image = new Image();
+	public static final SmartDashboard dashboard = new SmartDashboard();
 	public static OI oi;
 
 
@@ -82,5 +84,9 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+    
+    public class Dashboard {
+    	
     }
 }

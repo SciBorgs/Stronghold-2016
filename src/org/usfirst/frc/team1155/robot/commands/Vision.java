@@ -28,23 +28,7 @@ public class Vision extends Command {
 	protected void execute() {
 		i.takePicture();	
 		
-		try {
-			if(i.checkPictureColor(0, 255, 0, 0, 0, 0)) {
-				// Pick up box
-				// Return box to user
-			}
-				
-			else if(i.checkPictureColor(0, 0, 0, 255, 0, 0)) {
-				// Pick up box
-				// Return box to user
-			}
-				
-			else {
-				// Pick up box
-				// Return box to user
-			}
-				
-			
+		try {	
 			//HUE_LOW = 79, HUE_HIGH = 89, SATURATION_LOW = 64, SATURATION_HIGH = 153, LUMINANCE_LOW = 40, LUMINANCE_HIGH = 253
 			if(i.prepareImage(79, 89, 64, 153, 40, 253)) {
 				SmartDashboard.putString("GOt image", "monies");

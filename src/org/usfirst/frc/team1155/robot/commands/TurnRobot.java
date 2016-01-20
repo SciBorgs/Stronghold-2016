@@ -3,7 +3,6 @@ package org.usfirst.frc.team1155.robot.commands;
 import org.usfirst.frc.team1155.robot.Hardware;
 import org.usfirst.frc.team1155.robot.Robot;
 import org.usfirst.frc.team1155.robot.subsystems.Drive;
-import org.usfirst.frc.team1155.robot.subsystems.GyroSubsystem;
 
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,13 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  * This is the Command used to do a 180 degree turn using Gyro
  * Written by Ankith
  * */
-public class TurnAngle extends Command {
-	
-	private Drive drive = Robot.drive;	
-	private static double angle;
-	private static double currentAngle; //Required vars
-	private static boolean finishedTurning;
-	private static GyroSubsystem gyro = Robot.gyros;
+public class TurnRobot extends Command {
 	
 	//Enum stuff for angle measures
 	public enum Turn {
@@ -38,14 +31,24 @@ public class TurnAngle extends Command {
 		}
 	}
 	
+	//Field variables
+	private Drive drive = Robot.drive;
+	
+
+	
+	private double angle;
+	private double gyroAngle, originalAngle; //Required vars
+	private boolean finishedTurning;
+
+
 	//Parameter is from preset values in Enum
-	public TurnAngle(Turn angleChoice){
+	public TurnRobot(Turn angleChoice){
 		requires(Robot.drive);
 		angle = angleChoice.getAngle();
 	}
 	
 	//Parameter is any angle wanted
-	public TurnAngle(double a){
+	public TurnRobot(double a){
 		requires(Robot.drive);
 		angle = a;
 	}
@@ -53,27 +56,48 @@ public class TurnAngle extends Command {
 	@Override
 	protected void initialize() {
 		//Gets original gyro value so we don't have to reset and meddle
-		gyro.resetGyro();
-		currentAngle = gyro.getAngle();
+		originalAngle = gyro.getAngle();
+		
 	}
 
 	@Override
 	protected void execute() {
-		currentAngle = gyro.getAngle();
-		//gets the current gyro value while turning
-		finishedTurning = gyro.turn(angle, currentAngle);
-		//DRIVE THE FUCKING ROBOT HERE 
+		gyroAngle = drive.gyro.getAngle();//gets the current gyro value while turning
+		finishedTurning = drive.turnAngle(angle, originalAngle, gyroAngle);
+		
+		
+		
+		
+		//Fix dis
+		
+		/*public boolean checkTurning(double angle, double originalAngle, double gyroAngle) {
+			// Gets the current gyro value while turning
+			gyroAngle = gyro.getAngle();
+			if ((gyroAngle - originalAngle) < angle) {
+				return false;
+			} else {
+				return true;
+			}
+
+		}*/
+		
+		
+		
+		
+		
 		
 	}
 
 	@Override
 	protected boolean isFinished() {
+			
 		return finishedTurning;//end command if 180 turn is finished
 	}
 
 	@Override
 	protected void end() {
 		drive.setSpeed(0, 0);
+
 	}
 
 	@Override

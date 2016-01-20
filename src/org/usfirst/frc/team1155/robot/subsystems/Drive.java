@@ -41,8 +41,13 @@ public class Drive extends Subsystem {
 	}
 	
 	public void turnRobot(double angle){
-		frontRightTalon.set();
-		frontLeftTalon.set();
+		if (angle < 0){
+			frontRightTalon.set(0.5);
+			frontLeftTalon.set(-0.5);
+		} else if (angle > 0) {
+			frontRightTalon.set(-0.5);
+			frontLeftTalon.set(0.5);
+		}
 	}
 
 	public void initDefaultCommand() {

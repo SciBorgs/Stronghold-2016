@@ -50,7 +50,6 @@ public class AlignWall extends Command {
 
 	protected void end() {
 		// Stops
-		drive.stopMoving();
 	}
 
 	protected void interrupted() {

@@ -22,19 +22,19 @@ public class Feeding extends Command{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		feeder.feedingMotion();
+		feeder.feed();
 	}
 
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return feeder.isFed();
 	}
 
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		
+		feeder.stopFeeding();
 	}
 
 	@Override

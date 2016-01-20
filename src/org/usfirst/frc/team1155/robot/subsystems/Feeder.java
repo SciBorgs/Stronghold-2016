@@ -25,11 +25,17 @@ public class Feeder extends Subsystem {
 		botAxle.changeControlMode(CANTalon.ControlMode.Follower);
 	}
 
-	public void feedingMotion() {
-		// if limit switch is true (not pressed), keep moving
-		if (limit.get())
-			topAxle.set(MOVING_UP);
+	public void feed() {
+		topAxle.set(MOVING_UP);
+	}
+	
+	public void stopFeeding() {
 		topAxle.set(STOP_MOVING);
+	}
+	
+	public boolean isFed() {
+		// if limit switch is true (not pressed), keep moving
+		return !limit.get();
 	}
 
 	@Override

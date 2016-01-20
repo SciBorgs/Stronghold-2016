@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public enum Hardware {
 	INSTANCE;
@@ -32,6 +33,8 @@ public enum Hardware {
 	
 	public Gyro gyro;
 	
+	public USBCamera camera;
+	
 	Hardware() {
 		limitSwitch = new DigitalInput(0);
 		
@@ -56,5 +59,7 @@ public enum Hardware {
 		botAxle = new CANTalon(10);
 		
 		gyro = new Gyro(0);
+		
+		camera = new USBCamera("USBCam");
 	}
 }

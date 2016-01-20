@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1155.robot;
 
 import org.usfirst.frc.team1155.robot.commands.Feeding;
-import org.usfirst.frc.team1155.robot.commands.TurnAngle;
+import org.usfirst.frc.team1155.robot.commands.TurnRobot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -46,7 +46,7 @@ public class OI extends Command{
 	protected void execute() {
 		// TODO Auto-generated method stub
 		//alignButton.whenPressed(new AlignWall());
-		turnAngleButton.whenPressed(new TurnAngle(TurnAngle.Turn.STRAIGHT_ANGLE));
+		turnAngleButton.whenPressed(new TurnRobot(TurnRobot.Turn.STRAIGHT_ANGLE));
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
 import org.usfirst.frc.team1155.robot.subsystems.Drive;
-import org.usfirst.frc.team1155.robot.subsystems.UltrasonicSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -17,12 +16,10 @@ public class AlignWall extends Command {
 	private static final double TALON_SPEED = 0.2;
 
 	private static Drive drive;
-	private static UltrasonicSubsystem ultrasonics;
 
 	public AlignWall() {
 		requires(Robot.drive);
 		drive = Robot.drive;
-		ultrasonics = Robot.ultrasonics;
 		angle = 0;
 	}
 
@@ -32,20 +29,20 @@ public class AlignWall extends Command {
 
 	protected void execute() {
 		// When the right ultrasonic is in the front
-		if (ultrasonics.angleToAlignTo() < -ERROR_MARGIN) {
+		if (drive.angleToAlignTo() < -ERROR_MARGIN) {
 			Robot.drive.setSpeed(TALON_SPEED, -TALON_SPEED);
 		}
 
 		// When the left ultrasonic is in the front.
-		else if (ultrasonics.angleToAlignTo() > ERROR_MARGIN)
+		else if (drive.angleToAlignTo() > ERROR_MARGIN)
 			Robot.drive.setSpeed(-TALON_SPEED, TALON_SPEED);
 	}
 
 	protected boolean isFinished() {
 		// When sensors are almost the same distance away,
 		// or the sensors cannot compute
-		return (ultrasonics.angleToAlignTo() < ERROR_MARGIN || ultrasonics
-				.angleToAlignTo() > -ERROR_MARGIN);
+		return (drive.angleToAlignTo() < ERROR_MARGIN ||
+				drive.angleToAlignTo() > -ERROR_MARGIN);
 	}
 
 	protected void end() {

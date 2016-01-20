@@ -5,7 +5,6 @@ import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.Drive;
 import org.usfirst.frc.team1155.robot.subsystems.Feeder;
 import org.usfirst.frc.team1155.robot.subsystems.Image;
-import org.usfirst.frc.team1155.robot.subsystems.UltrasonicSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -23,7 +22,6 @@ public class Robot extends IterativeRobot {
 
 	public static final Feeder feeder = new Feeder();
 	public static final Drive drive = new Drive();
-	public static final UltrasonicSubsystem ultrasonics = new UltrasonicSubsystem();
 	public static final ClimbSubsystem arms = new ClimbSubsystem();
 	public static final Image image = new Image();
 	public static OI oi;

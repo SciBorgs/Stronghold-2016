@@ -1,10 +1,8 @@
 package org.usfirst.frc.team1155.robot.commands;
 
-import org.usfirst.frc.team1155.robot.Hardware;
 import org.usfirst.frc.team1155.robot.Robot;
 import org.usfirst.frc.team1155.robot.subsystems.Drive;
 
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.command.Command;
 /*
  * This is the Command used to do a 180 degree turn using Gyro
@@ -33,8 +31,6 @@ public class TurnRobot extends Command {
 	
 	//Field variables
 	private Drive drive = Robot.drive;
-	
-
 	
 	private double angle;
 	private double originalAngle; //Required vars

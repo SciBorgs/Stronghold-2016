@@ -12,7 +12,7 @@ public class Drive extends Subsystem {
 	private Gyro gyro;
 
 	public Drive() {
-
+		
 		frontRightTalon = Hardware.INSTANCE.frontRightTalon;
 		backRightTalon = Hardware.INSTANCE.backRightTalon;
 		frontLeftTalon = Hardware.INSTANCE.frontLeftTalon;
@@ -26,9 +26,10 @@ public class Drive extends Subsystem {
 		// Sets back left talons as followers to the front left talon
 		backLeftTalon.changeControlMode(CANTalon.ControlMode.Follower);
 		backLeftTalon.set(frontLeftTalon.getDeviceID());
-
 	}
 
+	
+	//DRIVING METHODS
 	public void setSpeed(double speedLeft, double speedRight) {
 		frontRightTalon.set(speedRight);
 		frontLeftTalon.set(speedLeft);
@@ -49,6 +50,33 @@ public class Drive extends Subsystem {
 			frontLeftTalon.set(0.5);
 		}
 	}
+	
+	//GYRO METHODS
+	public double getAngle() {
+		return gyro.getAngle();
+	}
+	
+	public void resetGyro() {
+		gyro.reset();
+	}
+	
+	public void freeGyro() {
+		//"Removes" gyro from use
+		gyro.free();
+	}
+	
+	public boolean canTurn(double angle, double originalAngle) {
+		// Gets the current gyro value while turning
+		double gyroAngle = gyro.getAngle();
+		if ((gyroAngle - originalAngle) < angle) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	//ULTRASONIC METHODS
+	
 
 	public void initDefaultCommand() {
 		stopMoving();

@@ -37,8 +37,7 @@ public class TurnRobot extends Command {
 
 	
 	private double angle;
-	private double gyroAngle, originalAngle; //Required vars
-	private boolean finishedTurning;
+	private double originalAngle; //Required vars
 
 
 	//Parameter is from preset values in Enum
@@ -56,47 +55,22 @@ public class TurnRobot extends Command {
 	@Override
 	protected void initialize() {
 		//Gets original gyro value so we don't have to reset and meddle
-		originalAngle = gyro.getAngle();
-		
+		originalAngle = drive.getAngle();	
 	}
 
 	@Override
 	protected void execute() {
-		gyroAngle = drive.gyro.getAngle();//gets the current gyro value while turning
-		finishedTurning = drive.turnAngle(angle, originalAngle, gyroAngle);
-		
-		
-		
-		
-		//Fix dis
-		
-		/*public boolean checkTurning(double angle, double originalAngle, double gyroAngle) {
-			// Gets the current gyro value while turning
-			gyroAngle = gyro.getAngle();
-			if ((gyroAngle - originalAngle) < angle) {
-				return false;
-			} else {
-				return true;
-			}
-
-		}*/
-		
-		
-		
-		
-		
-		
+		drive.turnRobot(angle);
 	}
 
 	@Override
 	protected boolean isFinished() {
-			
-		return finishedTurning;//end command if 180 turn is finished
+		return drive.canTurn(angle, originalAngle);//end command if 180 turn is finished
 	}
 
 	@Override
 	protected void end() {
-		drive.setSpeed(0, 0);
+		drive.stopMoving();
 
 	}
 

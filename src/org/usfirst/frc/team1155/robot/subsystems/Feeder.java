@@ -4,6 +4,7 @@ import org.usfirst.frc.team1155.robot.Hardware;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Feeder extends Subsystem {
@@ -14,6 +15,7 @@ public class Feeder extends Subsystem {
 
 	private DigitalInput limit;
 	private CANTalon topAxle, botAxle;
+	private Solenoid frontPiston;
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
 
@@ -21,6 +23,7 @@ public class Feeder extends Subsystem {
 		limit = Hardware.INSTANCE.limitSwitch;
 		topAxle = Hardware.INSTANCE.topAxle;
 		botAxle = Hardware.INSTANCE.botAxle;
+		frontPiston = Hardware.INSTANCE.frontPiston;
 		
 		botAxle.changeControlMode(CANTalon.ControlMode.Follower);
 	}
@@ -36,6 +39,10 @@ public class Feeder extends Subsystem {
 	public boolean isFed() {
 		// if limit switch is true (not pressed), keep moving
 		return !limit.get();
+	}
+	
+	public void toggleFrontPiston(){
+		frontPiston.set(!frontPiston.get());
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1155.robot.commands;
+package org.usfirst.frc.team1155.robot.teleoperated.commands;
 
 import org.usfirst.frc.team1155.robot.Hardware;
 import org.usfirst.frc.team1155.robot.Robot;

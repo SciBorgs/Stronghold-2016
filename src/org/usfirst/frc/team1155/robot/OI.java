@@ -1,10 +1,10 @@
 package org.usfirst.frc.team1155.robot;
 
-import org.usfirst.frc.team1155.robot.commands.AlignWall;
-import org.usfirst.frc.team1155.robot.commands.Feeding;
-import org.usfirst.frc.team1155.robot.commands.MoveArm;
-import org.usfirst.frc.team1155.robot.commands.TurnRobot;
-import org.usfirst.frc.team1155.robot.commands.Winch;
+import org.usfirst.frc.team1155.robot.teleoperated.commands.AlignWall;
+import org.usfirst.frc.team1155.robot.teleoperated.commands.Feeding;
+import org.usfirst.frc.team1155.robot.teleoperated.commands.MoveArm;
+import org.usfirst.frc.team1155.robot.teleoperated.commands.TurnRobot;
+import org.usfirst.frc.team1155.robot.teleoperated.commands.Winch;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay.Direction;

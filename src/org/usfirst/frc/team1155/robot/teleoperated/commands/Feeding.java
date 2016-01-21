@@ -1,36 +1,40 @@
-package org.usfirst.frc.team1155.robot.commands;
+package org.usfirst.frc.team1155.robot.teleoperated.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.Drive;
+import org.usfirst.frc.team1155.robot.subsystems.Feeder;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AutoDrive extends Command{
-	//Not finished. Need routines
-	private Drive drive = Robot.drive;
+public class Feeding extends Command{
+
+	private static Feeder feeder = Robot.feeder;
 	
+	public Feeding(){
+		requires(Robot.feeder);
+	}
 	
 	@Override
 	protected void initialize() {
-		requires(Robot.drive);
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		
+		feeder.feed();
 	}
 
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return feeder.isFed();
 	}
 
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		
+		feeder.stopFeeding();
 	}
 
 	@Override
@@ -38,5 +42,5 @@ public class AutoDrive extends Command{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }

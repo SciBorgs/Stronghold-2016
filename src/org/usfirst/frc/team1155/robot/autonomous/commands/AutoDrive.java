@@ -12,7 +12,7 @@ public class AutoDrive extends Command{
 	
 	@Override
 	protected void initialize() {
-		requires(Robot.drive);
+		requires(drive);
 	}
 
 	@Override

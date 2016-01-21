@@ -1,11 +1,13 @@
 package org.usfirst.frc.team1155.robot.subsystems;
 
 import org.usfirst.frc.team1155.robot.Hardware;
+import org.usfirst.frc.team1155.robot.Robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Subsystem {
 	private CANTalon frontRightTalon, backRightTalon, frontLeftTalon,
@@ -17,6 +19,7 @@ public class Drive extends Subsystem {
 
 	private static final double CLOSEST_DISTANCE = 12;
 	private static final double DISTANCE_BETWEEN_ULTRASONICS = 12;
+	private static SmartDashboard dashboard = Robot.dashboard;
 
 	public Drive() {
 
@@ -44,7 +47,8 @@ public class Drive extends Subsystem {
 	public void setSpeed(double speedLeft, double speedRight) {
 		frontRightTalon.set(speedRight);
 		frontLeftTalon.set(speedLeft);
-
+		dashboard.putNumber("Left wheels speed",speedLeft);
+		dashboard.putNumber("Right wheels speed",speedRight);
 	}
 
 	public void stopMoving() {
@@ -60,6 +64,7 @@ public class Drive extends Subsystem {
 			frontRightTalon.set(-0.5);
 			frontLeftTalon.set(0.5);
 		}
+		dashboard.putNumber("Robot turning angle", gyro.getAngle());
 	}
 
 	// GYRO METHODS
@@ -84,6 +89,7 @@ public class Drive extends Subsystem {
 		} else {
 			return true;
 		}
+		
 	}
 
 	// ULTRASONIC METHODS
@@ -94,18 +100,25 @@ public class Drive extends Subsystem {
 
 	public boolean isPathObstructed() {
 		if (leftUltrasonic.getRangeInches() <= CLOSEST_DISTANCE
-				&& rightUltrasonic.getRangeInches() <= CLOSEST_DISTANCE)
+				&& rightUltrasonic.getRangeInches() <= CLOSEST_DISTANCE){
+			dashboard.putBoolean("Is path obstructed", true);
 			return true;
-		else
+		}else{
+			dashboard.putBoolean("Is path obstructed", false);
 			return false;
+		}
 	}
 
 	public double findClosestRange() {
 		double range;
+		dashboard.putNumber("Right ultrasonic range", rightUltrasonic.getRangeInches());
+		dashboard.putNumber("Left ultrasonic range", leftUltrasonic.getRangeInches());
 		if (leftUltrasonic.getRangeInches() < rightUltrasonic.getRangeInches()) {
 			range = leftUltrasonic.getRangeInches();
+			dashboard.putString("Closest ultrasonic is", "left");
 		} else {
 			range = rightUltrasonic.getRangeInches();
+			dashboard.putString("Closest ultrasonic is", "right");
 		}
 		return range;
 	}

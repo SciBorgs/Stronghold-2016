@@ -9,28 +9,31 @@ public class ClimbSubsystem extends Subsystem {
 	private static CANTalon armTalon = Hardware.INSTANCE.armTalon;
 	private static CANTalon winchTalon = Hardware.INSTANCE.winchTalon;
 	private static CANTalon winchFollowerTalon = Hardware.INSTANCE.winchFollowerTalon;
+	
 	private static final int MAX_ENCODER_POSITION = 1023;
 	private static final int MIN_ENCODER_POSITION = 0;
 	private static final int BUFFER = 5;
+	
 	public ClimbSubsystem() {
 		armTalon.changeControlMode(CANTalon.ControlMode.Position);
 		
+		winchTalon.changeControlMode(CANTalon.ControlMode.Position);
 		winchFollowerTalon.changeControlMode(CANTalon.ControlMode.Follower);
 		winchFollowerTalon.set(winchTalon.getDeviceID());
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		winchTalon.set(0);
-		armTalon.set(0);
+		winchTalon.set(MIN_ENCODER_POSITION);
+		armTalon.set(MIN_ENCODER_POSITION);
 	}
 
 	public void extendArm() {
-		armTalon.set(1023);
+		armTalon.set(MAX_ENCODER_POSITION);
 	}
 
 	public void retractArm() {
-		armTalon.set(0);
+		armTalon.set(MIN_ENCODER_POSITION);
 	}
 
 	public void setArmPosition(double position) {
@@ -50,14 +53,18 @@ public class ClimbSubsystem extends Subsystem {
 	}
 	
 	public void extendWinch() {
-		winchTalon.set(1);
+		winchTalon.set(MAX_ENCODER_POSITION);
 	}
 	
 	public void retractWinch() {
-		winchTalon.set(-1);
+		winchTalon.set(MIN_ENCODER_POSITION);
 	}
 	
-	public void setWinchSpeed(double speed) {
-		winchTalon.set(speed);
+	public boolean cannotMoveWinchUp() {
+		return (winchTalon.getEncPosition() >= MAX_ENCODER_POSITION - BUFFER);
+	}
+	
+	public boolean cannotMoveWinchDown() {
+		return (winchTalon.getEncPosition() <= MIN_ENCODER_POSITION + BUFFER);
 	}
 }

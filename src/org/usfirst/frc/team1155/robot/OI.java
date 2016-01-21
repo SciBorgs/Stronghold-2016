@@ -7,6 +7,7 @@ import org.usfirst.frc.team1155.robot.commands.TurnRobot;
 import org.usfirst.frc.team1155.robot.commands.Winch;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -51,7 +52,7 @@ public class OI extends Command{
 		feederButton.whenPressed(new Feeding());
 		moveArmButton.whenPressed(new MoveArm(MoveArm.Position.TOP));
 		turnAngleButton.whenPressed(new TurnRobot(TurnRobot.Turn.STRAIGHT_ANGLE));
-		winchButton.whenPressed(new Winch());
+		winchButton.whenPressed(new Winch(Winch.Direction.DOWN));
 	}
 
 	@Override

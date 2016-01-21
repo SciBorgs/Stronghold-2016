@@ -1,37 +1,56 @@
 package org.usfirst.frc.team1155.robot.commands;
 
+import org.usfirst.frc.team1155.robot.Robot;
+import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
+
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Winch extends Command{
+public class Winch extends Command {
+
+	private static ClimbSubsystem arms = Robot.arms;
+	private Direction dir;
+
+	public static enum Direction {
+		UP, DOWN;
+	}
+
+	public Winch(Direction d) {
+		dir = d;
+	}
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+		requires(Robot.arms);
 	}
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-		
+		switch (dir) {
+		case UP:
+			arms.extendWinch();
+			isFinished();
+			break;
+		case DOWN:
+			arms.retractWinch();
+			isFinished();
+			break;
+		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return (dir == Direction.UP && arms.cannotMoveWinchUp() ||
+				dir == Direction.DOWN && arms.cannotMoveWinchDown());
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

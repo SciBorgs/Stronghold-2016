@@ -9,18 +9,16 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class AlignWall extends Command {
-	private double angle;
 
-	// Difference in sensor distance can be up to this value to proceed.
+	// Difference between sensor values to be properly aligned
+	// Error margin in degrees
 	private static final double ERROR_MARGIN = 30;
 	private static final double TALON_SPEED = 0.2;
 
-	private static Drive drive;
+	private static Drive drive = Robot.drive;
 
 	public AlignWall() {
 		requires(Robot.drive);
-		drive = Robot.drive;
-		angle = 0;
 	}
 
 	protected void initialize() {
@@ -28,25 +26,23 @@ public class AlignWall extends Command {
 	}
 
 	protected void execute() {
-		// When the right ultrasonic is in the front
-		if (drive.angleToAlignTo() < -ERROR_MARGIN) {
-			Robot.drive.setSpeed(TALON_SPEED, -TALON_SPEED);
-		}
+		// When the right ultrasonic exceeds left ultrasonic by a significant margin
+		if (drive.angleToAlignTo() < -ERROR_MARGIN) 
+			drive.setSpeed(TALON_SPEED, -TALON_SPEED);
 
-		// When the left ultrasonic is in the front.
+		// When the left ultrasonic exceeds right ultrasonic by a significant margin
 		else if (drive.angleToAlignTo() > ERROR_MARGIN)
-			Robot.drive.setSpeed(-TALON_SPEED, TALON_SPEED);
+			drive.setSpeed(-TALON_SPEED, TALON_SPEED);
 	}
 
 	protected boolean isFinished() {
-		// When sensors are almost the same distance away,
-		// or the sensors cannot compute
-		return (drive.angleToAlignTo() < ERROR_MARGIN ||
+		// When sensors are almost the same distance away
+		// Or the sensors do not return a value. (Object is too far away)
+		return (drive.angleToAlignTo() < ERROR_MARGIN &&
 				drive.angleToAlignTo() > -ERROR_MARGIN);
 	}
 
 	protected void end() {
-		// Stops
 	}
 
 	protected void interrupted() {

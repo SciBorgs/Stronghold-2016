@@ -15,7 +15,7 @@ public class Feeder extends Subsystem {
 
 	private DigitalInput limit;
 	private CANTalon topAxle, botAxle;
-	private Solenoid frontPiston;
+	private Solenoid pistonFeeder;
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
 
@@ -23,7 +23,7 @@ public class Feeder extends Subsystem {
 		limit = Hardware.INSTANCE.limitSwitch;
 		topAxle = Hardware.INSTANCE.topAxle;
 		botAxle = Hardware.INSTANCE.botAxle;
-		frontPiston = Hardware.INSTANCE.frontPiston;
+		pistonFeeder = Hardware.INSTANCE.pistonFeeder;
 		
 		botAxle.changeControlMode(CANTalon.ControlMode.Follower);
 	}
@@ -41,8 +41,8 @@ public class Feeder extends Subsystem {
 		return !limit.get();
 	}
 	
-	public void toggleFrontPiston(){
-		frontPiston.set(!frontPiston.get());
+	public void togglePiston(){
+		pistonFeeder.set(!pistonFeeder.get());
 	}
 
 	@Override

@@ -5,11 +5,11 @@ import org.usfirst.frc.team1155.robot.subsystems.Feeder;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FrontPiston extends Command{
+public class IntakeRamp extends Command{
 	
 	private static Feeder feeder = Robot.feeder;
 	
-	public FrontPiston(){
+	public IntakeRamp(){
 		requires(Robot.feeder);
 	}
 
@@ -20,7 +20,7 @@ public class FrontPiston extends Command{
 
 	@Override
 	protected void execute() {
-		feeder.toggleFrontPiston();
+		feeder.togglePiston();
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public enum Hardware {
 	
 	public USBCamera camera;
 	
-	public Solenoid frontPiston;
+	public Solenoid pistonFeeder;
 	
 	Hardware() {
 		limitSwitch = new DigitalInput(0);
@@ -65,6 +65,6 @@ public enum Hardware {
 		
 		camera = new USBCamera("USBCam");
 		
-		frontPiston = new Solenoid(0);
+		pistonFeeder = new Solenoid(0);
 	}
 }

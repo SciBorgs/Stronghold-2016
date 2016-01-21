@@ -10,12 +10,14 @@ public class Winch extends Command {
 	private static ClimbSubsystem arms = Robot.arms;
 	private Direction dir;
 
-	public static enum Direction {
-		UP, DOWN;
-	}
-
 	public Winch(Direction d) {
 		dir = d;
+	}
+	
+	// If you want the robot to be reeled up to the bar, use Up
+	// If you want the robot to drop down to floor, use Down
+	public static enum Direction {
+		UP, DOWN;
 	}
 
 	@Override

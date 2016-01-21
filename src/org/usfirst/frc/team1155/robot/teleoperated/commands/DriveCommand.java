@@ -8,11 +8,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveCommand extends Command {
-	
 	private static Joystick leftJoy, rightJoy;
 	
 	private Drive drive = Robot.drive;
-	private double leftJoyVal, rightJoyVal;
 	
 	public DriveCommand() {
 		leftJoy = Hardware.INSTANCE.leftJoystick;
@@ -28,16 +26,13 @@ public class DriveCommand extends Command {
 
 	@Override
 	protected void execute() {
-		leftJoyVal = leftJoy.getY();
-		rightJoyVal = rightJoy.getY();
-		drive.setSpeed(leftJoyVal, rightJoyVal);
+		drive.setSpeed(leftJoy.getY(), rightJoy.getY());
 		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		
-		return (leftJoyVal == 0 && rightJoyVal == 0);
+		return false;
 	}
 
 	@Override

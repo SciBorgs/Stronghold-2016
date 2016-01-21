@@ -5,21 +5,21 @@ import org.usfirst.frc.team1155.robot.subsystems.Feeder;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeRamp extends Command{
-	
+public class IntakeRamp extends Command {
+
 	private static Feeder feeder = Robot.feeder;
-	
-	public IntakeRamp(){
+
+	public IntakeRamp() {
 		requires(Robot.feeder);
 	}
 
-
 	@Override
-	protected void initialize() {		
+	protected void initialize() {
 	}
 
 	@Override
 	protected void execute() {
+		// Toggles ramp at bottom of feeder to "pop" ball into feeder system
 		feeder.togglePiston();
 	}
 
@@ -30,7 +30,7 @@ public class IntakeRamp extends Command{
 
 	@Override
 	protected void end() {
-		
+
 	}
 
 	@Override

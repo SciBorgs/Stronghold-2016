@@ -5,6 +5,7 @@ import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.Drive;
 import org.usfirst.frc.team1155.robot.subsystems.Feeder;
 import org.usfirst.frc.team1155.robot.subsystems.Image;
+import org.usfirst.frc.team1155.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -25,6 +26,7 @@ public class Robot extends IterativeRobot {
 	public static final Drive drive = new Drive();
 	public static final ClimbSubsystem arms = new ClimbSubsystem();
 	public static final Image image = new Image();
+	public static final ShooterSubsystem shooter = new ShooterSubsystem();
 	public static final SmartDashboard dashboard = new SmartDashboard();
 	public static OI oi;
 

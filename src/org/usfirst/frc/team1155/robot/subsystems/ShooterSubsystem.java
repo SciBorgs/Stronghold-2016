@@ -8,15 +8,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ShooterSubsystem extends Subsystem {
 	
 	private static CANTalon leftShooterTalon, rightShooterTalon;
-	private static double shooterSpeed;
 	
-	public ShooterSubsystem(double shooterSpeedInput) {
-		shooterSpeed = shooterSpeedInput;
+	public ShooterSubsystem() {
 		leftShooterTalon = Hardware.INSTANCE.leftShooterTalon;
 		rightShooterTalon = Hardware.INSTANCE.rightShooterTalon;
 	}
 	
-	public void startShooter() {
+	public void startShooter(double shooterSpeed) {
 		leftShooterTalon.set(shooterSpeed);
 		rightShooterTalon.set(-shooterSpeed);
 	}

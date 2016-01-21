@@ -26,6 +26,7 @@ public enum Hardware {
 	//CANTalon for Arm movement
 	public CANTalon armTalon;
 	
+	public CANTalon leftShooterTalon, rightShooterTalon;
 	//CANTalons for winch
 	public CANTalon winchTalon, winchFollowerTalon;
 	
@@ -48,6 +49,8 @@ public enum Hardware {
 		leftUltrasonic = new Ultrasonic(0,1);
 		rightUltrasonic = new Ultrasonic(2,3);
 		
+
+		
 		frontRightTalon = new CANTalon(0);
 		backRightTalon = new CANTalon(2);
 		frontLeftTalon = new CANTalon(3);
@@ -60,6 +63,9 @@ public enum Hardware {
 		
 		topAxle = new CANTalon(9);
 		botAxle = new CANTalon(10);
+		
+		leftShooterTalon = new CANTalon(11);//Change the shooter talon ports depending...
+		rightShooterTalon = new CANTalon(12);
 		
 		gyro = new Gyro(0);
 		

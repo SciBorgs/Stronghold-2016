@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AutoCrossDefense extends Command {
 	// Not finished. Need routines
-	private Drive drive = Robot.drive;
+	private static Drive drive = Robot.drive;
 	private static double distanceToDrive; // in feet, distance from midline to
 											// past outerworks
 	private static boolean isAtDefense, isFinished;

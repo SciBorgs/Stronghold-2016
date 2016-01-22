@@ -1,7 +1,4 @@
-package org.usfirst.frc.team1155.robot.autonomous.commands;
-
-import org.usfirst.frc.team1155.robot.teleoperated.commands.DriveCommand;
-import org.usfirst.frc.team1155.robot.teleoperated.commands.TurnRobot;
+package org.usfirst.frc.team1155.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

@@ -1,40 +1,44 @@
-package org.usfirst.frc.team1155.robot.teleoperated.commands;
+package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
 import org.usfirst.frc.team1155.robot.subsystems.Feeder;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeRamp extends Command {
+public class Feeding extends Command {
 
 	private static Feeder feeder = Robot.feeder;
 
-	public IntakeRamp() {
+	public Feeding() {
 		requires(Robot.feeder);
 	}
 
 	@Override
 	protected void initialize() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	protected void execute() {
-		// Toggles ramp at bottom of feeder to "pop" ball into feeder system
-		feeder.togglePiston();
+		// Starts conveyor to move ball up to shooter
+		feeder.feed();
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return feeder.isFed();
 	}
 
 	@Override
 	protected void end() {
-
+		feeder.stopFeeding();
 	}
 
 	@Override
 	protected void interrupted() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

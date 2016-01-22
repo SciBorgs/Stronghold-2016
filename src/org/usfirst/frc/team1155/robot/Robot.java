@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team1155.robot;
 
+import org.usfirst.frc.team1155.robot.commands.AutoRoutines;
 import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.Drive;
 import org.usfirst.frc.team1155.robot.subsystems.Feeder;
@@ -9,7 +10,6 @@ import org.usfirst.frc.team1155.robot.subsystems.Image.TargetVector;
 import org.usfirst.frc.team1155.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,8 +32,9 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	
 	public static TargetVector targetVector;
+	
+	private static AutoRoutines autonomous = new AutoRoutines();
 
-    Command autonomousCommand;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -50,7 +51,8 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        if (autonomous != null) autonomous.start();
+        if (oi != null) oi.cancel();
     }
 
     /**
@@ -65,7 +67,8 @@ public class Robot extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
+        if (autonomous != null) autonomous.cancel();
+        if (oi != null) oi.start();
     }
 
     /**

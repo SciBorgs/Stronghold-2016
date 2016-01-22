@@ -5,6 +5,7 @@ import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.Drive;
 import org.usfirst.frc.team1155.robot.subsystems.Feeder;
 import org.usfirst.frc.team1155.robot.subsystems.Image;
+import org.usfirst.frc.team1155.robot.subsystems.Image.TargetVector;
 import org.usfirst.frc.team1155.robot.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -29,7 +30,8 @@ public class Robot extends IterativeRobot {
 	public static final ShooterSubsystem shooter = new ShooterSubsystem();
 	public static final SmartDashboard dashboard = new SmartDashboard();
 	public static OI oi;
-
+	
+	public static TargetVector targetVector;
 
     Command autonomousCommand;
 

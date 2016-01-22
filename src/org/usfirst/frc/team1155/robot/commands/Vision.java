@@ -8,7 +8,10 @@ import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Vision extends Command {
-	private static Image i = Robot.image;
+	private static Image image = Robot.image;
+	private static SmartDashboard dashboard = Robot.dashboard;
+	
+	private boolean isFinished;
 	
 	public Vision() {
 		requires(Robot.image);
@@ -16,8 +19,7 @@ public class Vision extends Command {
 	
 	@Override
 	protected void initialize() {
-
-		
+		isFinished = false;
 	}
 
 	// Modify if statements below for corresponding color
@@ -26,27 +28,24 @@ public class Vision extends Command {
 	// Implement "give" box to user method
 	@Override
 	protected void execute() {
-		i.takePicture();	
+		image.takePicture();	
 		
 		try {	
 			//HUE_LOW = 79, HUE_HIGH = 89, SATURATION_LOW = 64, SATURATION_HIGH = 153, LUMINANCE_LOW = 40, LUMINANCE_HIGH = 253
-			if(i.prepareImage(79, 89, 64, 153, 40, 253)) {
-				SmartDashboard.putString("GOt image", "monies");
+			if(image.prepareImage(79, 89, 64, 153, 40, 253)) {
+				Robot.targetVector = image.getTargetVector();
+				isFinished = true;
 			}
-			else {
-				SmartDashboard.putString("GOt image", "no monies mo pblms");
-			}
-			
+
 		} catch (NIVisionException e) {
-			//Image was not taken
-			e.printStackTrace();
+			dashboard.putString("IMAGE ERROR", e.getMessage());
 		}
 		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return isFinished;
 	}
 
 	@Override

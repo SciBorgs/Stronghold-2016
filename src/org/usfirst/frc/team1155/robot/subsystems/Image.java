@@ -32,6 +32,7 @@ public class Image extends Subsystem {
 	
 	public Image() {
 		camera = Hardware.INSTANCE.camera;
+		camera.startCapture();
 	}
 	
 	public void takePicture() {
@@ -66,6 +67,7 @@ public class Image extends Subsystem {
 		}
 	}
 	
+	/*
 	public boolean checkPictureColor(int redLow, int redHigh, int greenLow, int greenHigh, int blueLow, int blueHigh) throws NIVisionException{
 		hsl_target =  (HSLImage) target_image;
 		BinaryImage test = hsl_target.thresholdRGB(redLow, redHigh, greenLow, greenHigh, blueLow, blueHigh);
@@ -75,9 +77,10 @@ public class Image extends Subsystem {
 			return false;
 		}
 	}
+	*/
 	
 	//return (x_distance, x_angle) & (y_distance, y_angle)
-	public double[] getTargetVector() throws NIVisionException{
+	public TargetVector getTargetVector() throws NIVisionException{
 		
 		//Assumes that only one object is present in image
 		double target_width_pixels = (int) NIVision.imaqMeasureParticle(threshold_image.image, index, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_WIDTH);
@@ -98,7 +101,11 @@ public class Image extends Subsystem {
 		double distance_y = TARGET_H_M*FOV_H_PIXEL/(2*target_height_pixels*Math.tan(phi));
 		
 		//IGNORE dist_y and phi for limbot
-		double[] target_vector = {distance_x, theta, distance_y, phi}; 
+		TargetVector target_vector = new TargetVector();
+		target_vector.xDistance = distance_x;
+		target_vector.theta = theta;
+		target_vector.yDistance = distance_y;
+		target_vector.phi = phi;
 		return target_vector;
 	}
 
@@ -106,7 +113,14 @@ public class Image extends Subsystem {
 	protected void initDefaultCommand() {
 		
 	}
-
 	
+	public final class TargetVector {
+		public double xDistance;
+		public double theta;
+		public double yDistance;
+		public double phi;
+	}
 	
 }
+
+

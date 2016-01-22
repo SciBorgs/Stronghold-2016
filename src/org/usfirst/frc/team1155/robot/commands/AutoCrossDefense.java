@@ -67,6 +67,7 @@ public class AutoCrossDefense extends Command {
 		drive.resetGyro();
 		drive.stopTimer();
 		drive.resetTimer();
+		drive.stopMoving();
 	}
 
 	@Override

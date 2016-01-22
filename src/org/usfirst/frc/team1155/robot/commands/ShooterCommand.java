@@ -17,11 +17,13 @@ public class ShooterCommand extends Command {
 	
 	@Override
 	protected void initialize() {	
+		shooter.updateShooterDashboard();
 	}
 
 	@Override
 	protected void execute() {
 		shooter.startShooter(shooterSpeed);	
+		shooter.updateShooterDashboard();
 	}
 
 	@Override

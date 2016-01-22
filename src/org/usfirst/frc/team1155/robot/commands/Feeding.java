@@ -15,14 +15,15 @@ public class Feeding extends Command {
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-
+		feeder.updateFeederDashboard();
 	}
 
 	@Override
 	protected void execute() {
 		// Starts conveyor to move ball up to shooter
 		feeder.feed();
+		feeder.updateFeederDashboard();
+		
 	}
 
 	@Override
@@ -37,8 +38,6 @@ public class Feeding extends Command {
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -47,7 +47,6 @@ public class OI extends Command{
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
 		alignButton.whenPressed(new AlignWall());
 		feederButton.whenPressed(new Feeding());
 		moveArmButton.whenPressed(new MoveArm(MoveArm.Position.TOP));

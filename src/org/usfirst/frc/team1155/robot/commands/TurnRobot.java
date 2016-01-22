@@ -12,17 +12,10 @@ public class TurnRobot extends Command {
 	private double angle;
 	private double currentAngle;
 
-	public TurnRobot(Turn angleChoice) {
-		requires(Robot.drive);
-		angle = angleChoice.getAngle();
-	}
-
 	// Enum stuff for angle measures
 	public enum Turn {
-		RIGHT_ANGLE(90), 
-		FORTYFIVE_ANGLE(45), 
-		STRAIGHT_ANGLE(180), 
-		THREEQUARTER_ANGLE(270);
+		RIGHT_ANGLE(90), FORTYFIVE_ANGLE(45), STRAIGHT_ANGLE(180), THREEQUARTER_ANGLE(
+				270);
 
 		private final double angle;
 
@@ -36,6 +29,11 @@ public class TurnRobot extends Command {
 		}
 	}
 
+	public TurnRobot(Turn angleChoice) {
+		requires(Robot.drive);
+		angle = angleChoice.getAngle();
+	}
+
 	// Other constructor for finer angles
 	public TurnRobot(double a) {
 		requires(Robot.drive);
@@ -46,11 +44,16 @@ public class TurnRobot extends Command {
 	protected void initialize() {
 		// Gets current gyro value so we don't have to reset and meddle
 		currentAngle = drive.getAngle();
+
+		drive.updateDriveDashboard();
+		drive.updateGyroDashboard();
 	}
 
 	@Override
 	protected void execute() {
 		drive.turnRobot(angle);
+		drive.updateDriveDashboard();
+		drive.updateGyroDashboard();
 	}
 
 	@Override

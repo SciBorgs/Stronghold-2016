@@ -47,8 +47,6 @@ public class Drive extends Subsystem {
 	public void setSpeed(double speedLeft, double speedRight) {
 		frontRightTalon.set(speedRight);
 		frontLeftTalon.set(speedLeft);
-		dashboard.putNumber("Left wheels speed",speedLeft);
-		dashboard.putNumber("Right wheels speed",speedRight);
 	}
 
 	public void stopMoving() {
@@ -64,7 +62,11 @@ public class Drive extends Subsystem {
 			frontRightTalon.set(-0.5);
 			frontLeftTalon.set(0.5);
 		}
-		dashboard.putNumber("Robot turning angle", gyro.getAngle());
+	}
+	
+	public void updateDriveDashboard() {
+		dashboard.putNumber("Left wheels speed", frontLeftTalon.get());
+		dashboard.putNumber("Right wheels speed", frontRightTalon.get());
 	}
 
 	// GYRO METHODS
@@ -91,6 +93,10 @@ public class Drive extends Subsystem {
 		}
 		
 	}
+	
+	public void updateGyroDashboard() {
+		dashboard.putNumber("Robot turning angle", gyro.getAngle());
+	}
 
 	// ULTRASONIC METHODS
 	public void pingUltrasonics() {
@@ -111,8 +117,6 @@ public class Drive extends Subsystem {
 
 	public double findClosestRange() {
 		double range;
-		dashboard.putNumber("Right ultrasonic range", rightUltrasonic.getRangeInches());
-		dashboard.putNumber("Left ultrasonic range", leftUltrasonic.getRangeInches());
 		if (leftUltrasonic.getRangeInches() < rightUltrasonic.getRangeInches()) {
 			range = leftUltrasonic.getRangeInches();
 			dashboard.putString("Closest ultrasonic is", "left");
@@ -145,6 +149,11 @@ public class Drive extends Subsystem {
 		} else {
 			return 0;
 		}
+	}
+	
+	public void updateUltrasonicsDashboard() {
+		dashboard.putNumber("Right ultrasonic range", rightUltrasonic.getRangeInches());
+		dashboard.putNumber("Left ultrasonic range", leftUltrasonic.getRangeInches());
 	}
 
 	public void initDefaultCommand() {

@@ -19,10 +19,12 @@ public class AlignWall extends Command {
 
 	public AlignWall() {
 		requires(Robot.drive);
+		
 	}
 
 	protected void initialize() {
-
+		drive.updateDriveDashboard();
+		drive.updateUltrasonicsDashboard();
 	}
 
 	protected void execute() {
@@ -33,6 +35,9 @@ public class AlignWall extends Command {
 		// When the left ultrasonic exceeds right ultrasonic by a significant margin
 		else if (drive.angleToAlignTo() > ERROR_MARGIN)
 			drive.setSpeed(-TALON_SPEED, TALON_SPEED);
+		
+		drive.updateDriveDashboard();
+		drive.updateUltrasonicsDashboard();
 	}
 
 	protected boolean isFinished() {

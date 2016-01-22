@@ -46,13 +46,11 @@ public class Vision extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		
 	}
 

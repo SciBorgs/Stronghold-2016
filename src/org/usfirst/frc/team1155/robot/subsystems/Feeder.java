@@ -33,22 +33,31 @@ public class Feeder extends Subsystem {
 
 	public void feed() {
 		topAxle.set(MOVING_UP);
-		dashboard.putBoolean("Is robot feeding", true);
 	}
 	
 	public void stopFeeding() {
 		topAxle.set(STOP_MOVING);
-		dashboard.putBoolean("Is robot feeding", false);
 	}
 	
 	public boolean isFed() {
 		// if limit switch is true (not pressed), keep moving
-		dashboard.putBoolean("Is robot fed", true);
 		return !limit.get();
 	}
 	
+	public void updateFeederDashboard() {
+		if(!limit.get()) 
+			dashboard.putBoolean("Is Robot Fed", true);
+		else
+			dashboard.putBoolean("Is Robot Fed", false);
+	}
+	
+	//Piston Methods
 	public void togglePiston(){
 		pistonFeeder.set(!pistonFeeder.get());
+	}
+	
+	public void updateRampDashboard() {
+		dashboard.putBoolean("Is Ramp Up", pistonFeeder.get());
 	}
 
 	@Override

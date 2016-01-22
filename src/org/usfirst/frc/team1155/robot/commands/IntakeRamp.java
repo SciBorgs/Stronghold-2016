@@ -15,12 +15,14 @@ public class IntakeRamp extends Command {
 
 	@Override
 	protected void initialize() {
+		feeder.updateRampDashboard();
 	}
 
 	@Override
 	protected void execute() {
 		// Toggles ramp at bottom of feeder to "pop" ball into feeder system
 		feeder.togglePiston();
+		feeder.updateRampDashboard();
 	}
 
 	@Override

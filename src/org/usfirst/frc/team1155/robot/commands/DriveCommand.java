@@ -9,25 +9,25 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveCommand extends Command {
 	private static Joystick leftJoy, rightJoy;
-	
+
 	private Drive drive = Robot.drive;
-	
+
 	public DriveCommand() {
+		requires(Robot.drive);
 		leftJoy = Hardware.INSTANCE.leftJoystick;
 		rightJoy = Hardware.INSTANCE.rightJoystick;
 
 	}
-	
+
 	@Override
 	protected void initialize() {
-		requires(Robot.drive);
-
+		drive.updateDriveDashboard();
 	}
 
 	@Override
 	protected void execute() {
 		drive.setSpeed(leftJoy.getY(), rightJoy.getY());
-		
+		drive.updateDriveDashboard();
 	}
 
 	@Override
@@ -38,14 +38,11 @@ public class DriveCommand extends Command {
 	@Override
 	protected void end() {
 		drive.stopMoving();
-
-
 	}
 
 	@Override
 	protected void interrupted() {
 		end();
-
 
 	}
 

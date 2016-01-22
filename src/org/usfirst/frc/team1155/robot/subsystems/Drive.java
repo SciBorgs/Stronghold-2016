@@ -5,6 +5,7 @@ import org.usfirst.frc.team1155.robot.Robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,10 +20,16 @@ public class Drive extends Subsystem {
 
 	private static final double CLOSEST_DISTANCE = 12;
 	private static final double DISTANCE_BETWEEN_ULTRASONICS = 12;
+
+	private static final double MAX_GYRO_BUFFER = 1;
+	private static final double MIN_GYRO_BUFFER = -1;
+	
 	private static SmartDashboard dashboard = Robot.dashboard;
+	private static Timer timer = new Timer();
 
 	public Drive() {
-
+		timer.reset();
+		
 		frontRightTalon = Hardware.INSTANCE.frontRightTalon;
 		backRightTalon = Hardware.INSTANCE.backRightTalon;
 		frontLeftTalon = Hardware.INSTANCE.frontLeftTalon;
@@ -155,6 +162,33 @@ public class Drive extends Subsystem {
 		dashboard.putNumber("Right ultrasonic range", rightUltrasonic.getRangeInches());
 		dashboard.putNumber("Left ultrasonic range", leftUltrasonic.getRangeInches());
 	}
+	
+	//Autonomous Methods
+	public void startTimer() {
+		timer.start();
+	}
+	
+	public void stopTimer() {
+		timer.stop();
+	}
+	
+	public void resetTimer() {
+		timer.reset();
+	}
+	
+	public boolean timerBuffer(long period) {
+		return timer.hasPeriodPassed(period);
+	}
+	
+	public boolean isGyroStable() {
+		return (gyro.getAngle() <= MAX_GYRO_BUFFER && gyro.getAngle() >= MIN_GYRO_BUFFER);
+	}
+	
+	public double getDistanceDriven() {
+		return frontRightTalon.getEncVelocity() * timer.get();
+	}
+	
+	
 
 	public void initDefaultCommand() {
 		stopMoving();

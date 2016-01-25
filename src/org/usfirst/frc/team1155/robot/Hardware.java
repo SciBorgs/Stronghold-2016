@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1155.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Gyro;
@@ -10,8 +11,11 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public enum Hardware {
 	INSTANCE;
-
-	// Limit switch
+	
+	//Analog input sensors
+	public AnalogInput colorSensor;
+	
+	//Digital input sensors
 	public DigitalInput limitSwitch;
 
 	// User input devices
@@ -41,6 +45,8 @@ public enum Hardware {
 	public Solenoid pistonFeeder;
 
 	Hardware() {
+		colorSensor = new AnalogInput(0);
+		
 		limitSwitch = new DigitalInput(0);
 
 		gamepad = new Joystick(0);

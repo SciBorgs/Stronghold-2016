@@ -20,7 +20,7 @@ public class AutoRoutines extends CommandGroup{
 		addSequential(new AutoCrossDefense(DISTANCE_TO_DEFENSE));
 		addSequential(new Vision());
 		addSequential(new TurnRobot(Robot.targetVector.theta));
-		//addSequential(new AutoDrive(Robot.targetVector.xDistance));
+		addSequential(new AutoDrive(Robot.targetVector.xDistance));
 		addSequential(new ShooterCommand(1));
 	}
 	

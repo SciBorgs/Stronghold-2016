@@ -3,8 +3,8 @@ package org.usfirst.frc.team1155.robot.subsystems;
 import org.usfirst.frc.team1155.robot.Hardware;
 import org.usfirst.frc.team1155.robot.Robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -14,7 +14,7 @@ public class Drive extends Subsystem {
 	private CANTalon frontRightTalon, backRightTalon, frontLeftTalon,
 			backLeftTalon;
 
-	private Gyro gyro;
+	private AnalogGyro gyro;
 
 	public static Ultrasonic leftUltrasonic, rightUltrasonic;
 
@@ -37,11 +37,11 @@ public class Drive extends Subsystem {
 		gyro = Hardware.INSTANCE.gyro;
 
 		// Sets back right talons as followers to the front right talon
-		backRightTalon.changeControlMode(CANTalon.ControlMode.Follower);
+		backRightTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
 		backRightTalon.set(frontRightTalon.getDeviceID());
 
 		// Sets back left talons as followers to the front left talon
-		backLeftTalon.changeControlMode(CANTalon.ControlMode.Follower);
+		backLeftTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
 		backLeftTalon.set(frontLeftTalon.getDeviceID());
 
 		leftUltrasonic = Hardware.INSTANCE.leftUltrasonic;

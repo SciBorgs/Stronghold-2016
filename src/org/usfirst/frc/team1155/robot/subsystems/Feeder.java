@@ -28,7 +28,8 @@ public class Feeder extends Subsystem {
 		botAxle = Hardware.INSTANCE.botAxle;
 		pistonFeeder = Hardware.INSTANCE.pistonFeeder;
 		
-		botAxle.changeControlMode(CANTalon.ControlMode.Follower);
+		botAxle.changeControlMode(CANTalon.TalonControlMode.Follower);
+		botAxle.set(topAxle.getDeviceID());
 	}
 
 	public void feed() {

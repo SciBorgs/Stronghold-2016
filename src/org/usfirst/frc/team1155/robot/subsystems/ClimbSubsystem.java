@@ -24,10 +24,10 @@ public class ClimbSubsystem extends Subsystem {
 		previousArmEncoderPosition = armTalon.getEncPosition();
 		previousWinchEncoderPosition = winchTalon.getEncPosition();
 		
-		armTalon.changeControlMode(CANTalon.ControlMode.Position);
+		armTalon.changeControlMode(CANTalon.TalonControlMode.Position);
 		
-		winchTalon.changeControlMode(CANTalon.ControlMode.Position);
-		winchFollowerTalon.changeControlMode(CANTalon.ControlMode.Follower);
+		winchTalon.changeControlMode(CANTalon.TalonControlMode.Position);
+		winchFollowerTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
 		winchFollowerTalon.set(winchTalon.getDeviceID());
 		
 	}

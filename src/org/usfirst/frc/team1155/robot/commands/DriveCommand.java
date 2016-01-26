@@ -6,9 +6,11 @@ import org.usfirst.frc.team1155.robot.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveCommand extends Command {
 	private static Joystick leftJoy, rightJoy;
+	private static SmartDashboard dashboard = Robot.dashboard;
 
 	private Drive drive = Robot.drive;
 
@@ -28,6 +30,8 @@ public class DriveCommand extends Command {
 	protected void execute() {
 		drive.setSpeed(leftJoy.getY(), rightJoy.getY());
 		drive.updateDriveDashboard();
+		dashboard.putNumber("LeftJoy Position", leftJoy.getY());
+		dashboard.putNumber("RightJoy Position", rightJoy.getY());
 	}
 
 	@Override

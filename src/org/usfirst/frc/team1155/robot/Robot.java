@@ -23,17 +23,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public static final Feeder feeder = new Feeder();
-	public static final Drive drive = new Drive();
-	public static final ClimbSubsystem arms = new ClimbSubsystem();
-	public static final Image image = new Image();
-	public static final ShooterSubsystem shooter = new ShooterSubsystem();
-	public static final SmartDashboard dashboard = new SmartDashboard();
+	public static Drive drive;
+	public static ClimbSubsystem arms;
+	public static Feeder feeder;
+	public static Image image;
+	public static ShooterSubsystem shooter;
+	public static SmartDashboard dashboard;
 	public static OI oi;
 	
 	public static TargetVector targetVector;
 	
-	private static AutoRoutines autonomous = new AutoRoutines();
+	private static AutoRoutines autonomous;
 
 
     /**
@@ -41,6 +41,13 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	drive = new Drive();
+    	arms = new ClimbSubsystem();
+    	feeder = new Feeder();
+    	image = new Image();
+    	shooter = new ShooterSubsystem();
+    	dashboard = new SmartDashboard();
+    	autonomous = new AutoRoutines();
 		oi = new OI();
         // instantiate the command used for the autonomous period
     }

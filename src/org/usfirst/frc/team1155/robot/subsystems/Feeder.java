@@ -15,19 +15,15 @@ public class Feeder extends Subsystem {
 	 * Needs Hardware. Please add necessary hardware to both Hardware class and update this subsystem
 	 */
 
-	private DigitalInput limit;
-	private CANTalon topAxle, botAxle;
-	private Solenoid pistonFeeder;
+	private DigitalInput limit = Hardware.INSTANCE.limitSwitch;
+	private CANTalon topAxle = Hardware.INSTANCE.topAxle;
+	private CANTalon botAxle = Hardware.INSTANCE.botAxle;
+	private Solenoid pistonFeeder = Hardware.INSTANCE.pistonFeeder;
 	private static SmartDashboard dashboard = Robot.dashboard;
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
 
 	public Feeder() {
-		limit = Hardware.INSTANCE.limitSwitch;
-		topAxle = Hardware.INSTANCE.topAxle;
-		botAxle = Hardware.INSTANCE.botAxle;
-		pistonFeeder = Hardware.INSTANCE.pistonFeeder;
-		
 		botAxle.changeControlMode(CANTalon.TalonControlMode.Follower);
 		botAxle.set(topAxle.getDeviceID());
 	}

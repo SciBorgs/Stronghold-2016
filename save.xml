@@ -1,13 +1,11 @@
 <xml version="1.0">
 <dashboard>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
-		<location x="1" y="1"/>
-		<width>378</width>
-		<height>243</height>
-		<property name="Image File" value="C:\Users\kumara\Downloads\epic3.png"/>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="128" y="227"/>
+		<property name="Text" value="Camera"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="288" y="288"/>
+		<location x="291" y="299"/>
 		<width>95</width>
 		<height>26</height>
 		<property name="Text" value="Connection Status"/>

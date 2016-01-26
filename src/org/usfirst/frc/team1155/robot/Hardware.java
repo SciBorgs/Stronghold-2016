@@ -3,10 +3,10 @@ package org.usfirst.frc.team1155.robot;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public enum Hardware {
@@ -37,7 +37,7 @@ public enum Hardware {
 	// CANTalons for feeder
 	public CANTalon topAxle, botAxle;
 
-	public Gyro gyro;
+	public AnalogGyro gyro;
 
 	public USBCamera camera;
 
@@ -72,7 +72,7 @@ public enum Hardware {
 											// depending...
 		rightShooterTalon = new CANTalon(12);
 
-		gyro = new Gyro(0);
+		gyro = new AnalogGyro(0);
 
 		camera = new USBCamera("USBCam");
 

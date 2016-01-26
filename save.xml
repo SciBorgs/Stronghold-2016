@@ -1,7 +1,13 @@
 <xml version="1.0">
 <dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="0" y="0"/>
+		<width>393</width>
+		<height>235</height>
+		<property name="Image File" value="O:\bxsci.jpg"/>
+	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="128" y="227"/>
+		<location x="133" y="234"/>
 		<property name="Text" value="Camera"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">

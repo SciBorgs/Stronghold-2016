@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShooterSubsystem extends Subsystem {
 	
-	private static CANTalon leftShooterTalon, rightShooterTalon;
+	private CANTalon leftShooterTalon, rightShooterTalon;
 	
-	private static SmartDashboard dashboard = Robot.dashboard;
+	private SmartDashboard dashboard = Robot.dashboard;
 	
 	public ShooterSubsystem() {
 		leftShooterTalon = Hardware.INSTANCE.leftShooterTalon;

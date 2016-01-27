@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Drive extends Subsystem {
+public class DriveSubsystem extends Subsystem {
 	private CANTalon frontRightTalon, backRightTalon, frontLeftTalon,
 			backLeftTalon;
 
 	private AnalogGyro gyro;
 
-	public static Ultrasonic leftUltrasonic, rightUltrasonic;
+	private Ultrasonic leftUltrasonic, rightUltrasonic;
 
 	private static final double CLOSEST_DISTANCE = 12;
 	private static final double DISTANCE_BETWEEN_ULTRASONICS = 12;
@@ -24,10 +24,10 @@ public class Drive extends Subsystem {
 	private static final double MAX_GYRO_BUFFER = 1;
 	private static final double MIN_GYRO_BUFFER = -1;
 	
-	private static SmartDashboard dashboard = Robot.dashboard;
+	private SmartDashboard dashboard = Robot.dashboard;
 	private static Timer timer = new Timer();
 
-	public Drive() {
+	public DriveSubsystem() {
 		timer.reset();
 		
 		frontRightTalon = Hardware.INSTANCE.frontRightTalon;
@@ -46,8 +46,8 @@ public class Drive extends Subsystem {
 
 		leftUltrasonic = Hardware.INSTANCE.leftUltrasonic;
 		rightUltrasonic = Hardware.INSTANCE.rightUltrasonic;
-		leftUltrasonic.setEnabled(true);
-		rightUltrasonic.setEnabled(true);
+//		leftUltrasonic.setEnabled(true);
+//		rightUltrasonic.setEnabled(true);
 	}
 
 	// DRIVING METHODS
@@ -72,8 +72,8 @@ public class Drive extends Subsystem {
 	}
 	
 	public void updateDriveDashboard() {
-		dashboard.putNumber("Left wheels speed", frontLeftTalon.get());
-		dashboard.putNumber("Right wheels speed", frontRightTalon.get());
+		dashboard.putNumber("Left_Wheels_Speed", frontLeftTalon.get());
+		dashboard.putNumber("Right_Wheels_Speed", frontRightTalon.get());
 	}
 
 	// GYRO METHODS

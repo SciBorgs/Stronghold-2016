@@ -5,7 +5,7 @@ import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Winch extends Command {
+public class WinchCommand extends Command {
 
 	private static ClimbSubsystem arms = Robot.arms;
 	private Direction dir;
@@ -16,7 +16,7 @@ public class Winch extends Command {
 		UP, DOWN;
 	}
 
-	public Winch(Direction d) {
+	public WinchCommand(Direction d) {
 		requires(Robot.arms);
 		dir = d;
 	}

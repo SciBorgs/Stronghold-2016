@@ -1,14 +1,14 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.Drive;
+import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AutoCrossDefense extends Command {
+public class AutoCrossDefenseCommand extends Command {
 	// Not finished. Need routines
-	private static Drive drive = Robot.drive;
+	private static DriveSubsystem drive = Robot.drive;
 	private static double distanceToDrive; // in feet, distance from midline to
 											// past outerworks
 	private static boolean isAtDefense, isFinished;
@@ -17,7 +17,7 @@ public class AutoCrossDefense extends Command {
 	private static final double DEFENSE_SPEED = 1;
 	private static final long TIMER_SLEEPER = 3; //in seconds; the amount of time elapsed until gyro is considered stable
 
-	public AutoCrossDefense(double distance) {
+	public AutoCrossDefenseCommand(double distance) {
 		requires(Robot.drive);
 		distanceToDrive = distance;
 	}

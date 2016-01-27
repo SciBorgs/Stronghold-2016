@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Feeder extends Subsystem {
+public class FeederSubsystem extends Subsystem {
 
 	/*
 	 * Needs Hardware. Please add necessary hardware to both Hardware class and update this subsystem
@@ -19,11 +19,11 @@ public class Feeder extends Subsystem {
 	private CANTalon topAxle = Hardware.INSTANCE.topAxle;
 	private CANTalon botAxle = Hardware.INSTANCE.botAxle;
 	private Solenoid pistonFeeder = Hardware.INSTANCE.pistonFeeder;
-	private static SmartDashboard dashboard = Robot.dashboard;
+	private SmartDashboard dashboard = Robot.dashboard;
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
 
-	public Feeder() {
+	public FeederSubsystem() {
 		botAxle.changeControlMode(CANTalon.TalonControlMode.Follower);
 		botAxle.set(topAxle.getDeviceID());
 	}

@@ -1,15 +1,15 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.Feeder;
+import org.usfirst.frc.team1155.robot.subsystems.FeederSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Feeding extends Command {
+public class FeedCommand extends Command {
 
-	private static Feeder feeder = Robot.feeder;
+	private static FeederSubsystem feeder = Robot.feeder;
 
-	public Feeding() {
+	public FeedCommand() {
 		requires(Robot.feeder);
 	}
 

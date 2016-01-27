@@ -1,19 +1,19 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.Drive;
+import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AutoDrive extends Command {
-	private static Drive drive = Robot.drive;
+public class AutoDriveCommand extends Command {
+	private static DriveSubsystem drive = Robot.drive;
 	private static double distanceToDrive; // in feet, distance from midline to
 											// past outerworks
 	private static boolean isFinished;
 
 	private static double driveSpeed = 1/(distanceToDrive - drive.getDistanceDriven()); //speed to not overshoot
-	public AutoDrive(double distance) {
+	public AutoDriveCommand(double distance) {
 		requires(Robot.drive);
 		distanceToDrive = distance;
 	}
@@ -30,7 +30,6 @@ public class AutoDrive extends Command {
 		if (drive.getDistanceDriven() < distanceToDrive) {
 			drive.setSpeed(driveSpeed, driveSpeed);
 		} else {
-			drive.setSpeed(0, 0);
 			isFinished = true;
 		}
 	}

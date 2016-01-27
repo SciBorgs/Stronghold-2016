@@ -1,13 +1,13 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.Drive;
+import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TurnRobot extends Command {
+public class TurnRobotCommand extends Command {
 
-	private Drive drive = Robot.drive;
+	private DriveSubsystem drive = Robot.drive;
 
 	private double angle;
 	private double currentAngle;
@@ -29,13 +29,13 @@ public class TurnRobot extends Command {
 		}
 	}
 
-	public TurnRobot(Turn angleChoice) {
+	public TurnRobotCommand(Turn angleChoice) {
 		requires(Robot.drive);
 		angle = angleChoice.getAngle();
 	}
 
 	// Other constructor for finer angles
-	public TurnRobot(double a) {
+	public TurnRobotCommand(double a) {
 		requires(Robot.drive);
 		angle = a;
 	}

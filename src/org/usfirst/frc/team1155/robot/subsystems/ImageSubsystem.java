@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.vision.AxisCamera;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
-public class Image extends Subsystem {
+public class ImageSubsystem extends Subsystem {
 	private USBCamera camera;
 	private ImageBase targetImage;
 	private HSLImage hslTarget;
@@ -30,7 +30,7 @@ public class Image extends Subsystem {
 								FOV_W_M = 0;
 	private boolean isImageStored;
 	
-	public Image() {
+	public ImageSubsystem() {
 		camera = Hardware.INSTANCE.camera;
 		camera.startCapture();
 	}

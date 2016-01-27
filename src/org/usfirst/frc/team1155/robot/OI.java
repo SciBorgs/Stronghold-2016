@@ -1,13 +1,13 @@
 package org.usfirst.frc.team1155.robot;
 
-import org.usfirst.frc.team1155.robot.commands.AlignWall;
-import org.usfirst.frc.team1155.robot.commands.Feeding;
-import org.usfirst.frc.team1155.robot.commands.MoveArm;
-import org.usfirst.frc.team1155.robot.commands.TurnRobot;
-import org.usfirst.frc.team1155.robot.commands.Winch;
+import org.usfirst.frc.team1155.robot.commands.AlignWallCommand;
+import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
+import org.usfirst.frc.team1155.robot.commands.FeedCommand;
+import org.usfirst.frc.team1155.robot.commands.MoveArmCommand;
+import org.usfirst.frc.team1155.robot.commands.TurnRobotCommand;
+import org.usfirst.frc.team1155.robot.commands.WinchCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -21,10 +21,13 @@ public class OI extends Command{
 	
 	private JoystickButton alignButton, feederButton, moveArmButton, turnAngleButton, winchButton;
 	
+	private static JoystickDriveCommand drive;
+	
 	public OI() {
 		gamepad = Hardware.INSTANCE.gamepad;
 		leftJoystick = Hardware.INSTANCE.leftJoystick;
 		rightJoystick = Hardware.INSTANCE.rightJoystick;
+		drive = new JoystickDriveCommand();
 		
 		
 		alignButton = new JoystickButton(gamepad, 1);
@@ -43,15 +46,17 @@ public class OI extends Command{
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
+		drive.start();
+		alignButton.whenPressed(new AlignWallCommand());
+		feederButton.whenPressed(new FeedCommand());
+		moveArmButton.whenPressed(new MoveArmCommand(MoveArmCommand.Position.TOP));
+		turnAngleButton.whenPressed(new TurnRobotCommand(TurnRobotCommand.Turn.STRAIGHT_ANGLE));
+		winchButton.whenPressed(new WinchCommand(WinchCommand.Direction.DOWN));
 	}
 
 	@Override
 	protected void execute() {
-		alignButton.whenPressed(new AlignWall());
-		feederButton.whenPressed(new Feeding());
-		moveArmButton.whenPressed(new MoveArm(MoveArm.Position.TOP));
-		turnAngleButton.whenPressed(new TurnRobot(TurnRobot.Turn.STRAIGHT_ANGLE));
-		winchButton.whenPressed(new Winch(Winch.Direction.DOWN));
+
 	}
 
 	@Override
@@ -62,12 +67,12 @@ public class OI extends Command{
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
+		drive.cancel();
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
+		drive.cancel();
 	}
     
     // There are a few additional built in buttons you can use. Additionally,

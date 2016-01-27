@@ -5,7 +5,7 @@ import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class MoveArm extends Command {
+public class MoveArmCommand extends Command {
 	private static ClimbSubsystem arms = Robot.arms;
 	private static Position position;
 
@@ -19,7 +19,7 @@ public class MoveArm extends Command {
 		UP, DOWN;
 	}
 
-	public MoveArm(Position p) {
+	public MoveArmCommand(Position p) {
 		requires(Robot.arms);
 		position = p;
 	}

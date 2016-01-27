@@ -1,23 +1,23 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.Drive;
+import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class AlignWall extends Command {
+public class AlignWallCommand extends Command {
 
 	// Difference between sensor values to be properly aligned
 	// Error margin in degrees
 	private static final double ERROR_MARGIN = 30;
 	private static final double TALON_SPEED = 0.2;
 
-	private static Drive drive = Robot.drive;
+	private static DriveSubsystem drive = Robot.drive;
 
-	public AlignWall() {
+	public AlignWallCommand() {
 		requires(Robot.drive);
 		
 	}

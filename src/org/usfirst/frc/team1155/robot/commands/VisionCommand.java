@@ -1,19 +1,19 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
-import org.usfirst.frc.team1155.robot.subsystems.Image;
+import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Vision extends Command {
-	private static Image image = Robot.image;
+public class VisionCommand extends Command {
+	private static ImageSubsystem image = Robot.image;
 	private static SmartDashboard dashboard = Robot.dashboard;
 	
 	private boolean isFinished;
 	
-	public Vision() {
+	public VisionCommand() {
 		requires(Robot.image);
 	}
 	

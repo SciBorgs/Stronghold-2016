@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
+
+
+//MOVE INTO DRIVE SUBSYSTEM
+//CREATE DRIVE COMMAND UTILIZING THIS
+//ALSO REWRITE
 public class ColorSensor extends Subsystem {
 	private double maxThreshold;
 	private double minThreshold;

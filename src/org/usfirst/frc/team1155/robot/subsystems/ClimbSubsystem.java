@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimbSubsystem extends Subsystem {
-	private static CANTalon armTalon = Hardware.INSTANCE.armTalon;
-	private static CANTalon winchTalon = Hardware.INSTANCE.winchTalon;
-	private static CANTalon winchFollowerTalon = Hardware.INSTANCE.winchFollowerTalon;
+	private CANTalon armTalon = Hardware.INSTANCE.armTalon;
+	private CANTalon winchTalon = Hardware.INSTANCE.winchTalon;
+	private CANTalon winchFollowerTalon = Hardware.INSTANCE.winchFollowerTalon;
 	
-	private static SmartDashboard dashboard = Robot.dashboard;
+	private SmartDashboard dashboard = Robot.dashboard;
 	
 	private static final int MAX_ENCODER_POSITION = 1023;
 	private static final int MIN_ENCODER_POSITION = 0;

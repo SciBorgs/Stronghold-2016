@@ -38,10 +38,13 @@ public enum Hardware {
 	// CANTalons for feeder
 	public CANTalon topAxle, botAxle;
 
+	// Gyro for alignment
 	public AnalogGyro gyro;
 
+	// Camera for vision subsystem
 	public CameraServer camera;
 
+	// Piston feeder to load the shooter
 	public Solenoid pistonFeeder;
 
 	Hardware() {

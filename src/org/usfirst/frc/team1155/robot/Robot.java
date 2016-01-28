@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		Hardware.INSTANCE.camera.startAutomaticCapture("cam0");
 		System.out.println(Hardware.INSTANCE.frontRightTalon);
 		CANTalon test = Hardware.INSTANCE.frontRightTalon;
 		

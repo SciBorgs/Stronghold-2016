@@ -4,6 +4,7 @@ import org.usfirst.frc.team1155.robot.Hardware;
 import org.usfirst.frc.team1155.robot.Robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -17,6 +18,8 @@ public class DriveSubsystem extends Subsystem {
 	private AnalogGyro gyro;
 
 	private Ultrasonic leftUltrasonic, rightUltrasonic;
+	
+	private AnalogInput colorSensor;
 
 	private static final double CLOSEST_DISTANCE = 12;
 	private static final double DISTANCE_BETWEEN_ULTRASONICS = 12;
@@ -24,9 +27,13 @@ public class DriveSubsystem extends Subsystem {
 	private static final double MAX_GYRO_BUFFER = 1;
 	private static final double MIN_GYRO_BUFFER = -1;
 	
+	private static final double MAX_COLOR_SENSOR_THRESHOLD = 1;
+	private static final double MIN_COLOR_SENSOR_THRESHOLD = -1;
+	
 	private SmartDashboard dashboard = Robot.dashboard;
 	private static Timer timer = new Timer();
 
+	
 	public DriveSubsystem() {
 		timer.reset();
 		
@@ -48,6 +55,8 @@ public class DriveSubsystem extends Subsystem {
 		rightUltrasonic = Hardware.INSTANCE.rightUltrasonic;
 //		leftUltrasonic.setEnabled(true);
 //		rightUltrasonic.setEnabled(true);
+		
+		colorSensor = Hardware.INSTANCE.colorSensor;
 	}
 
 	// DRIVING METHODS
@@ -58,7 +67,7 @@ public class DriveSubsystem extends Subsystem {
 		frontLeftTalon.set(speedLeft);
 	}
 
-	//For stopping movement
+	//For stopping moving
 	public void stopMoving() {
 		frontRightTalon.set(0);
 		frontLeftTalon.set(0);
@@ -79,8 +88,8 @@ public class DriveSubsystem extends Subsystem {
 	
 	//Updates SmartDashboard with wheels speed
 	public void updateDriveDashboard() {
-		dashboard.putNumber("Left_Wheels_Speed", frontLeftTalon.get());
-		dashboard.putNumber("Right_Wheels_Speed", frontRightTalon.get());
+		dashboard.putNumber("Left wheels speed", frontLeftTalon.get());
+		dashboard.putNumber("Right wheels s peed", frontRightTalon.get());
 	}
 
 	// GYRO METHODS
@@ -180,6 +189,19 @@ public class DriveSubsystem extends Subsystem {
 		dashboard.putNumber("Right ultrasonic range", rightUltrasonic.getRangeInches());
 		dashboard.putNumber("Left ultrasonic range", leftUltrasonic.getRangeInches());
 	}
+
+	//Color Sensor Methods
+	public void resetColorSensor() {
+		colorSensor.resetAccumulator();
+	}
+	
+	public boolean isInThreshold(){
+		return colorSensor.getValue() >= MIN_COLOR_SENSOR_THRESHOLD || colorSensor.getValue() <= MAX_COLOR_SENSOR_THRESHOLD;
+	}
+	
+	public void updateColorSensorDashboard() {
+		dashboard.putNumber("Color Sensor Value", colorSensor.getVoltage());
+	}
 	
 	//Autonomous Methods
 	
@@ -203,7 +225,7 @@ public class DriveSubsystem extends Subsystem {
 		return timer.hasPeriodPassed(period);
 	}
 	
-	//Checks if gyro is stable
+	//Checks id gyro is stable
 	public boolean isGyroStable() {
 		return (gyro.getAngle() <= MAX_GYRO_BUFFER && gyro.getAngle() >= MIN_GYRO_BUFFER);
 	}
@@ -213,8 +235,6 @@ public class DriveSubsystem extends Subsystem {
 		return frontRightTalon.getEncVelocity() * timer.get();
 	}
 	
-	
-
 	public void initDefaultCommand() {
 		stopMoving();
 	}

@@ -4,7 +4,6 @@ import org.usfirst.frc.team1155.robot.Hardware;
 
 import com.ni.vision.NIVision;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.image.BinaryImage;
 import edu.wpi.first.wpilibj.image.ColorImage;
@@ -33,11 +32,11 @@ public class ImageSubsystem extends Subsystem {
 	
 	public ImageSubsystem() {
 		camera = Hardware.INSTANCE.camera;
-//		camera.startCapture();  FIX
+		//camera.startCapture();  FIX
 	}
 	
 	public void takePicture() {
-//		camera.getImage(targetImage.image);	  FIX
+		//camera.getImage(targetImage.image); FIX
 	}
 	
 	//TEST THESE PARAMETER 

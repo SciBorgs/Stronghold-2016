@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AutoDriveCommand extends Command {
 	private static DriveSubsystem drive = Robot.drive;
 	private static double distanceToDrive; // in feet, distance from midline to
-											// past outerworks
+										   // past outerworks
 	private static boolean isFinished;
 
 	private static double driveSpeed = 1/(distanceToDrive - drive.getDistanceDriven()); //speed to not overshoot

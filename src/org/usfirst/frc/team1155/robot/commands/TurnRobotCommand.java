@@ -14,8 +14,7 @@ public class TurnRobotCommand extends Command {
 
 	// Enum stuff for angle measures
 	public enum Turn {
-		RIGHT_ANGLE(90), FORTYFIVE_ANGLE(45), STRAIGHT_ANGLE(180), THREEQUARTER_ANGLE(
-				270);
+		RIGHT_ANGLE(90), FORTYFIVE_ANGLE(45), STRAIGHT_ANGLE(180), THREEQUARTER_ANGLE(270);
 
 		private final double angle;
 

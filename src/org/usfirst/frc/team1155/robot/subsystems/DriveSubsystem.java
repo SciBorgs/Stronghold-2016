@@ -61,19 +61,16 @@ public class DriveSubsystem extends Subsystem {
 
 	// DRIVING METHODS
 	
-	//For setting talon speed
 	public void setSpeed(double speedLeft, double speedRight) {
 		frontRightTalon.set(speedRight);
 		frontLeftTalon.set(speedLeft);
 	}
 
-	//For stopping moving
 	public void stopMoving() {
 		frontRightTalon.set(0);
 		frontLeftTalon.set(0);
 	}
 
-	//For turning robot
 	public void turnRobot(double angle) {
 		if (angle < 0) {
 			//Turns robot left
@@ -89,7 +86,7 @@ public class DriveSubsystem extends Subsystem {
 	//Updates SmartDashboard with wheels speed
 	public void updateDriveDashboard() {
 		dashboard.putNumber("Left wheels speed", frontLeftTalon.get());
-		dashboard.putNumber("Right wheels s peed", frontRightTalon.get());
+		dashboard.putNumber("Right wheels speed", frontRightTalon.get());
 	}
 
 	// GYRO METHODS

@@ -1,15 +1,15 @@
-TODO:
+                  TODO LIST
 
-CODE
-DONE) Rewrite color sensor code and move it into the Drive Subsystem 
-DONE) Get Dashboard to work properly (printing data)
-3) Write command to drive using the color sensor
-4) Try to figure out what commands can be combined (i.e. the autonomous drive commands)
-5) Test code and make it look nice
+CODE:
+	DONE) Rewrite color sensor code and move it into the Drive Subsystem 
+	DONE) Get Dashboard to work properly (printing data)
+	3)    Write command to drive using the color sensor
+	4)    Try to figure out what commands can be combined (i.e. the autonomous drive commands)
+	5)    Test code and make it look nice
 
 DASHBOARD:
-1) Make it look nice
-2) Get the data printed in the original dashboard to print here as well
+	1)    Make it look nice
+	2)    Get the data printed in the original dashboard to print here as well
 
 GENERAL:
-1) Comment everything
+	1)    Comment everything

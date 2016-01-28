@@ -33,7 +33,7 @@ public class MoveArmCommand extends Command {
 	}
 
 	@Override
-	protected void execute() {		
+	protected void execute() {
 		switch (position) {
 			case TOP:
 				arms.rotateArmOut();

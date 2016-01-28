@@ -22,7 +22,9 @@ public class ShooterCommand extends Command {
 
 	@Override
 	protected void execute() {
-		shooter.startShooter(shooterSpeed);	
+		// Makes the wheels start spinning
+		shooter.startShooter(shooterSpeed);
+		
 		shooter.updateShooterDashboard();
 	}
 
@@ -33,6 +35,7 @@ public class ShooterCommand extends Command {
 
 	@Override
 	protected void end() {
+		// Makes the wheels stop spinning
 		shooter.stopShooter();
 	}
 

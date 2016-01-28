@@ -18,21 +18,19 @@ public class ShooterSubsystem extends Subsystem {
 		rightShooterTalon = Hardware.INSTANCE.rightShooterTalon;
 	}
 	
-	//For starting shooter
+	// Makes the wheels start spinning
 	public void startShooter(double shooterSpeed) {
 		leftShooterTalon.set(shooterSpeed);
 		rightShooterTalon.set(-shooterSpeed);
 	}
 	
-	//For stopping shooter
+	// Makes the wheeels stop spinning
 	public void stopShooter() {
 		leftShooterTalon.set(0);
 		rightShooterTalon.set(0);
 	}
 	
-	//Updates SmartDashboard
 	public void updateShooterDashboard() {
-		//Prints speeds of each shooter wheel
 		dashboard.putNumber("Right Shooter Speed", rightShooterTalon.get());
 		dashboard.putNumber("Left Shooter Speed", leftShooterTalon.get());
 	}

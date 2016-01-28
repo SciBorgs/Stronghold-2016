@@ -1,29 +1,29 @@
 <xml version="1.0">
 <dashboard>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="128" y="227"/>
-		<property name="Text" value="Camera"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="291" y="299"/>
+		<location x="107" y="333"/>
 		<width>95</width>
-		<height>26</height>
+		<height>18</height>
 		<property name="Text" value="Connection Status"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="304" y="329"/>
-		<width>64</width>
-		<height>55</height>
+		<location x="3" y="356"/>
+		<width>327</width>
+		<height>26</height>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
-		<location x="400" y="12"/>
-		<width>384</width>
-		<height>468</height>
+		<location x="346" y="7"/>
+		<width>403</width>
+		<height>376</height>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="142" y="8"/>
+		<property name="Text" value="Camera"/>
 	</static-widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.WebcamViewerExtension">
-		<location x="8" y="247"/>
-		<width>280</width>
-		<height>249</height>
+		<location x="4" y="28"/>
+		<width>333</width>
+		<height>299</height>
 	</static-widget>
 </dashboard>
 <live-window>

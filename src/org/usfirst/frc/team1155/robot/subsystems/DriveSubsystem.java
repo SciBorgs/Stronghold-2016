@@ -51,45 +51,56 @@ public class DriveSubsystem extends Subsystem {
 	}
 
 	// DRIVING METHODS
+	
+	//For setting talon speed
 	public void setSpeed(double speedLeft, double speedRight) {
 		frontRightTalon.set(speedRight);
 		frontLeftTalon.set(speedLeft);
 	}
 
+	//For stopping movement
 	public void stopMoving() {
 		frontRightTalon.set(0);
 		frontLeftTalon.set(0);
 	}
 
+	//For turning robot
 	public void turnRobot(double angle) {
 		if (angle < 0) {
+			//Turns robot left
 			frontRightTalon.set(0.5);
 			frontLeftTalon.set(-0.5);
 		} else if (angle > 0) {
+			//Turns robot right
 			frontRightTalon.set(-0.5);
 			frontLeftTalon.set(0.5);
 		}
 	}
 	
+	//Updates SmartDashboard with wheels speed
 	public void updateDriveDashboard() {
 		dashboard.putNumber("Left_Wheels_Speed", frontLeftTalon.get());
 		dashboard.putNumber("Right_Wheels_Speed", frontRightTalon.get());
 	}
 
 	// GYRO METHODS
+	
+	//For getting gyro angle
 	public double getAngle() {
 		return gyro.getAngle();
 	}
 
+	//For resetting gyro
 	public void resetGyro() {
 		gyro.reset();
 	}
 
+	//For "removing" gyro from use
 	public void freeGyro() {
-		// "Removes" gyro from use
 		gyro.free();
 	}
 
+	//For finding out if the robot can turn
 	public boolean canTurn(double angle, double originalAngle) {
 		// Gets the current gyro value while turning
 		double gyroAngle = gyro.getAngle();
@@ -101,16 +112,20 @@ public class DriveSubsystem extends Subsystem {
 		
 	}
 	
+	//Updates SmartDashboard with angle
 	public void updateGyroDashboard() {
 		dashboard.putNumber("Robot turning angle", gyro.getAngle());
 	}
 
 	// ULTRASONIC METHODS
+	
+	//For pinging ultrasonics
 	public void pingUltrasonics() {
 		leftUltrasonic.ping();
 		rightUltrasonic.ping();
 	}
 
+	//For finding out if path is obstructed
 	public boolean isPathObstructed() {
 		if (leftUltrasonic.getRangeInches() <= CLOSEST_DISTANCE
 				&& rightUltrasonic.getRangeInches() <= CLOSEST_DISTANCE){
@@ -122,6 +137,7 @@ public class DriveSubsystem extends Subsystem {
 		}
 	}
 
+	//For finding closest range and setting it as the range
 	public double findClosestRange() {
 		double range;
 		if (leftUltrasonic.getRangeInches() < rightUltrasonic.getRangeInches()) {
@@ -134,6 +150,7 @@ public class DriveSubsystem extends Subsystem {
 		return range;
 	}
 
+	//For finding the angle the robot needs to align to
 	public double angleToAlignTo() {
 		// Negative is right, Positive is left
 		// Finds distance from both ultrasonics
@@ -158,32 +175,40 @@ public class DriveSubsystem extends Subsystem {
 		}
 	}
 	
+	//Updates SmartDashboard with left and right ultrasonic ranges
 	public void updateUltrasonicsDashboard() {
 		dashboard.putNumber("Right ultrasonic range", rightUltrasonic.getRangeInches());
 		dashboard.putNumber("Left ultrasonic range", leftUltrasonic.getRangeInches());
 	}
 	
 	//Autonomous Methods
+	
+	//Start timer
 	public void startTimer() {
 		timer.start();
 	}
 	
+	//Stop timer
 	public void stopTimer() {
 		timer.stop();
 	}
 	
+	//Resets timer
 	public void resetTimer() {
 		timer.reset();
 	}
 	
+	//Checks to see if the buffer has been passed
 	public boolean timerBuffer(long period) {
 		return timer.hasPeriodPassed(period);
 	}
 	
+	//Checks if gyro is stable
 	public boolean isGyroStable() {
 		return (gyro.getAngle() <= MAX_GYRO_BUFFER && gyro.getAngle() >= MIN_GYRO_BUFFER);
 	}
 	
+	//Finds distance driven
 	public double getDistanceDriven() {
 		return frontRightTalon.getEncVelocity() * timer.get();
 	}

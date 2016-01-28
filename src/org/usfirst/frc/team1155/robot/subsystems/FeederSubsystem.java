@@ -28,32 +28,42 @@ public class FeederSubsystem extends Subsystem {
 		botAxle.set(topAxle.getDeviceID());
 	}
 
+	//For feeding robot
 	public void feed() {
 		topAxle.set(MOVING_UP);
 	}
 	
+	//For stopping to feed robot
 	public void stopFeeding() {
 		topAxle.set(STOP_MOVING);
 	}
 	
+	//For checking if robot is fed
 	public boolean isFed() {
 		// if limit switch is true (not pressed), keep moving
 		return !limit.get();
 	}
 	
+	//Updates SmartDashboard
 	public void updateFeederDashboard() {
 		if(!limit.get()) 
+			//If ball is in robot prints true to SmartDashboard
 			dashboard.putBoolean("Is Robot Fed", true);
 		else
+			//If ball is not in robot prints false to SmartDashboard
 			dashboard.putBoolean("Is Robot Fed", false);
 	}
 	
 	//Piston Methods
+	
+	//For starting piston
 	public void togglePiston(){
 		pistonFeeder.set(!pistonFeeder.get());
 	}
 	
+	//Updates SmartDashboard
 	public void updateRampDashboard() {
+		//If ramp is up prints true to SmartDashoard. If not, prints false.
 		dashboard.putBoolean("Is Ramp Up", pistonFeeder.get());
 	}
 

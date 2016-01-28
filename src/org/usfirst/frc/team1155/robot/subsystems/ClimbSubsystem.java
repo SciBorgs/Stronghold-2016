@@ -24,9 +24,13 @@ public class ClimbSubsystem extends Subsystem {
 		previousArmEncoderPosition = armTalon.getEncPosition();
 		previousWinchEncoderPosition = winchTalon.getEncPosition();
 		
+		//set arm talon to position mode
 		armTalon.changeControlMode(CANTalon.TalonControlMode.Position);
 		
+		//set winch talon to position mode
 		winchTalon.changeControlMode(CANTalon.TalonControlMode.Position);
+		
+		//make the winch follower talon follow the normal winch talon
 		winchFollowerTalon.changeControlMode(CANTalon.TalonControlMode.Follower);
 		winchFollowerTalon.set(winchTalon.getDeviceID());
 		
@@ -56,7 +60,6 @@ public class ClimbSubsystem extends Subsystem {
 		if (previousArmEncoderPosition > armTalon.getEncPosition()) {
 			dashboard.putBoolean("Rotating Arm Out", true);
 			dashboard.putBoolean("Rotating Arm In", false);
-	
 		} else if (previousArmEncoderPosition < armTalon.getEncPosition()) {
 			dashboard.putBoolean("Rotating Arm Out", false);
 			dashboard.putBoolean("Rotating Arm In", true);
@@ -133,5 +136,4 @@ public class ClimbSubsystem extends Subsystem {
 		previousWinchEncoderPosition = winchTalon.getEncPosition();
 		dashboard.putNumber("Winch Encoder Position", winchTalon.getEncPosition());
 	}
-	
 }

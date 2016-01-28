@@ -8,17 +8,17 @@ import edu.wpi.first.wpilibj.command.Command;
 public class WinchCommand extends Command {
 
 	private static ClimbSubsystem arms = Robot.arms;
-	private Direction dir;
+	private Direction direction;
 
-	// If you want the robot to be reeled up to the bar, use Up
-	// If you want the robot to drop down to floor, use Down
+	// If you want the robot to be reeled up to the bar, use UP
+	// If you want the robot to drop down to floor, use DOWN
 	public static enum Direction {
 		UP, DOWN;
 	}
 
 	public WinchCommand(Direction d) {
 		requires(Robot.arms);
-		dir = d;
+		direction = d;
 	}
 
 	@Override
@@ -28,22 +28,24 @@ public class WinchCommand extends Command {
 
 	@Override
 	protected void execute() {
-		switch (dir) {
-		case UP:
-			arms.extendWinch();
-			isFinished();
-			break;
-		case DOWN:
-			arms.retractWinch();
-			isFinished();
-			break;
+		switch (direction) {
+			case UP:
+				arms.extendWinch();
+				isFinished();
+				break;
+			case DOWN:
+				arms.retractWinch();
+				isFinished();
+				break;
 		}
 		arms.updateWinchDashboard();
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return (dir == Direction.UP && arms.cannotExtendWinch() || dir == Direction.DOWN
+		// if the arm is going up and it can't go up anymore, stop the arm
+		// if the arm is going down and it can't go down anymore, stop the arm
+		return (direction == Direction.UP && arms.cannotExtendWinch() || direction == Direction.DOWN
 				&& arms.cannotRetractWinch());
 	}
 

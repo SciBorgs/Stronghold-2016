@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveArmCommand extends Command {
 	private static ClimbSubsystem arms = Robot.arms;
 	private static Position position;
+	
+	// This variable is used if arm is moved manually
+	private double newPosition;
 
 	public static enum Position {
 		// Bottom is arm in resting position
@@ -30,37 +33,32 @@ public class MoveArmCommand extends Command {
 	}
 
 	@Override
-	protected void execute() {
-		// This var is used if arm is moved manually
-		double newPos;
+	protected void execute() {		
 		switch (position) {
-		case TOP:
-			arms.rotateArmOut();
-			break;
-		case BOTTOM:
-			arms.rotateArmIn();
-			break;
-		case UP:
-			newPos = 10 + arms.getArmPosition();
-			arms.setArmPosition(newPos);
-			break;
-		case DOWN:
-			newPos = -10 + arms.getArmPosition();
-			arms.setArmPosition(newPos);
-			break;
-		default:
-			break;
+			case TOP:
+				arms.rotateArmOut();
+				break;
+			case BOTTOM:
+				arms.rotateArmIn();
+				break;
+			case UP:
+				newPosition = 10 + arms.getArmPosition();
+				arms.setArmPosition(newPosition);
+				break;
+			case DOWN:
+				newPosition = -10 + arms.getArmPosition();
+				arms.setArmPosition(newPosition);
+				break;
+			default:
+				break;
 		}
 		arms.updateArmDashboard();
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// If arm is moving up, and it can not more anymore
-		// and the position chosen was Top
-		// or the arm has reached its limit from Up being called repeatedly,
-		// stop command.
-		// Same for arm moving down
+		// If arm is moving up and it can't move up anymore, stop the arm
+		// If arm is moving down and it can't move down anymore, stop the arm
 		return (arms.cannotRotateArmOut() && (position == Position.TOP || position == Position.UP))
 				|| (arms.cannotRotateArmIn() && (position == Position.BOTTOM || position == Position.DOWN));
 	}

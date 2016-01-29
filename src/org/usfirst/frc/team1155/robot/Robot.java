@@ -12,6 +12,7 @@ import org.usfirst.frc.team1155.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -103,6 +104,11 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
+		image.recordVideo();
+		image.takePicture();
+		if (image.doesTargetExist()) {
+			System.out.println(image.getTargetVector());
+		}
 	}
 
 }

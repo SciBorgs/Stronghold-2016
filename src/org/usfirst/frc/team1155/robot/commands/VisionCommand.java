@@ -30,7 +30,7 @@ public class VisionCommand extends Command {
 	protected void execute() {
 		image.takePicture();	
 		
-		try {	
+		/*try {	
 			//HUE_LOW = 79, HUE_HIGH = 89, SATURATION_LOW = 64, SATURATION_HIGH = 153, LUMINANCE_LOW = 40, LUMINANCE_HIGH = 253
 			if(image.prepareImage(79, 89, 64, 153, 40, 253)) {
 				Robot.targetVector = image.getTargetVector();
@@ -39,7 +39,7 @@ public class VisionCommand extends Command {
 
 		} catch (NIVisionException e) {
 			dashboard.putString("IMAGE ERROR", e.getMessage());
-		}
+		}*/
 		
 	}
 

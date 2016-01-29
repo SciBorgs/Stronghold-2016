@@ -8,29 +8,19 @@ import com.ni.vision.NIVision.Range;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.image.BinaryImage;
-import edu.wpi.first.wpilibj.image.HSLImage;
-import edu.wpi.first.wpilibj.image.NIVisionException;
 
 public class ImageSubsystem extends Subsystem {
 	private Image targetImage, targetFrame;
-	private HSLImage hslTarget;
 	private BinaryImage thresholdImage;
 	private int index = 0;
 	private int session;
 	private static final double TARGET_W_M = 0, TARGET_H_M = 0, FOV_VERT_ANGLE = 0, FOV_HORZ_ANGLE = 0,
 			FOV_H_PIXEL = 1280, FOV_W_PIXEL = 720, FOV_H_M = 1.5, FOV_W_M = 0;
-	private static final Range TAPE_HUE_RANGE = new Range(84, 92);
-	private static final Range TAPE_SAT_RANGE = new Range(100, 255);
-	private static final Range TAPE_LUM_RANGE = new Range(204, 255);
-	private boolean isImageStored;
-
+	private static final Range TAPE_HUE_RANGE = new Range(100, 175);
+	private static final Range TAPE_SAT_RANGE = new Range(100, 200);
+	private static final Range TAPE_LUM_RANGE = new Range(100, 255);
+	
 	public ImageSubsystem() {
-		try {
-			hslTarget = new HSLImage();
-		} catch (NIVisionException e) {
-			e.printStackTrace();
-		}
-
 		targetImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 		targetFrame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 		session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
@@ -41,36 +31,16 @@ public class ImageSubsystem extends Subsystem {
 
 	public void recordVideo() {
 		NIVision.IMAQdxGrab(session, targetFrame, 1);
-		NIVision.imaqColorThreshold(targetImage, targetFrame, 255,
-		NIVision.ColorMode.HSV, TAPE_HUE_RANGE, TAPE_SAT_RANGE, TAPE_LUM_RANGE);
-		CameraServer.getInstance().setImage(targetImage);
+		CameraServer.getInstance().setImage(targetFrame);
 	}
 
 	public void takePicture() {
-		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSV, TAPE_HUE_RANGE,
-				TAPE_SAT_RANGE, TAPE_LUM_RANGE);
+		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSL, TAPE_HUE_RANGE, TAPE_SAT_RANGE, TAPE_LUM_RANGE);
 	}
 
-	// TEST THESE PARAMETER
-	public boolean prepareImage(int hue_low, int hue_high, int saturation_low, int saturation_high, int luminance_low,
-			int luminance_high) throws NIVisionException {
-		// Your tested threshold values (and intensity)
-		if (isImageStored) {
-			thresholdImage = hslTarget.thresholdHSL(hue_low, hue_high, saturation_low, saturation_high, luminance_low,
-					luminance_high);
-			// check particles
-			// WHAT IS THIS BULLSHIT ParticleAnalysisReport
-			// threshold_image_report = new
-			// ParticleAnalysisReport(threshold_image, 0);
-			// stolen property
-			if (NIVision.imaqMeasureParticle(thresholdImage.image, index, 0, NIVision.MeasurementType.MT_AREA) > 0) {
+	public boolean doesTargetExist() {
+		if (NIVision.imaqMeasureParticle(targetImage, 255, 0, NIVision.MeasurementType.MT_AREA) > 0) {
 				return true;
-			} else {
-				// Do something else
-				// Use your imagination
-				// Try to get an image???
-				return false;
-			}
 		} else {
 			return false;
 		}
@@ -87,16 +57,16 @@ public class ImageSubsystem extends Subsystem {
 	 */
 
 	// return (x_distance, x_angle) & (y_distance, y_angle)
-	public TargetVector getTargetVector() throws NIVisionException {
+	public TargetVector getTargetVector() {
 
 		// Assumes that only one object is present in image
-		double targetWidthPixels = (int) NIVision.imaqMeasureParticle(hslTarget.image, index, 0,
+		double targetWidthPixels =  NIVision.imaqMeasureParticle(targetImage, 255, 0,
 				NIVision.MeasurementType.MT_BOUNDING_RECT_WIDTH);
-		double targetHeightPixels = (int) NIVision.imaqMeasureParticle(hslTarget.image, index, 0,
+		double targetHeightPixels =  NIVision.imaqMeasureParticle(targetImage, 255, 0,
 				NIVision.MeasurementType.MT_BOUNDING_RECT_HEIGHT);
-		double targetPositionX = (int) NIVision.imaqMeasureParticle(hslTarget.image, index, 0,
+		double targetPositionX =  NIVision.imaqMeasureParticle(targetImage, 255, 0,
 				NIVision.MeasurementType.MT_CENTER_OF_MASS_X);
-		double targetPositionY = (int) NIVision.imaqMeasureParticle(hslTarget.image, index, 0,
+		double targetPositionY =  NIVision.imaqMeasureParticle(targetImage, 255, 0,
 				NIVision.MeasurementType.MT_CENTER_OF_MASS_Y);
 
 		// OR
@@ -106,8 +76,9 @@ public class ImageSubsystem extends Subsystem {
 		// double aiming_y = (target_position_y -
 		// IMAGE_RESOLUTION_Y/2)/(IMAGE_RESOLUTION_Y/2);
 		// Get theta (on x-axis) and phi (on y-axis)
-		double theta = (hslTarget.getWidth() - targetPositionX) / (hslTarget.getWidth()) * FOV_HORZ_ANGLE;
-		double phi = (hslTarget.getHeight() - targetPositionY) / (hslTarget.getHeight()) * FOV_VERT_ANGLE;
+
+		double theta = (NIVision.imaqMeasureParticle(targetImage, 255, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_WIDTH) - targetPositionX) / (NIVision.imaqMeasureParticle(targetImage, 255, index, NIVision.MeasurementType.MT_BOUNDING_RECT_WIDTH)) * FOV_HORZ_ANGLE;
+		double phi = (NIVision.imaqMeasureParticle(targetImage, 255, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_HEIGHT) - targetPositionY) / (NIVision.imaqMeasureParticle(targetImage, 255, index, NIVision.MeasurementType.MT_BOUNDING_RECT_HEIGHT)) * FOV_VERT_ANGLE;
 
 		// formula for distance
 		double distanceX = TARGET_W_M * FOV_W_PIXEL / (2 * targetWidthPixels * Math.tan(theta));

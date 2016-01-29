@@ -19,9 +19,9 @@ public class ImageSubsystem extends Subsystem {
 	private int session;
 	private static final double TARGET_W_M = 0, TARGET_H_M = 0, FOV_VERT_ANGLE = 0, FOV_HORZ_ANGLE = 0,
 			FOV_H_PIXEL = 1280, FOV_W_PIXEL = 720, FOV_H_M = 1.5, FOV_W_M = 0;
-	private static final Range TAPE_HUE_RANGE = new Range(79, 89);
-	private static final Range TAPE_SAT_RANGE = new Range(64, 153);
-	private static final Range TAPE_LUM_RANGE = new Range(40, 253);
+	private static final Range TAPE_HUE_RANGE = new Range(84, 92);
+	private static final Range TAPE_SAT_RANGE = new Range(100, 255);
+	private static final Range TAPE_LUM_RANGE = new Range(204, 255);
 	private boolean isImageStored;
 
 	public ImageSubsystem() {

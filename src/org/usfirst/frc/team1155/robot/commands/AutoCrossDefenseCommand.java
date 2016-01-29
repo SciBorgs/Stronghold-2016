@@ -37,14 +37,17 @@ public class AutoCrossDefenseCommand extends Command {
 
 	@Override
 	protected void execute() {
+		// If robot is not there yet, set talons to initial drive speed
 		if (drive.getDistanceDriven() < distanceToDrive)
 			drive.setSpeed(INITIAL_DRIVE_SPEED, INITIAL_DRIVE_SPEED);
 		
+		//If robot is there, sets talons to defense speed and set isAtDefense to true
 		if (drive.getDistanceDriven() == distanceToDrive) {
 			drive.setSpeed(DEFENSE_SPEED, DEFENSE_SPEED);
 			isAtDefense = true;
 		}
 		
+		//If robit is at defense, it has been for seconds, and gyro is stable, set talons to defense speed and set isFinished variable to true, or else set speed to 0
 		if (isAtDefense) {
 			if (drive.timerBuffer(4) && drive.isGyroStable()) {
 				drive.setSpeed(DEFENSE_SPEED, DEFENSE_SPEED);
@@ -59,7 +62,7 @@ public class AutoCrossDefenseCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return isFinished;
+		return isFinished; //Set to true in execute when at defense
 	}
 
 	@Override

@@ -26,21 +26,21 @@ public enum Hardware {
 	// CANTalons for driving
 	public CANTalon frontRightTalon, backRightTalon, frontLeftTalon, backLeftTalon;
 
-	// CANTalon for Arm movement
-	public CANTalon armTalon;
+	// CANTalon for Arms movement
+	public CANTalon armTalon; 
 
 	public CANTalon leftShooterTalon, rightShooterTalon;
 	// CANTalons for winch
 	public CANTalon winchTalon, winchFollowerTalon;
 
-	// CANTalons for feeder
-	public CANTalon topAxle, botAxle;
+	// CANTalons for feeder WITH sArm CANTalons control Small Feeder Arm
+	public CANTalon topAxle, botAxle, sArmTalon, sArmRollerTalon;
 
 	// Gyro for alignment
 	public AnalogGyro gyro;
-
+	
 	// Piston feeder to load the shooter
-	public Solenoid pistonFeeder;
+	//public Solenoid pistonFeeder;
 
 	Hardware() {
 		colorSensor = new AnalogInput(0);
@@ -58,6 +58,11 @@ public enum Hardware {
 		backRightTalon = new CANTalon(2);
 		frontLeftTalon = new CANTalon(3);
 		backLeftTalon = new CANTalon(5);
+		
+		sArmTalon = new CANTalon(6);
+		sArmRollerTalon = new CANTalon(7);
+		
+		
 ////
 //		armTalon = new CANTalon(6);
 //

@@ -18,11 +18,13 @@ public class FeederSubsystem extends Subsystem {
 	private DigitalInput limit = Hardware.INSTANCE.limitSwitch;
 	private CANTalon topAxle = Hardware.INSTANCE.topAxle;
 	private CANTalon botAxle = Hardware.INSTANCE.botAxle;
-	private Solenoid pistonFeeder = Hardware.INSTANCE.pistonFeeder;
+	private CANTalon sArm = Hardware.INSTANCE.sArmTalon;
+	private CANTalon sArmRoller = Hardware.INSTANCE.sArmRollerTalon;
 	private SmartDashboard dashboard = Robot.dashboard;
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
-
+	private static final int MOVING_DOWN = -1;	
+	
 	public FeederSubsystem() {
 		botAxle.changeControlMode(CANTalon.TalonControlMode.Follower);
 		botAxle.set(topAxle.getDeviceID());
@@ -54,17 +56,32 @@ public class FeederSubsystem extends Subsystem {
 			dashboard.putBoolean("Is Robot Fed", false);
 	}
 	
-	//Piston Methods
-	
-	//For starting piston
-	public void togglePiston(){
-		pistonFeeder.set(!pistonFeeder.get());
-	}
 	
 	//Updates SmartDashboard
-	public void updateRampDashboard() {
-		//If ramp is up prints true to SmartDashoard. If not, prints false.
-		dashboard.putBoolean("Is Ramp Up", pistonFeeder.get());
+	public void updateArmDashboard() {
+		if(sArm.get() < 0){
+			dashboard.putString("Small arm movement", "IN");
+		}
+		else if(sArm.get() == 0){
+			dashboard.putString("Small arm movement", "NOT MOVING");
+		}
+		else if(sArm.get() > 0){
+			dashboard.putString("Small arm movement", "OUT");
+		}
+	}
+	
+	//Small arm commands
+	
+	
+	
+	//rotate out
+	public void sArmOut(){
+		sArm.set(MOVING_DOWN);
+	}
+	
+	//rotate in 
+	public void sArmIn(){
+		sArm.set(MOVING_UP);
 	}
 
 	@Override

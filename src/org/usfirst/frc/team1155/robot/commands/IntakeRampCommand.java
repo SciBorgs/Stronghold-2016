@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class IntakeRampCommand extends Command {
 
 	private static FeederSubsystem feeder = Robot.feeder;
+	
+	//@TODO
+	//Add controls for intake arm
 
 	public IntakeRampCommand() {
 		requires(Robot.feeder);
@@ -15,14 +18,13 @@ public class IntakeRampCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		feeder.updateRampDashboard();
+		feeder.updateFeederDashboard();
 	}
 
 	@Override
 	protected void execute() {
 		// Toggles ramp at bottom of feeder to "pop" ball into feeder system
-		feeder.togglePiston();
-		feeder.updateRampDashboard();
+		feeder.updateFeederDashboard();
 	}
 
 	@Override
@@ -38,5 +40,6 @@ public class IntakeRampCommand extends Command {
 	@Override
 	protected void interrupted() {
 	}
+	
 
 }

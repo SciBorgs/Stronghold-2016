@@ -41,10 +41,9 @@ public class ImageSubsystem extends Subsystem {
 
 	public void recordVideo() {
 		NIVision.IMAQdxGrab(session, targetFrame, 1);
-		// NIVision.imaqColorThreshold(targetImage, targetFrame, 255,
-		// NIVision.ColorMode.HSV, TAPE_HUE_RANGE, TAPE_SAT_RANGE,
-		// TAPE_LUM_RANGE);
-		CameraServer.getInstance().setImage(targetFrame);
+		NIVision.imaqColorThreshold(targetImage, targetFrame, 255,
+		NIVision.ColorMode.HSV, TAPE_HUE_RANGE, TAPE_SAT_RANGE, TAPE_LUM_RANGE);
+		CameraServer.getInstance().setImage(targetImage);
 	}
 
 	public void takePicture() {

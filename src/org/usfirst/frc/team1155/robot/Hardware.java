@@ -3,12 +3,10 @@ package org.usfirst.frc.team1155.robot;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public enum Hardware {
 	INSTANCE;
@@ -40,9 +38,6 @@ public enum Hardware {
 
 	// Gyro for alignment
 	public AnalogGyro gyro;
-
-	// Camera for vision subsystem
-	public CameraServer camera;
 
 	// Piston feeder to load the shooter
 	public Solenoid pistonFeeder;
@@ -77,9 +72,6 @@ public enum Hardware {
 //		rightShooterTalon = new CANTalon(12);
 //
 //		gyro = new AnalogGyro(0);
-//
-		camera = CameraServer.getInstance();
-		camera.setQuality(100);
 //
 //		pistonFeeder = new Solenoid(0);
 	}

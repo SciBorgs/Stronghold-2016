@@ -41,14 +41,10 @@ public class Robot extends IterativeRobot {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		Hardware.INSTANCE.camera.startAutomaticCapture("cam0");
-		System.out.println(Hardware.INSTANCE.frontRightTalon);
-		CANTalon test = Hardware.INSTANCE.frontRightTalon;
-		
 		drive = new DriveSubsystem();
 //		arms = new ClimbSubsystem();
 //		feeder = new Feeder();
-//		image = new Image();
+		image = new ImageSubsystem();
 //		shooter = new ShooterSubsystem();
 //		dashboard = new SmartDashboard();
 //		autonomous = new AutoRoutines();
@@ -72,6 +68,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		image.recordVideo();
 	}
 
 	public void teleopInit() {
@@ -98,6 +95,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		image.recordVideo();
 	}
 
 	/**

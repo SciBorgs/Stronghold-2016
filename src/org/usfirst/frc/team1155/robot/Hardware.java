@@ -21,7 +21,7 @@ public enum Hardware {
 	public Joystick gamepad, leftJoystick, rightJoystick;
 
 	// Ultrasonic sensors
-	public Ultrasonic leftUltrasonic, rightUltrasonic;
+	public Ultrasonic leftUltrasonic, rightUltrasonic, feederUltrasonic;
 
 	// CANTalons for driving
 	public CANTalon frontRightTalon, backRightTalon, frontLeftTalon, backLeftTalon;
@@ -53,6 +53,7 @@ public enum Hardware {
 
 //		leftUltrasonic = new Ultrasonic(0, 1);
 //		rightUltrasonic = new Ultrasonic(2, 3);
+		feederUltrasonic = new Ultrasonic(4, 5);
 //
 		frontRightTalon = new CANTalon(0);
 		backRightTalon = new CANTalon(2);
@@ -61,6 +62,8 @@ public enum Hardware {
 		
 		sArmTalon = new CANTalon(6);
 		sArmRollerTalon = new CANTalon(7);
+		
+		
 		
 		
 ////

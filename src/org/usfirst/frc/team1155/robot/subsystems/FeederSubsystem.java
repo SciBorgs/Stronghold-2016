@@ -6,6 +6,7 @@ import org.usfirst.frc.team1155.robot.Robot;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,6 +17,7 @@ public class FeederSubsystem extends Subsystem {
 	 */
 
 	private DigitalInput limit = Hardware.INSTANCE.limitSwitch;
+	private Ultrasonic ultrasonic = Hardware.INSTANCE.feederUltrasonic;
 	private CANTalon topAxle = Hardware.INSTANCE.topAxle;
 	private CANTalon botAxle = Hardware.INSTANCE.botAxle;
 	private CANTalon sArm = Hardware.INSTANCE.sArmTalon;
@@ -24,10 +26,12 @@ public class FeederSubsystem extends Subsystem {
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
 	private static final int MOVING_DOWN = -1;	
+	private static final int ULTRARANGE = 2;
 	
 	public FeederSubsystem() {
 		botAxle.changeControlMode(CANTalon.TalonControlMode.Follower);
 		botAxle.set(topAxle.getDeviceID());
+		ultrasonic.setAutomaticMode(true);
 	}
 
 	//For feeding robot
@@ -42,8 +46,14 @@ public class FeederSubsystem extends Subsystem {
 	
 	//For checking if robot is fed
 	public boolean isFed() {
-		// if limit switch is true (not pressed), keep moving
-		return !limit.get();
+		// if limit switch is true (not pressed), keep moving (DEPRICATED)
+		//return !limit.get();
+		if (ultrasonic.getRangeInches() < ULTRARANGE){
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	//Updates SmartDashboard
@@ -70,18 +80,32 @@ public class FeederSubsystem extends Subsystem {
 		}
 	}
 	
-	//Small arm commands
+	//TODO add sensor or other method for stopping feeder arm movement at limits
+	//Small arm commands (SArm)
 	
-	
-	
-	//rotate out
-	public void sArmOut(){
+	//toggle arm rotate inwards
+	public void toggleSArm(){
 		sArm.set(MOVING_DOWN);
 	}
 	
-	//rotate in 
-	public void sArmIn(){
+	//halt arm
+	public void stopSArm(){
+		sArm.set(STOP_MOVING);
+	}
+	
+	//reset arm
+	public void resetSArm(){
 		sArm.set(MOVING_UP);
+	}
+	
+	//start arm rollers
+	public void SArmRollersON(){
+		sArmRoller.set(MOVING_UP);
+	}
+	
+	//stop arm rollers
+	public void SArmRollersOFF(){
+		sArmRoller.set(STOP_MOVING);
 	}
 
 	@Override

@@ -9,8 +9,8 @@ public class IntakeRampCommand extends Command {
 
 	private static FeederSubsystem feeder = Robot.feeder;
 	
-	//@TODO
-	//Add controls for intake arm
+
+	
 
 	public IntakeRampCommand() {
 		requires(Robot.feeder);
@@ -19,13 +19,13 @@ public class IntakeRampCommand extends Command {
 	@Override
 	protected void initialize() {
 		feeder.updateFeederDashboard();
-	}
+		}
 
 	@Override
 	protected void execute() {
 		// Toggles ramp at bottom of feeder to "pop" ball into feeder system
 		feeder.updateFeederDashboard();
-	}
+		}
 
 	@Override
 	protected boolean isFinished() {

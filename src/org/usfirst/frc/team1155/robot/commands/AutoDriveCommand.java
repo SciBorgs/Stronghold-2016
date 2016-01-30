@@ -27,7 +27,8 @@ public class AutoDriveCommand extends Command {
 
 	@Override
 	protected void execute() {
-		//If the robot hasn't reached the target distance, keep driving. Else, isFinished is set to true
+		// If the robot hasn't reached the target distance yet, keep driving
+		// If it has reached the target distance, stop the robot
 		if (drive.getDistanceDriven() < distanceToDrive) {
 			drive.setSpeed(driveSpeed, driveSpeed);
 		} else {
@@ -37,7 +38,7 @@ public class AutoDriveCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return isFinished;
+		return isFinished; // Set to true in execute
 	}
 
 	@Override

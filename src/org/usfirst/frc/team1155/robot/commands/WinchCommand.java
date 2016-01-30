@@ -31,11 +31,9 @@ public class WinchCommand extends Command {
 		switch (direction) {
 			case UP:
 				arms.extendWinch();
-				isFinished();
 				break;
 			case DOWN:
 				arms.retractWinch();
-				isFinished();
 				break;
 		}
 		arms.updateWinchDashboard();

@@ -77,6 +77,13 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		image.recordVideo();
+		image.takePicture();
+		if (image.doesTargetExist()) {
+			image.analyzeImage();
+			targetVector = image.getTargetVector();
+			System.out.println("Distance to: " + targetVector.xDistance + " Angle to: " + targetVector.theta);
+		}
 		if (autonomous != null)
 			autonomous.cancel();
 		if (oi != null)
@@ -104,11 +111,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void testPeriodic() {
 		LiveWindow.run();
-		image.recordVideo();
-		image.takePicture();
-		if (image.doesTargetExist()) {
-			System.out.println(image.getTargetVector());
-		}
 	}
 
 }

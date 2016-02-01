@@ -75,8 +75,10 @@ public class ImageSubsystem extends Subsystem {
 	
 	public TargetVector getTargetVector() {
 		// Assumes that only one object is present in image
-		double targetWidthPixels = -(particles.get(0).width - FOV_W_PIXEL/2)/(FOV_W_PIXEL/2);
-		double targetHeightPixels =  -(particles.get(0).height - FOV_H_PIXEL/2)/(FOV_H_PIXEL/2);
+		//double targetWidthPixels = -(particles.get(0).width - FOV_W_PIXEL/2)/(FOV_W_PIXEL/2);
+		//double targetHeightPixels =  -(particles.get(0).height - FOV_H_PIXEL/2)/(FOV_H_PIXEL/2);
+		double targetWidthPixels = particles.get(0).width;
+		double targetHeightPixels =  particles.get(0).height;
 		double targetPositionX = -(particles.get(0).targetX - FOV_W_PIXEL/2)/(FOV_W_PIXEL/2);
 		double targetPositionY =  -(particles.get(0).targetY - FOV_H_PIXEL/2)/(FOV_H_PIXEL/2);
 		System.out.println("X: " + targetPositionX + " Width: " + targetWidthPixels);

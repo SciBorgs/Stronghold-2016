@@ -17,10 +17,10 @@ public class ImageSubsystem extends Subsystem {
 	private int session;
 	private int numParticles;
 	private Vector<Report> particles;
-	private static final double TARGET_W_M = .40, 
-								TARGET_H_M = .13, 
-								FOV_VERT_ANGLE_RADIAN = 1.196, 
-								FOV_HORZ_ANGLE_RADIAN = 1.196,
+	private static final double TARGET_W_METER = .40, 
+								TARGET_H_METER = .13, 
+								FOV_VERT_ANGLE_RADIAN = 1.196, // 86.5 degrees
+								FOV_HORZ_ANGLE_RADIAN = 1.196, // 86.5 degrees
 								FOV_W_PIXEL = 1280, 
 								FOV_H_PIXEL = 720;
 	private static final Range TAPE_HUE_RANGE = new Range(100, 175);
@@ -60,13 +60,13 @@ public class ImageSubsystem extends Subsystem {
 
 	// return (x_distance, x_angle) & (y_distance, y_angle)
 	public void analyzeImage() {
-		for (int p = 0; p < numParticles; p++) {
+		for (int pixel = 0; pixel < numParticles; pixel++) {
 			Report report = new Report();
-			report.area = NIVision.imaqMeasureParticle(targetImage, p, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
-			report.width = NIVision.imaqMeasureParticle(targetImage, p, 0, NIVision.MeasurementType.MT_AVERAGE_HORIZ_SEGMENT_LENGTH);
-			report.height = NIVision.imaqMeasureParticle(targetImage, p, 0, NIVision.MeasurementType.MT_AVERAGE_VERT_SEGMENT_LENGTH);
-			report.targetX = NIVision.imaqMeasureParticle(targetImage, p, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_X);
-			report.targetY = NIVision.imaqMeasureParticle(targetImage, p, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_X);
+			report.area = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
+			report.width = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AVERAGE_HORIZ_SEGMENT_LENGTH);
+			report.height = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AVERAGE_VERT_SEGMENT_LENGTH);
+			report.targetX = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_X);
+			report.targetY = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_X);
 			particles.add(report);
 		}
 		particles.sort(null);
@@ -79,12 +79,15 @@ public class ImageSubsystem extends Subsystem {
 		double targetPositionX = -(particles.get(0).targetX - FOV_W_PIXEL/2)/(FOV_W_PIXEL/2);
 		double targetPositionY =  -(particles.get(0).targetY - FOV_H_PIXEL/2)/(FOV_H_PIXEL/2);
 
-		double theta = (targetWidthPixels - targetPositionX) / (targetWidthPixels) * FOV_HORZ_ANGLE_RADIAN;
-		double phi = (targetHeightPixels - targetPositionY) / (targetHeightPixels) * FOV_VERT_ANGLE_RADIAN;
+	//	double theta = (targetWidthPixels - targetPositionX) / (targetWidthPixels) * FOV_HORZ_ANGLE_RADIAN;
+	//	double phi = (targetHeightPixels - targetPositionY) / (targetHeightPixels) * FOV_VERT_ANGLE_RADIAN;
 
+		double theta = FOV_HORZ_ANGLE_RADIAN;
+		double phi = FOV_VERT_ANGLE_RADIAN;
+		
 		// formula for distance
-		double distanceX = TARGET_W_M * FOV_W_PIXEL / (2 * targetWidthPixels * Math.tan(FOV_HORZ_ANGLE_RADIAN));
-		double distanceY = TARGET_H_M * FOV_H_PIXEL / (2 * targetHeightPixels * Math.tan(FOV_VERT_ANGLE_RADIAN));
+		double distanceX = TARGET_W_METER * FOV_W_PIXEL / (2 * targetWidthPixels * Math.tan(FOV_HORZ_ANGLE_RADIAN));
+		double distanceY = TARGET_H_METER * FOV_H_PIXEL / (2 * targetHeightPixels * Math.tan(FOV_VERT_ANGLE_RADIAN));
 
 		// IGNORE dist_y and phi for limbot
 		TargetVector targetVector = new TargetVector();

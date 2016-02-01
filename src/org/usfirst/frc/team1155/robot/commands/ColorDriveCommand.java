@@ -5,6 +5,12 @@ import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/*
+
+ TO BE FIXED AFTER CAMERA FIXED
+
+*/
+
 public class ColorDriveCommand extends Command {
 	private int colorToCheckFor;
 	private static final double DRIVE_SPEED = 0.8;
@@ -18,7 +24,6 @@ public class ColorDriveCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -32,19 +37,16 @@ public class ColorDriveCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 
 	}
 

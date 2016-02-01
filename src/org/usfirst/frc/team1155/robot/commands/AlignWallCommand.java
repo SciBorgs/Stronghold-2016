@@ -28,11 +28,11 @@ public class AlignWallCommand extends Command {
 	}
 
 	protected void execute() {
-		// When the right ultrasonic exceeds left ultrasonic by a significant margin
+		// When the right ultrasonic exceeds left ultrasonic by the margin of error
 		if (drive.angleToAlignTo() < -ERROR_MARGIN) 
 			drive.setSpeed(TALON_SPEED, -TALON_SPEED);
 
-		// When the left ultrasonic exceeds right ultrasonic by a significant margin
+		// When the left ultrasonic exceeds right ultrasonic by the margin of error
 		else if (drive.angleToAlignTo() > ERROR_MARGIN)
 			drive.setSpeed(-TALON_SPEED, TALON_SPEED);
 		

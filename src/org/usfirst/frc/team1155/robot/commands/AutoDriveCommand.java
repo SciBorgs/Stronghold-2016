@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class AutoDriveCommand extends Command {
 	private static DriveSubsystem drive = Robot.drive;
-	private static double distanceToDrive; // in feet, distance from midline to
-										   // past outerworks
+	// In feet, distance from midline to beyond outerworks
+	private static double distanceToDrive;
 	private static boolean isFinished;
 
-	private static double driveSpeed = 1/(distanceToDrive - drive.getDistanceDriven()); //speed to not overshoot
+	// Speed to not overshoot. Inverse curve
+	private static double driveSpeed = 1 / (distanceToDrive - drive.getDistanceDriven());
+
 	public AutoDriveCommand(double distance) {
 		requires(Robot.drive);
 		distanceToDrive = distance;
@@ -38,7 +40,8 @@ public class AutoDriveCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return isFinished; // Set to true in execute
+		// Set to true in execute
+		return isFinished;
 	}
 
 	@Override

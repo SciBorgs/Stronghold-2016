@@ -41,8 +41,8 @@ public class WinchCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// if the arm is going up and it can't go up anymore, stop the arm
-		// if the arm is going down and it can't go down anymore, stop the arm
+		// if the robot is going up and it can't go up anymore, stop the winch
+		// if the robot is going down and it can't go down anymore, stop the winch
 		return (direction == Direction.UP && arms.cannotExtendWinch() || direction == Direction.DOWN
 				&& arms.cannotRetractWinch());
 	}

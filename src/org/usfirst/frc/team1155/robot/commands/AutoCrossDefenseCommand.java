@@ -9,13 +9,15 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AutoCrossDefenseCommand extends Command {
 	// Not finished. Need routines
 	private static DriveSubsystem drive = Robot.drive;
-	private static double distanceToDrive; // in feet, distance from midline to
-											// past outerworks
+	// in feet, distance from midline to beyond outerworks
+	private static double distanceToDrive; 
 	private static boolean isAtDefense, isFinished;
 
-	private static final double INITIAL_DRIVE_SPEED = .8; // set full speed for Talons
+	// Set full speed for Talons
+	private static final double INITIAL_DRIVE_SPEED = .8; 
 	private static final double DEFENSE_SPEED = 1;
-	private static final long TIMER_SLEEPER = 3; //in seconds; the amount of time elapsed until gyro is considered stable
+	// In seconds; the amount of time elapsed until gyro is considered stable
+	private static final long TIMER_SLEEPER = 3; 
 
 	public AutoCrossDefenseCommand(double distance) {
 		requires(Robot.drive);
@@ -47,7 +49,7 @@ public class AutoCrossDefenseCommand extends Command {
 			isAtDefense = true;
 		}
 		
-		//If robit is at defense, it has been for seconds, and gyro is stable, set talons to defense speed and set isFinished variable to true, or else set speed to 0
+		//If robot is at defense, it has been for seconds, and gyro is stable, set talons to defense speed and set isFinished variable to true, or else set speed to 0
 		if (isAtDefense) {
 			if (drive.timerBuffer(4) && drive.isGyroStable()) {
 				drive.setSpeed(DEFENSE_SPEED, DEFENSE_SPEED);

@@ -60,13 +60,14 @@ public class ImageSubsystem extends Subsystem {
 
 	// return (x_distance, x_angle) & (y_distance, y_angle)
 	public void analyzeImage() {
+		particles.clear();
 		for (int pixel = 0; pixel < numParticles; pixel++) {
 			Report report = new Report();
 			report.area = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
-			report.width = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AVERAGE_HORIZ_SEGMENT_LENGTH);
-			report.height = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AVERAGE_VERT_SEGMENT_LENGTH);
+			report.width = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_WIDTH);
+			report.height = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_HEIGHT);
 			report.targetX = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_X);
-			report.targetY = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_X);
+			report.targetY = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_Y);
 			particles.add(report);
 		}
 		particles.sort(null);
@@ -78,12 +79,10 @@ public class ImageSubsystem extends Subsystem {
 		double targetHeightPixels =  -(particles.get(0).height - FOV_H_PIXEL/2)/(FOV_H_PIXEL/2);
 		double targetPositionX = -(particles.get(0).targetX - FOV_W_PIXEL/2)/(FOV_W_PIXEL/2);
 		double targetPositionY =  -(particles.get(0).targetY - FOV_H_PIXEL/2)/(FOV_H_PIXEL/2);
+		System.out.println("X: " + targetPositionX + " Width: " + targetWidthPixels);
 
-	//	double theta = (targetWidthPixels - targetPositionX) / (targetWidthPixels) * FOV_HORZ_ANGLE_RADIAN;
-	//	double phi = (targetHeightPixels - targetPositionY) / (targetHeightPixels) * FOV_VERT_ANGLE_RADIAN;
-
-		double theta = FOV_HORZ_ANGLE_RADIAN;
-		double phi = FOV_VERT_ANGLE_RADIAN;
+		double theta = (targetWidthPixels - targetPositionX) / (targetWidthPixels) * FOV_HORZ_ANGLE_RADIAN;
+		double phi = (targetHeightPixels - targetPositionY) / (targetHeightPixels) * FOV_VERT_ANGLE_RADIAN;
 		
 		// formula for distance
 		double distanceX = TARGET_W_METER * FOV_W_PIXEL / (2 * targetWidthPixels * Math.tan(FOV_HORZ_ANGLE_RADIAN));

@@ -100,8 +100,10 @@ public class Robot extends IterativeRobot {
 		image.takePicture();
 		if (image.doesTargetExist()) {
 			image.analyzeImage();
-			targetVector = image.getTargetVector();
-			System.out.println("Distance to: " + targetVector.xDistance + " Angle to: " + targetVector.theta);
+			if(image.isTargetTape()) {
+				targetVector = image.getTargetVector();
+				System.out.println("Distance to: " + targetVector.xDistance + " Angle to: " + targetVector.theta);
+			}
 		}
 	}
 

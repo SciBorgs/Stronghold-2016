@@ -29,8 +29,8 @@ public class ImageSubsystem extends Subsystem {
 	
 	private static final double TARGET_W_METER = .40, 
 								TARGET_H_METER = .13, 
-								FOV_VERT_ANGLE = 86.5, // 86.5 degrees
-								FOV_HORZ_ANGLE = 86.5, // 86.5 degrees
+								FOV_VERT_ANGLE = 60, // 60 degrees
+								FOV_HORZ_ANGLE = 60, // 60 degrees
 								FOV_W_PIXEL = 640, 
 								FOV_H_PIXEL = 480,
 								AREA_MIN = .031,
@@ -174,6 +174,10 @@ public class ImageSubsystem extends Subsystem {
 		normalizedHeight = 2*(particles.get(0).boundingRectTop - particles.get(0).boundingRectBottom)/size.height;
 		targetHeight = TARGET_H_METER;
 		
+		//targetWidth = meters;
+		//normalizedWidth = no units
+		//FOV_HORZ_ANGLE = radians
+		//distanceX = 
 		double distanceX = targetWidth/(normalizedWidth*12*Math.tan(FOV_HORZ_ANGLE*Math.PI/(180*2)));
 		double distanceY = targetHeight/(normalizedHeight *12*Math.tan(FOV_VERT_ANGLE*Math.PI/(180*2)));
 		

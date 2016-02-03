@@ -86,6 +86,7 @@ public class ImageSubsystem extends Subsystem {
 	}
 
 	// return (x_distance, x_angle) & (y_distance, y_angle)
+	//max distance to shoot: 3.5m, min distance to shoot: 2m
 	public void analyzeImage() {
 		particles.clear();
 		for (int pixel = 0; pixel < numParticles; pixel++) {
@@ -103,11 +104,11 @@ public class ImageSubsystem extends Subsystem {
 		}
 		particles.sort(null);
 		scores.aspect = aspectScore(particles.elementAt(0));
-		System.out.println("Score of aspect: " + scores.aspect);
+//		System.out.println("Score of aspect: " + scores.aspect);
 		scores.area = areaScore(particles.elementAt(0));
-		System.out.println("Score of area: " + scores.area);
+//		System.out.println("Score of area: " + scores.area);
 		scores.convexHullArea = convexHullAreaScore(particles.elementAt(0));
-		System.out.println("Score of Convex Hull Area: " + scores.convexHullArea);
+//		System.out.println("Score of Convex Hull Area: " + scores.convexHullArea);
 		
 //		System.out.println("Length of Rect Bottom: " + particles.get(0).boundingRectBottom);
 //		System.out.println("Length of Rect Top: " + particles.get(0).boundingRectTop);
@@ -125,7 +126,6 @@ public class ImageSubsystem extends Subsystem {
 	}
 	
 	public boolean isTargetTape() {
-		System.out.println(isTape);
 		return isTape;
 	}
 	
@@ -148,21 +148,6 @@ public class ImageSubsystem extends Subsystem {
 	}
 	
 	public TargetVector getTargetVector() {
-		// Assumes that only one object is present in image
-		//double targetWidthPixels = -(particles.get(0).width - FOV_W_PIXEL/2)/(FOV_W_PIXEL/2);
-		//double targetHeightPixels =  -(particles.get(0).height - FOV_H_PIXEL/2)/(FOV_H_PIXEL/2);
-		double targetWidthPixels = particles.get(0).boundingRectBottom;
-		double targetHeightPixels =  particles.get(0).boundingRectLeft;
-		double targetPositionX = -(particles.get(0).targetX - FOV_W_PIXEL/2)/(FOV_W_PIXEL/2);
-		double targetPositionY =  -(particles.get(0).targetY - FOV_H_PIXEL/2)/(FOV_H_PIXEL/2);
-
-		double theta = (targetWidthPixels - targetPositionX) / (targetWidthPixels) * FOV_HORZ_ANGLE;
-		double phi = (targetHeightPixels - targetPositionY) / (targetHeightPixels) * FOV_VERT_ANGLE;
-		
-		// formula for distance
-		//double distanceX = TARGET_W_METER * FOV_W_PIXEL / (2 * targetWidthPixels * Math.tan(FOV_HORZ_ANGLE));
-		//double distanceY = TARGET_H_METER * FOV_H_PIXEL / (2 * targetHeightPixels * Math.tan(FOV_VERT_ANGLE));
-
 		double normalizedWidth, targetWidth, normalizedHeight, targetHeight;
 		NIVision.GetImageSizeResult size;
 		
@@ -178,10 +163,14 @@ public class ImageSubsystem extends Subsystem {
 		//normalizedWidth = no units
 		//FOV_HORZ_ANGLE = radians
 		//distanceX = 
-		double distanceX = targetWidth/(normalizedWidth*12*Math.tan(FOV_HORZ_ANGLE*Math.PI/(180*2)));
-		double distanceY = targetHeight/(normalizedHeight *12*Math.tan(FOV_VERT_ANGLE*Math.PI/(180*2)));
+		double distanceX = targetWidth/(normalizedWidth*Math.tan(FOV_HORZ_ANGLE*Math.PI/(180*2)));
+		double distanceY = targetHeight/(normalizedHeight*Math.tan(FOV_VERT_ANGLE*Math.PI/(180*2)));
 		
-		// IGNORE dist_y and phi for limbot
+		double theta = (particles.get(0).targetX * (FOV_HORZ_ANGLE / 2)) / (FOV_W_PIXEL / 2) - (FOV_HORZ_ANGLE / 2);
+		double phi = (particles.get(0).targetY * (FOV_VERT_ANGLE / 2)) / (FOV_H_PIXEL / 2) - (FOV_VERT_ANGLE / 2);
+		
+		
+		// IGNORE yDistance and phi for robot
 		TargetVector targetVector = new TargetVector();
 		targetVector.xDistance = distanceX;
 		targetVector.theta = theta;

@@ -103,7 +103,7 @@ public class Robot extends IterativeRobot {
 			//System.out.println("Image Exists");
 			if(image.isTargetTape()) {
 				targetVector = image.getTargetVector();
-				System.out.println("Distance to: " + targetVector.xDistance + " Angle to: " + targetVector.theta);
+				System.out.println("Distance to: " + targetVector.xDistance + "\nAngle to: " + targetVector.theta);
 			}
 		}
 	}

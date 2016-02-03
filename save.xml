@@ -1,5 +1,8 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Auto choices" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="0" y="0"/>
+	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
 		<location x="693" y="1"/>
 		<width>95</width>

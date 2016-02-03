@@ -10,7 +10,6 @@ import com.ni.vision.NIVision.Range;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ImageSubsystem extends Subsystem {
 	private Image targetImage, targetFrame;
@@ -34,21 +33,26 @@ public class ImageSubsystem extends Subsystem {
 								FOV_HORZ_ANGLE = 86.5, // 86.5 degrees
 								FOV_W_PIXEL = 640, 
 								FOV_H_PIXEL = 480,
-								AREA_MIN = .5,
+								AREA_MIN = .031,
 								SCORE_MIN = 75;
-	private static final Range TAPE_HUE_RANGE = new Range(80, 150);
-	private static final Range TAPE_SAT_RANGE = new Range(30, 255);
-	private static final Range TAPE_VAL_RANGE = new Range(50, 150);
+	
+	private static final double TAPE_WIDTH = 0.31, // Length
+								TAPE_LENGTH = 0.1, // Meters
+								TAPE_AREA = 0.031;
+	
+	private static final Range TAPE_HUE_RANGE = new Range(101, 100);
+	private static final Range TAPE_SAT_RANGE = new Range(100, 230);
+	private static final Range TAPE_VAL_RANGE = new Range(134, 255);
 	
 	public ImageSubsystem() {
 		targetImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 		targetFrame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 		
-		criteria = new NIVision.ParticleFilterCriteria2[1];
-		criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, AREA_MIN, 100.0, 0, 0);
-		criteria[0].lower = (float) AREA_MIN;
+		//criteria = new NIVision.ParticleFilterCriteria2[1];
+		//criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, AREA_MIN, 100, 0, 0);
+		//criteria[0].lower = (float) AREA_MIN;
 		
-		filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
+		//filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
 		
 		session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		NIVision.IMAQdxConfigureGrab(session);
@@ -57,8 +61,6 @@ public class ImageSubsystem extends Subsystem {
 		particles = new Vector<Report>();
 		
 		scores = new Scores();
-		
-		imaqError = NIVision.imaqParticleFilter4(targetImage, targetFrame, criteria, filterOptions, null);
 	}
 
 	public void recordVideo() {
@@ -69,6 +71,7 @@ public class ImageSubsystem extends Subsystem {
 	public void takePicture() {
 		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSV, TAPE_HUE_RANGE, TAPE_SAT_RANGE, TAPE_VAL_RANGE);
 		//NIVision.imaqFlatten(targetImage, NIVision.FlattenType.FLATTEN_IMAGE, NIVision.CompressionType.COMPRESSION_NONE, 100);
+		//imaqError = NIVision.imaqParticleFilter4(targetImage, targetImage, criteria, filterOptions, null);		
 		CameraServer.getInstance().setImage(targetImage);
 	}
 
@@ -87,35 +90,57 @@ public class ImageSubsystem extends Subsystem {
 		particles.clear();
 		for (int pixel = 0; pixel < numParticles; pixel++) {
 			Report report = new Report();
-			report.area = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
+			report.area = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AREA);
 			report.boundingRectBottom = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_BOTTOM);
 			report.boundingRectTop = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_TOP);
 			report.boundingRectRight = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_RIGHT);
 			report.boundingRectLeft = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_LEFT);
 			report.percentAreaToImageArea = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
+			report.areaToConvexHullArea = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CONVEX_HULL_AREA);
 			report.targetX = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_X);
 			report.targetY = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_Y);
 			particles.add(report);
 		}
 		particles.sort(null);
-		scores.aspect = aspectScore(particles.get(0));
-		scores.area = areaScore(particles.get(0));
+		scores.aspect = aspectScore(particles.elementAt(0));
+		System.out.println("Score of aspect: " + scores.aspect);
+		scores.area = areaScore(particles.elementAt(0));
+		System.out.println("Score of area: " + scores.area);
+		scores.convexHullArea = convexHullAreaScore(particles.elementAt(0));
+		System.out.println("Score of Convex Hull Area: " + scores.convexHullArea);
 		
-		isTape = scores.aspect > SCORE_MIN && scores.area > SCORE_MIN;
+//		System.out.println("Length of Rect Bottom: " + particles.get(0).boundingRectBottom);
+//		System.out.println("Length of Rect Top: " + particles.get(0).boundingRectTop);
+//		System.out.println("Length of Rect Right: " + particles.get(0).boundingRectRight);
+//		System.out.println("Length of Rect Left: " + particles.get(0).boundingRectLeft);
+//		System.out.println("Area of Area: " + particles.get(0).area);
+		
+		isTape = (scores.aspect > SCORE_MIN) && (scores.area > SCORE_MIN) && (scores.convexHullArea > SCORE_MIN);
+	}
+	
+
+	static boolean CompareParticleSizes(Report r1, Report r2)
+	{
+		return r1.percentAreaToImageArea > r2.percentAreaToImageArea;
 	}
 	
 	public boolean isTargetTape() {
+		System.out.println(isTape);
 		return isTape;
 	}
 	
+	//Scoring methods below
 	public double aspectScore(Report r) {
-		return ratioToScore(((r.boundingRectRight-r.boundingRectLeft)/(r.boundingRectBottom-r.boundingRectTop)));
+		return ratioToScore((3.1) * ((r.boundingRectBottom-r.boundingRectTop) / (r.boundingRectRight-r.boundingRectLeft)));
 	}
 	
 	public double areaScore(Report r) {
-		double boundingArea = (r.boundingRectBottom - r.boundingRectTop) * (r.boundingRectRight - r.boundingRectLeft);
-		//Tape is 7" edge so 49" bounding rect. With 2" wide tape it covers 24" of the rect.
-		return ratioToScore((49/24)*r.area/boundingArea);
+		double boundingArea = (r.boundingRectBottom - r.boundingRectTop) * (r.boundingRectRight - r.boundingRectLeft); // Area 
+		return ratioToScore(r.area/boundingArea);
+	}
+	
+	private double convexHullAreaScore(Report r) {
+		return ratioToScore((r.area/r.areaToConvexHullArea)*1.18);
 	}
 	
 	public double ratioToScore(double r) {
@@ -180,6 +205,7 @@ public class ImageSubsystem extends Subsystem {
 		double boundingRectBottom;
 		double boundingRectLeft;
 		double boundingRectRight;
+		double areaToConvexHullArea;
 		double targetX;
 		double targetY;
 		
@@ -196,6 +222,7 @@ public class ImageSubsystem extends Subsystem {
 	}
 	
 	private class Scores {
+		double convexHullArea;
 		double area;
 		double aspect;
 	}

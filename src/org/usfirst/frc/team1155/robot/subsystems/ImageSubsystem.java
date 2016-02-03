@@ -14,15 +14,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ImageSubsystem extends Subsystem {
 	private Image targetImage, targetFrame;
 	
-	private int session;
-	private int numParticles;
-	private int imaqError;
+	private int session; // Camera session (Arbitrary required variable)
+	private int numParticles; // Total number of unfiltered particles
+	private int imaqError; // Arbitrary required variable
 	
-	private boolean isTape;
+	private boolean isTape; //Detects if what it is analyzing is the retroreflective tape
 	
-	private Vector<Report> particles;
+	private Vector<Report> particles; //An object that stores values of a specific unfiltered region. Used for analyzing
 	
-	private Scores scores;
+	private Scores scores; // The "score" of one analyzed region. from 0 - 100, 100 meaning that the region is very like the tape
 	
 	private static NIVision.ParticleFilterCriteria2 criteria[];
 	private static NIVision.ParticleFilterOptions2 filterOptions;
@@ -34,7 +34,7 @@ public class ImageSubsystem extends Subsystem {
 								FOV_W_PIXEL = 640, 
 								FOV_H_PIXEL = 480,
 								AREA_MIN = .031,
-								SCORE_MIN = 75;
+								SCORE_MIN = 75; //Minimal score that means the region represents tape
 	
 	private static final double TAPE_WIDTH = 0.31, // Length
 								TAPE_LENGTH = 0.1, // Meters

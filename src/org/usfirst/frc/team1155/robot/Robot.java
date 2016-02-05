@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1155.robot;
 
 import org.usfirst.frc.team1155.robot.commands.AutoRoutines;
+import org.usfirst.frc.team1155.robot.commands.VisionCommand;
 import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.FeederSubsystem;
@@ -9,10 +10,8 @@ import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem.TargetVector;
 import org.usfirst.frc.team1155.robot.subsystems.ShooterSubsystem;
 
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.image.NIVisionException;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -30,6 +29,7 @@ public class Robot extends IterativeRobot {
 	public static ClimbSubsystem arms;
 	public static FeederSubsystem feeder;
 	public static ImageSubsystem image;
+	public static VisionCommand vision;
 	public static ShooterSubsystem shooter;
 	public static SmartDashboard dashboard;
 
@@ -46,6 +46,7 @@ public class Robot extends IterativeRobot {
 //		arms = new ClimbSubsystem();
 //		feeder = new Feeder();
 		image = new ImageSubsystem();
+		vision = new VisionCommand(true);
 //		shooter = new ShooterSubsystem();
 //		dashboard = new SmartDashboard();
 //		autonomous = new AutoRoutines();
@@ -77,6 +78,7 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
+		vision.start();
 		if (autonomous != null)
 			autonomous.cancel();
 		if (oi != null)

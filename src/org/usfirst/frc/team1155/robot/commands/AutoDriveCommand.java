@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AutoDriveCommand extends Command {
 	private static DriveSubsystem drive = Robot.drive;
 	// In feet, distance from midline to beyond outerworks
-	private static double distanceToDrive;
+	private static double distanceToDrive, distanceDriven;
 	private static boolean isFinished;
 
 	// Speed to not overshoot. Inverse curve
@@ -31,7 +31,8 @@ public class AutoDriveCommand extends Command {
 	protected void execute() {
 		// If the robot hasn't reached the target distance yet, keep driving
 		// If it has reached the target distance, stop the robot
-		if (drive.getDistanceDriven() < distanceToDrive) {
+		distanceDriven += drive.getDistanceDriven();
+		if (distanceDriven < distanceToDrive) {
 			drive.setSpeed(driveSpeed, driveSpeed);
 		} else {
 			isFinished = true;

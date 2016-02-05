@@ -30,6 +30,8 @@ public class DriveSubsystem extends Subsystem {
 	private static final double MAX_COLOR_SENSOR_THRESHOLD = 1;
 	private static final double MIN_COLOR_SENSOR_THRESHOLD = -1;
 	
+	private static final double RAMP_RATE = ; //for voltage regulator
+	
 	private SmartDashboard dashboard = Robot.dashboard;
 	private static Timer timer = new Timer();
 
@@ -230,6 +232,12 @@ public class DriveSubsystem extends Subsystem {
 	//Finds distance driven
 	public double getDistanceDriven() {
 		return frontRightTalon.getEncVelocity() * timer.get();
+	}
+	
+	//Voltage Regulation
+	public void regulateVoltage() {
+		frontRightTalon.setVoltageCompensationRampRate(RAMP_RATE);
+		frontLeftTalon.setVoltageCompensationRampRate(RAMP_RATE);
 	}
 	
 	public void initDefaultCommand() {

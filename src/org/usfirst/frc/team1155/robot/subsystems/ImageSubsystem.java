@@ -26,31 +26,33 @@ public class ImageSubsystem extends Subsystem {
 	private int numParticles; // Total number of unfiltered particles
 	private int imaqError; // Arbitrary required variable
 	
-	private boolean isTape; //Detects if what it is analyzing is the retroreflective tape
+	private boolean isTape; 
 	
+	// Report and Scores classes at very bottom
 	private Vector<Report> particles; //An object that stores values of a specific unfiltered region. Used for analyzing
 	
-	private Scores scores; // The "score" of one analyzed region. from 0 - 100, 100 meaning that the region is very like the tape
+	private Scores scores; // The "score" of one analyzed region. From 0 - 100, 100 meaning that the region is very like the tape
 	
-	private static NIVision.ParticleFilterCriteria2 criteria[];
-	private static NIVision.ParticleFilterOptions2 filterOptions;
+	private static NIVision.ParticleFilterCriteria2 criteria[]; // Criteria for filtering options (Arbitrary required)
+	private static NIVision.ParticleFilterOptions2 filterOptions; // Filter options for removing noise
 	
-	private static final double TARGET_W_METER = .40, 
-								TARGET_H_METER = .1, 
+	private static final double TARGET_W_METER = .40, // Longest side of tape
+								TARGET_H_METER = .1, // Shortest side of tape
+								TARGET_AREA = .04, // Area of tape.
 								FOV_VERT_ANGLE = 60, // 60 degrees
 								FOV_HORZ_ANGLE = 60, // 60 degrees
-								FOV_W_PIXEL = 640, 
-								FOV_H_PIXEL = 480,
-								AREA_MIN = .04,
-								SCORE_MIN = 75; //Minimal score that means the region represents tape
+								FOV_W_PIXEL = 640, // Resolution of camera
+								FOV_H_PIXEL = 480, // Resolution of camera
+								SCORE_MIN = 75; // Lowest score that signifies what is being observed is the target tape
 	
+	// Used for trajectory calculation (If we use it)
 	private static final double DRAG_CONSTANT = .209092519013,
 								MASS_OF_BALL = .295,
 								PERIOD = 13.8264152809,
 								SHOT_VELOCITY = 7.8,
 								SHOT_ANGLE = 50 * Math.PI/180;
 								
-	
+	// Hue, Saturation and Color Value that corresponds to Green color
 	private static final Range TAPE_HUE_RANGE = new Range(65, 45);
 	private static final Range TAPE_SAT_RANGE = new Range(88, 120);
 	private static final Range TAPE_VAL_RANGE = new Range(232, 255);
@@ -58,21 +60,25 @@ public class ImageSubsystem extends Subsystem {
 	public ImageSubsystem() {
 		dashboard = Robot.dashboard;
 		
-		targetImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
-		targetFrame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
+		targetImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0); // Filtered recording
+		targetFrame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0); // Unfiltered recording
 		
+		// Filtering things
 		criteria = new NIVision.ParticleFilterCriteria2[1];
-		criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, AREA_MIN, 100, 0, 0);
-		criteria[0].lower = (float) AREA_MIN;
+		criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, TARGET_AREA, 100, 0, 0);
+		criteria[0].lower = (float) TARGET_AREA;
 		
 		filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
 		
+		// Starts camera recording
 		session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		NIVision.IMAQdxConfigureGrab(session);
 		NIVision.IMAQdxStartAcquisition(session);
 		
+		// A report of all the particles (pixels) in the image
 		particles = new Vector<Report>();
 		
+		// A place to store all of the scores that are calculated
 		scores = new Scores();
 	}
 
@@ -97,10 +103,18 @@ public class ImageSubsystem extends Subsystem {
 		}
 	}
 
-	// return (x_distance, x_angle) & (y_distance, y_angle)
-	//max distance to shoot: 3.5m, min distance to shoot: 2m
+	// Max distance to shoot: 3.5m, Min distance to shoot: 2m
 	public void analyzeImage() {
 		particles.clear();
+		
+		/* Stores values from target
+		 * 
+		 * area is area of target
+		 * boundingRect values are the sides of the target
+		 * percentAreaToImageArea is how much of the image area does the target cover
+		 * targetX is X distance from edge of image to center of target
+		 * targetY is Y distance from edge of image to center of target
+		 */
 		for (int pixel = 0; pixel < numParticles; pixel++) {
 			Report report = new Report();
 			report.area = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AREA);
@@ -109,15 +123,17 @@ public class ImageSubsystem extends Subsystem {
 			report.boundingRectRight = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_RIGHT);
 			report.boundingRectLeft = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_LEFT);
 			report.percentAreaToImageArea = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
-			report.areaToConvexHullArea = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CONVEX_HULL_AREA);
+			//report.areaToConvexHullArea = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CONVEX_HULL_AREA);
 			report.targetX = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_X);
 			report.targetY = NIVision.imaqMeasureParticle(targetImage, pixel, 0, NIVision.MeasurementType.MT_CENTER_OF_MASS_Y);
 			particles.add(report);
 		}
 		particles.sort(null);
+		// Gets scores from above report
 		scores.aspect = aspectScore(particles.elementAt(0));
 		scores.area = areaScore(particles.elementAt(0));
 		
+		//If scores are above 75, the target is a tape
 		isTape = (scores.aspect > SCORE_MIN) && (scores.area > SCORE_MIN);
 	}
 	
@@ -131,46 +147,48 @@ public class ImageSubsystem extends Subsystem {
 		return isTape;
 	}
 	
-	//Scoring methods below
+	// Scores aspect ratio of target
 	private double aspectScore(Report r) {
 		return ratioToScore((TARGET_W_METER/TARGET_H_METER) * ((r.boundingRectBottom-r.boundingRectTop) / (r.boundingRectRight-r.boundingRectLeft)));
 	}
 	
+	// Scores Area of target
 	private double areaScore(Report r) {
 		double boundingArea = (r.boundingRectBottom - r.boundingRectTop) * (r.boundingRectRight - r.boundingRectLeft); // Area 
 		return ratioToScore(r.area/boundingArea);
 	}
 	
+	// Converts above raw scores to a value between 0 - 100
 	private double ratioToScore(double r) {
 		return (Math.max(0, Math.min(100*(1-Math.abs(1-r)), 100)));
 	}
 	
+	// Calculates vector from Camera to target
 	public TargetVector getTargetVector() {
 		double normalizedWidth, targetWidth, normalizedHeight, targetHeight;
 		NIVision.GetImageSizeResult size;
 		
 		size = NIVision.imaqGetImageSize(targetFrame);
 		
+		// Normalized values are the unitless equilvalent of their corresponding values
 		normalizedWidth = 2*(particles.get(0).boundingRectRight - particles.get(0).boundingRectLeft)/size.width;
 		targetWidth = TARGET_W_METER;
 		
 		normalizedHeight = 2*(particles.get(0).boundingRectTop - particles.get(0).boundingRectBottom)/size.height;
 		targetHeight = TARGET_H_METER;
 		
-		//targetWidth = meters;
-		//normalizedWidth = no units
-		//FOV_HORZ_ANGLE = radians
-		//distanceX = 
+		// Only distanceX used. It is the distance to the target
 		double distanceX = targetWidth/(normalizedWidth*Math.tan(FOV_HORZ_ANGLE*Math.PI/(180*2)));
 		double distanceY = targetHeight/(normalizedHeight*Math.tan(FOV_VERT_ANGLE*Math.PI/(180*2)));
 		
+		// Only theta used. It is the angle to turn so the camera is centered on the target
 		double theta = (particles.get(0).targetX * (FOV_HORZ_ANGLE / 2)) / (FOV_W_PIXEL / 2) - (FOV_HORZ_ANGLE / 2);
 		double phi = (particles.get(0).targetY * (FOV_VERT_ANGLE / 2)) / (FOV_H_PIXEL / 2) - (FOV_VERT_ANGLE / 2);
 		
 		dashboard.putNumber("Distance To Tape: ", distanceX);
 		dashboard.putNumber("Angle To Turn To Tape", theta);
 		
-		// IGNORE yDistance and phi for robot
+		// TargetVector class at bottom
 		TargetVector targetVector = new TargetVector();
 		targetVector.xDistance = distanceX;
 		targetVector.theta = theta;

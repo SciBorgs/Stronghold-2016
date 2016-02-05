@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
-	public void robotInit() {
+	public void robotInit() {	
 		drive = new DriveSubsystem();
 //		arms = new ClimbSubsystem();
 //		feeder = new Feeder();
@@ -98,6 +98,8 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		image.recordVideo();
 		image.takePicture();
+		//image.drawPredictedShot();
+		image.displayImage();
 		if (image.doesTargetExist()) {
 			image.analyzeImage();
 			//System.out.println("Image Exists");
@@ -105,7 +107,7 @@ public class Robot extends IterativeRobot {
 				targetVector = image.getTargetVector();
 				System.out.println("Distance to: " + targetVector.xDistance + "\nAngle to: " + targetVector.theta);
 			}
-		}
+		} 
 	}
 
 	/**

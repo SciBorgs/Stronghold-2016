@@ -96,18 +96,6 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		image.recordVideo();
-		image.takePicture();
-		image.drawPredictedShot();
-		image.displayImage();
-		if (image.doesTargetExist()) {
-			image.analyzeImage();
-			//System.out.println("Image Exists");
-			if(image.isTargetTape()) {
-				targetVector = image.getTargetVector();
-				System.out.println("Distance to: " + targetVector.xDistance + "\nAngle to: " + targetVector.theta);
-			}
-		} 
 	}
 
 	/**

@@ -3,21 +3,24 @@ package org.usfirst.frc.team1155.robot.subsystems;
 import java.util.Comparator;
 import java.util.Vector;
 
+import org.usfirst.frc.team1155.robot.Hardware;
 import org.usfirst.frc.team1155.robot.Robot;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ImageType;
-import com.ni.vision.NIVision.ROI;
 import com.ni.vision.NIVision.Range;
 import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ImageSubsystem extends Subsystem {
 	private Image targetImage, targetFrame;
+	
+	private SmartDashboard dashboard;
 	
 	private int session; // Camera session (Arbitrary required variable)
 	private int numParticles; // Total number of unfiltered particles
@@ -38,12 +41,8 @@ public class ImageSubsystem extends Subsystem {
 								FOV_HORZ_ANGLE = 60, // 60 degrees
 								FOV_W_PIXEL = 640, 
 								FOV_H_PIXEL = 480,
-								AREA_MIN = .031,
+								AREA_MIN = .04,
 								SCORE_MIN = 75; //Minimal score that means the region represents tape
-	
-	private static final double TAPE_WIDTH = 0.31, // Length
-								TAPE_LENGTH = 0.1, // Meters
-								TAPE_AREA = 0.031;
 	
 	private static final double DRAG_CONSTANT = .209092519013,
 								MASS_OF_BALL = .295,
@@ -57,11 +56,13 @@ public class ImageSubsystem extends Subsystem {
 	private static final Range TAPE_VAL_RANGE = new Range(232, 255);
 	
 	public ImageSubsystem() {
+		dashboard = Robot.dashboard;
+		
 		targetImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 		targetFrame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 		
 		criteria = new NIVision.ParticleFilterCriteria2[1];
-		criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, TARGET_W_METER/TARGET_H_METER, 100, 0, 0);
+		criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, AREA_MIN, 100, 0, 0);
 		criteria[0].lower = (float) AREA_MIN;
 		
 		filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
@@ -115,15 +116,7 @@ public class ImageSubsystem extends Subsystem {
 		}
 		particles.sort(null);
 		scores.aspect = aspectScore(particles.elementAt(0));
-//		System.out.println("Score of aspect: " + scores.aspect);
 		scores.area = areaScore(particles.elementAt(0));
-//		System.out.println("Score of area: " + scores.area);
-
-//		System.out.println("Length of Rect Bottom: " + particles.get(0).boundingRectBottom);
-//		System.out.println("Length of Rect Top: " + particles.get(0).boundingRectTop);
-//		System.out.println("Length of Rect Right: " + particles.get(0).boundingRectRight);
-//		System.out.println("Length of Rect Left: " + particles.get(0).boundingRectLeft);
-//		System.out.println("Area of Area: " + particles.get(0).area);
 		
 		isTape = (scores.aspect > SCORE_MIN) && (scores.area > SCORE_MIN);
 	}
@@ -174,6 +167,8 @@ public class ImageSubsystem extends Subsystem {
 		double theta = (particles.get(0).targetX * (FOV_HORZ_ANGLE / 2)) / (FOV_W_PIXEL / 2) - (FOV_HORZ_ANGLE / 2);
 		double phi = (particles.get(0).targetY * (FOV_VERT_ANGLE / 2)) / (FOV_H_PIXEL / 2) - (FOV_VERT_ANGLE / 2);
 		
+		dashboard.putNumber("Distance To Tape: ", distanceX);
+		dashboard.putNumber("Angle To Turn To Tape", theta);
 		
 		// IGNORE yDistance and phi for robot
 		TargetVector targetVector = new TargetVector();

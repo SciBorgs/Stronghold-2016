@@ -18,7 +18,7 @@ public class AutoRoutines extends CommandGroup{
 	//example routines
 	public void StandardRoutine(){
 		addSequential(new AutoCrossDefenseCommand(DISTANCE_TO_DEFENSE));
-		addSequential(new VisionCommand());
+		addSequential(new VisionCommand(false));
 		addSequential(new TurnRobotCommand(Robot.targetVector.theta));
 		addSequential(new AutoDriveCommand(Robot.targetVector.xDistance));
 		addSequential(new ShooterCommand(1));

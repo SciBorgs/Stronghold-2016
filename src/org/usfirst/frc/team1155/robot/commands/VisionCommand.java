@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionCommand extends Command {
 	private static ImageSubsystem image = Robot.image;
-	private static SmartDashboard dashboard = Robot.dashboard;
 	
 	private boolean isFinished;
+	private boolean isTele;
 	
-	public VisionCommand() {
+	public VisionCommand(boolean isTele) {
 		requires(Robot.image);
+		this.isTele = isTele;
 	}
 	
 	@Override
@@ -28,19 +29,18 @@ public class VisionCommand extends Command {
 	// Implement "give" box to user method
 	@Override
 	protected void execute() {
-		image.takePicture();	
-		
-		/*try {	
-			//HUE_LOW = 79, HUE_HIGH = 89, SATURATION_LOW = 64, SATURATION_HIGH = 153, LUMINANCE_LOW = 40, LUMINANCE_HIGH = 253
-			if(image.prepareImage(79, 89, 64, 153, 40, 253)) {
+		image.recordVideo();
+		image.takePicture();
+		if(isTele) {
+			image.drawPredictedShot();
+			image.displayImage();
+		}
+		if (image.doesTargetExist()) {
+			image.analyzeImage();
+			if(image.isTargetTape()) {
 				Robot.targetVector = image.getTargetVector();
-				isFinished = true;
 			}
-
-		} catch (NIVisionException e) {
-			dashboard.putString("IMAGE ERROR", e.getMessage());
-		}*/
-		
+		} 	
 	}
 
 	@Override

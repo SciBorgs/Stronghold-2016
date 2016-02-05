@@ -52,19 +52,19 @@ public class ImageSubsystem extends Subsystem {
 								SHOT_ANGLE = 50 * Math.PI/180;
 								
 	
-	private static final Range TAPE_HUE_RANGE = new Range(80, 60);
-	private static final Range TAPE_SAT_RANGE = new Range(100, 120);
-	private static final Range TAPE_VAL_RANGE = new Range(134, 255);
+	private static final Range TAPE_HUE_RANGE = new Range(65, 45);
+	private static final Range TAPE_SAT_RANGE = new Range(88, 120);
+	private static final Range TAPE_VAL_RANGE = new Range(232, 255);
 	
 	public ImageSubsystem() {
 		targetImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
 		targetFrame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
 		
-		//criteria = new NIVision.ParticleFilterCriteria2[1];
-		//criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, .005, 100, 0, 0);
-		//criteria[0].lower = (float) AREA_MIN;
+		criteria = new NIVision.ParticleFilterCriteria2[1];
+		criteria[0] = new NIVision.ParticleFilterCriteria2(NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA, TARGET_W_METER/TARGET_H_METER, 100, 0, 0);
+		criteria[0].lower = (float) AREA_MIN;
 		
-		//filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
+		filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
 		
 		session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		NIVision.IMAQdxConfigureGrab(session);
@@ -82,7 +82,7 @@ public class ImageSubsystem extends Subsystem {
 	public void takePicture() {
 		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSV, TAPE_HUE_RANGE, TAPE_SAT_RANGE, TAPE_VAL_RANGE);
 		//NIVision.imaqFlatten(targetImage, NIVision.FlattenType.FLATTEN_IMAGE, NIVision.CompressionType.COMPRESSION_NONE, 100);
-		//imaqError = NIVision.imaqParticleFilter4(targetImage, targetImage, criteria, filterOptions, null);		
+		imaqError = NIVision.imaqParticleFilter4(targetImage, targetImage, criteria, filterOptions, null);		
 		//CameraServer.getInstance().setImage(targetImage);
 	}
 	
@@ -118,16 +118,14 @@ public class ImageSubsystem extends Subsystem {
 //		System.out.println("Score of aspect: " + scores.aspect);
 		scores.area = areaScore(particles.elementAt(0));
 //		System.out.println("Score of area: " + scores.area);
-		scores.convexHullArea = convexHullAreaScore(particles.elementAt(0));
-//		System.out.println("Score of Convex Hull Area: " + scores.convexHullArea);
-		
+
 //		System.out.println("Length of Rect Bottom: " + particles.get(0).boundingRectBottom);
 //		System.out.println("Length of Rect Top: " + particles.get(0).boundingRectTop);
 //		System.out.println("Length of Rect Right: " + particles.get(0).boundingRectRight);
 //		System.out.println("Length of Rect Left: " + particles.get(0).boundingRectLeft);
 //		System.out.println("Area of Area: " + particles.get(0).area);
 		
-		isTape = (scores.aspect > SCORE_MIN) && (scores.area > SCORE_MIN) && (scores.convexHullArea > SCORE_MIN);
+		isTape = (scores.aspect > SCORE_MIN) && (scores.area > SCORE_MIN);
 	}
 	
 
@@ -141,21 +139,16 @@ public class ImageSubsystem extends Subsystem {
 	}
 	
 	//Scoring methods below
-	public double aspectScore(Report r) {
+	private double aspectScore(Report r) {
 		return ratioToScore((TARGET_W_METER/TARGET_H_METER) * ((r.boundingRectBottom-r.boundingRectTop) / (r.boundingRectRight-r.boundingRectLeft)));
 	}
 	
-	public double areaScore(Report r) {
+	private double areaScore(Report r) {
 		double boundingArea = (r.boundingRectBottom - r.boundingRectTop) * (r.boundingRectRight - r.boundingRectLeft); // Area 
 		return ratioToScore(r.area/boundingArea);
 	}
 	
-	private double convexHullAreaScore(Report r) {
-		return 100;
-		//return ratioToScore((r.area/r.areaToConvexHullArea)*1.18);
-	}
-	
-	public double ratioToScore(double r) {
+	private double ratioToScore(double r) {
 		return (Math.max(0, Math.min(100*(1-Math.abs(1-r)), 100)));
 	}
 	
@@ -163,7 +156,7 @@ public class ImageSubsystem extends Subsystem {
 		double normalizedWidth, targetWidth, normalizedHeight, targetHeight;
 		NIVision.GetImageSizeResult size;
 		
-		size = NIVision.imaqGetImageSize(targetImage);
+		size = NIVision.imaqGetImageSize(targetFrame);
 		
 		normalizedWidth = 2*(particles.get(0).boundingRectRight - particles.get(0).boundingRectLeft)/size.width;
 		targetWidth = TARGET_W_METER;
@@ -199,9 +192,9 @@ public class ImageSubsystem extends Subsystem {
 		if(isTape) {
 			time = -Math.log((1 - ((Robot.targetVector.xDistance)/ (-MASS_OF_BALL/DRAG_CONSTANT * SHOT_VELOCITY * Math.cos(SHOT_ANGLE))))) / (-DRAG_CONSTANT/MASS_OF_BALL);
 		} else {
-			time = 3;
+			time = 0;
 		}
-		System.out.println("Time: " + time);
+		//System.out.println("Time: " + time);
 		double trajectoryX = -MASS_OF_BALL/DRAG_CONSTANT * SHOT_VELOCITY * Math.cos(SHOT_ANGLE) * (1-Math.pow(Math.E, -DRAG_CONSTANT/MASS_OF_BALL * time)) + 3.67;
 		double trajectoryY = -PERIOD * time + MASS_OF_BALL/DRAG_CONSTANT * (SHOT_VELOCITY*Math.sin(SHOT_ANGLE) + PERIOD) * (1 - Math.pow(Math.E, -DRAG_CONSTANT/MASS_OF_BALL * time)); 
 		int pixelX = (int) (((trajectoryX + (FOV_HORZ_ANGLE/2)) * (FOV_W_PIXEL / 2)) / (FOV_HORZ_ANGLE / 2));
@@ -212,14 +205,15 @@ public class ImageSubsystem extends Subsystem {
 			}
 			else {
 				NIVision.imaqSetROIColor(roi, NIVision.RGB_BLUE);
-			}	
+			}
+			NIVision.Rect rect = new NIVision.Rect(pixelY-50, pixelX-50, 100, 100);
+			NIVision.imaqDrawShapeOnImage(targetFrame, targetFrame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);	
 		}
-		NIVision.Rect rect = new NIVision.Rect(pixelY-50, pixelX-50, 100, 100);
-		NIVision.imaqDrawShapeOnImage(targetFrame, targetFrame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);	
+		
 	}
 	
 	public void displayImage() {
-		CameraServer.getInstance().setImage(targetImage);
+		CameraServer.getInstance().setImage(targetFrame);
 	}
 	
 	@Override
@@ -258,7 +252,6 @@ public class ImageSubsystem extends Subsystem {
 	}
 	
 	private class Scores {
-		double convexHullArea;
 		double area;
 		double aspect;
 	}

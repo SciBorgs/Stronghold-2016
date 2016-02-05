@@ -98,7 +98,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		image.recordVideo();
 		image.takePicture();
-		//image.drawPredictedShot();
+		image.drawPredictedShot();
 		image.displayImage();
 		if (image.doesTargetExist()) {
 			image.analyzeImage();

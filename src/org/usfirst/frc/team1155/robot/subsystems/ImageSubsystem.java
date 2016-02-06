@@ -198,7 +198,6 @@ public class ImageSubsystem extends Subsystem {
 	}
 	
 	public void drawPredictedShot() {
-		NIVision.ROI roi = NIVision.imaqCreateROI();
 		NIVision.GetImageSizeResult size;
 		size = NIVision.imaqGetImageSize(targetImage);
 		double time;
@@ -213,12 +212,6 @@ public class ImageSubsystem extends Subsystem {
 		int pixelX = (int) (((trajectoryX + (FOV_HORZ_ANGLE/2)) * (FOV_W_PIXEL / 2)) / (FOV_HORZ_ANGLE / 2));
 		int pixelY = (int) (size.height - ((trajectoryY + (FOV_VERT_ANGLE/2)) * (FOV_H_PIXEL / 2)) / (FOV_VERT_ANGLE / 2));
 		if (isTape) {
-			if (trajectoryX <= Robot.targetVector.xDistance + .5 || trajectoryX >= Robot.targetVector.xDistance - .5) {
-				NIVision.imaqSetROIColor(roi, NIVision.RGB_GREEN);
-			}
-			else {
-				NIVision.imaqSetROIColor(roi, NIVision.RGB_BLUE);
-			}
 			NIVision.Rect rect = new NIVision.Rect(pixelY-50, pixelX-50, 100, 100);
 			NIVision.imaqDrawShapeOnImage(targetFrame, targetFrame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);	
 		}

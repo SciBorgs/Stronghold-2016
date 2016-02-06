@@ -16,17 +16,17 @@ public class FeederSubsystem extends Subsystem {
 	 * Needs Hardware. Please add necessary hardware to both Hardware class and update this subsystem
 	 */
 
-	private DigitalInput limit = Hardware.INSTANCE.limitSwitch;
+	private DigitalInput feederLimitSwitch = Hardware.INSTANCE.feederLimitSwitch;
 	private Ultrasonic ultrasonic = Hardware.INSTANCE.feederUltrasonic;
 	private CANTalon topAxle = Hardware.INSTANCE.topAxle;
-	private CANTalon botAxle = Hardware.INSTANCE.botAxle;
-	private CANTalon sArm = Hardware.INSTANCE.sArmTalon;
-	private CANTalon sArmRoller = Hardware.INSTANCE.sArmRollerTalon;
+	private CANTalon botAxle = Hardware.INSTANCE.bottomAxle;
+	private CANTalon secondaryIntakeArm = Hardware.INSTANCE.secondaryIntakeArmTalon;
+	private CANTalon secondaryArmRoller = Hardware.INSTANCE.secondaryArmRollerTalon;
 	private SmartDashboard dashboard = Robot.dashboard;
 	private static final int MOVING_UP = 1;
 	private static final int STOP_MOVING = 0;
 	private static final int MOVING_DOWN = -1;	
-	private static final int ULTRARANGE = 2;
+	private static final int ULTRA_RANGE = 2;
 	
 	public FeederSubsystem() {
 		botAxle.changeControlMode(CANTalon.TalonControlMode.Follower);
@@ -48,7 +48,7 @@ public class FeederSubsystem extends Subsystem {
 	public boolean isFed() {
 		// if limit switch is true (not pressed), keep moving (DEPRICATED)
 		//return !limit.get();
-		if (ultrasonic.getRangeInches() < ULTRARANGE){
+		if (ultrasonic.getRangeInches() < ULTRA_RANGE){
 			return true;
 		}
 		else {
@@ -58,7 +58,7 @@ public class FeederSubsystem extends Subsystem {
 	
 	//Updates SmartDashboard
 	public void updateFeederDashboard() {
-		if(!limit.get()) 
+		if(!feederLimitSwitch.get()) 
 			//If ball is in robot prints true to SmartDashboard
 			dashboard.putBoolean("Is Robot Fed", true);
 		else
@@ -69,43 +69,43 @@ public class FeederSubsystem extends Subsystem {
 	
 	//Updates SmartDashboard
 	public void updateArmDashboard() {
-		if(sArm.get() < 0){
+		if(secondaryIntakeArm.get() < 0){
 			dashboard.putString("Small arm movement", "IN");
 		}
-		else if(sArm.get() == 0){
+		else if(secondaryIntakeArm.get() == 0){
 			dashboard.putString("Small arm movement", "NOT MOVING");
 		}
-		else if(sArm.get() > 0){
+		else if(secondaryIntakeArm.get() > 0){
 			dashboard.putString("Small arm movement", "OUT");
 		}
 	}
 	
 	//TODO add sensor or other method for stopping feeder arm movement at limits
-	//Small arm commands (SArm)
+	//Small arm commands (secondaryIntakeArm)
 	
 	//toggle arm rotate inwards
-	public void toggleSArm(){
-		sArm.set(MOVING_DOWN);
+	public void toggleSecondaryArm(){
+		secondaryIntakeArm.set(MOVING_DOWN);
 	}
 	
 	//halt arm
-	public void stopSArm(){
-		sArm.set(STOP_MOVING);
+	public void stopSecondaryArm(){
+		secondaryIntakeArm.set(STOP_MOVING);
 	}
 	
 	//reset arm
-	public void resetSArm(){
-		sArm.set(MOVING_UP);
+	public void resetSecondaryArm(){
+		secondaryIntakeArm.set(MOVING_UP);
 	}
 	
 	//start arm rollers
-	public void SArmRollersON(){
-		sArmRoller.set(MOVING_UP);
+	public void secondaryArmRollersON(){
+		secondaryArmRoller.set(MOVING_UP);
 	}
 	
 	//stop arm rollers
-	public void SArmRollersOFF(){
-		sArmRoller.set(STOP_MOVING);
+	public void secondaryArmRollersOFF(){
+		secondaryArmRoller.set(STOP_MOVING);
 	}
 
 	@Override

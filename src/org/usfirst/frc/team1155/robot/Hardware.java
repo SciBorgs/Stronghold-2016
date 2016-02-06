@@ -15,7 +15,7 @@ public enum Hardware {
 	public AnalogInput colorSensor;
 
 	// Digital input sensors
-	public DigitalInput limitSwitch;
+	public DigitalInput feederLimitSwitch;
 
 	// User input devices
 	public Joystick gamepad, leftJoystick, rightJoystick;
@@ -34,7 +34,7 @@ public enum Hardware {
 	public CANTalon winchTalon, winchFollowerTalon;
 
 	// CANTalons for feeder WITH sArm CANTalons control Small Feeder Arm
-	public CANTalon topAxle, botAxle, sArmTalon, sArmRollerTalon;
+	public CANTalon topAxle, bottomAxle, secondaryIntakeArmTalon, secondaryArmRollerTalon;
 
 	// Gyro for alignment
 	public AnalogGyro gyro;
@@ -45,7 +45,7 @@ public enum Hardware {
 	Hardware() {
 		colorSensor = new AnalogInput(0);
 
-		limitSwitch = new DigitalInput(0);
+		feederLimitSwitch = new DigitalInput(0);
 
 		gamepad = new Joystick(0);
 		leftJoystick = new Joystick(1);
@@ -60,8 +60,8 @@ public enum Hardware {
 		frontLeftTalon = new CANTalon(3);
 		backLeftTalon = new CANTalon(5);
 		
-		sArmTalon = new CANTalon(6);
-		sArmRollerTalon = new CANTalon(7);
+		secondaryIntakeArmTalon = new CANTalon(6);
+		secondaryArmRollerTalon = new CANTalon(7);
 		
 		
 		

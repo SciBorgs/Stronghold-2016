@@ -18,8 +18,8 @@ public class IntakeArmCommand extends Command {
 	@Override
 	protected void execute() {
 		feeder.updateArmDashboard();
-		feeder.toggleSArm();
-		feeder.SArmRollersON();
+		feeder.toggleSecondaryArm();
+		feeder.secondaryArmRollersON();
 	}
 
 	@Override
@@ -29,8 +29,8 @@ public class IntakeArmCommand extends Command {
 
 	@Override
 	protected void end() {
-		feeder.resetSArm();
-		feeder.SArmRollersOFF();
+		feeder.resetSecondaryArm();
+		feeder.secondaryArmRollersOFF();
 	}
 
 	@Override

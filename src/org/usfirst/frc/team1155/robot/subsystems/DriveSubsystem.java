@@ -30,7 +30,7 @@ public class DriveSubsystem extends Subsystem {
 	private static final double MAX_COLOR_SENSOR_THRESHOLD = 1;
 	private static final double MIN_COLOR_SENSOR_THRESHOLD = -1;
 	
-	private static final double RAMP_RATE = ; //for voltage regulator
+	private static final double RAMP_RATE = 0; //for voltage regulator
 	
 	private SmartDashboard dashboard = Robot.dashboard;
 	private static Timer timer = new Timer();

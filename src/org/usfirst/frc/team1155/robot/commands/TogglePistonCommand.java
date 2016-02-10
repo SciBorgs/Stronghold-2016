@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TogglePistonCommand extends Command {
 
 	private boolean isFinished;
-	private Mode mode;
+	private PistonMode mode;
 	
-	public enum Mode {
+	public enum PistonMode {
 		EXTEND,
 		RETRACT;
 	}
 	
-    public TogglePistonCommand(Mode mode) {
+    public TogglePistonCommand(PistonMode mode) {
         requires(Robot.shootSubsystem);
         
 		this.mode = mode;
@@ -49,6 +49,7 @@ public class TogglePistonCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.shootSubsystem.turnOffPiston();
     }
 
     // Called when another command which requires one or more of the same

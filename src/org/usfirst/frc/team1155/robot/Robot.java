@@ -1,6 +1,9 @@
 
 package org.usfirst.frc.team1155.robot;
 
+import org.usfirst.frc.team1155.robot.commands.AutonomousCommand;
+import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Defense;
+import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Position;
 import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
@@ -39,7 +42,7 @@ public class Robot extends IterativeRobot {
 	public static TargetVector targetVector;
 	
     Command autonomousCommand;
-    SendableChooser chooser;
+    SendableChooser defenseChooser, positionChooser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -47,10 +50,28 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		oi = new OI();
-        chooser = new SendableChooser();
+		
+		defenseChooser = new SendableChooser();
+		defenseChooser.addDefault("Portcullis", Defense.PORTCULLIS);
+		defenseChooser.addObject("ChevalDeFrise", Defense.CHEVALDEFRISE);
+		defenseChooser.addObject("Moat", Defense.MOAT);
+		defenseChooser.addObject("Drawbridge", Defense.DRAWBRIDGE);
+		defenseChooser.addObject("Sallyport", Defense.SALLYPORT);
+		defenseChooser.addObject("Rock Wall", Defense.ROCK_WALL);
+		defenseChooser.addObject("Rough Terrain", Defense.ROUGH_TERRAIN);
+		defenseChooser.addDefault("Ramp", Defense.RAMP);
+		
+		positionChooser = new SendableChooser();
+		positionChooser.addDefault("Slot 1", Position.SLOT_1);
+		positionChooser.addObject("Slot 2", Position.SLOT_2);
+		positionChooser.addObject("Slot 3", Position.SLOT_3);
+		positionChooser.addObject("Slot 4", Position.SLOT_4);
+
+        
         //chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Auto mode", chooser);
+        SmartDashboard.putData("Defense", defenseChooser);
+        SmartDashboard.putData("Position", positionChooser);
     }
 	
 	/**
@@ -76,7 +97,10 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        autonomousCommand = (Command) chooser.getSelected();
+        autonomousCommand = new AutonomousCommand(
+        	(Defense) defenseChooser.getSelected(), 
+        	(Position) positionChooser.getSelected()
+        );
         
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");

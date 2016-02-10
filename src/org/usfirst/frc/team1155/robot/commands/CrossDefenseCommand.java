@@ -17,9 +17,8 @@ public class CrossDefenseCommand extends Command{
 	@Override
 	protected void initialize() {
 		requires(Robot.driveSubsystem);
+		
 		Robot.driveSubsystem.setSpeed(INITIAL_SPEED, INITIAL_SPEED);
-		
-		
 		
 	}
 

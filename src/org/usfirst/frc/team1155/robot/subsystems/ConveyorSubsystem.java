@@ -28,5 +28,5 @@ public class ConveyorSubsystem extends Subsystem {
     public void setSpeed(double speed){
     	topTalon.set(speed);
     }
+    	
 }
-

@@ -36,7 +36,9 @@ public class ShooterIOCommand extends Command {
 	protected boolean isFinished() {
 		if (mode == Mode.INPUT) 
 			return Robot.shootSubsystem.isBallPossessed();
-		else
+		else if (mode == Mode.OUTPUT)
+			return !Robot.shootSubsystem.isBallPossessed() && Robot.shootSubsystem.isPistonRetracted();
+		else 
 			return false;
 	}
 

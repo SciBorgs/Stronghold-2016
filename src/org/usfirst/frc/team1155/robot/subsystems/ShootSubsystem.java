@@ -47,12 +47,16 @@ public class ShootSubsystem extends Subsystem {
     
     public void extendPiston() {
     	boulderPusher.set(Value.kForward);
-    	isPistonRetracted = true;
+    	isPistonRetracted = false;
     }
     
     public void retractPiston() {
     	boulderPusher.set(Value.kReverse);
-    	isPistonRetracted = false;
+    	isPistonRetracted = true;
+    }
+    
+    public void turnOffPiston() {
+    	boulderPusher.set(Value.kOff);
     }
     
     public boolean isBallPossessed() {

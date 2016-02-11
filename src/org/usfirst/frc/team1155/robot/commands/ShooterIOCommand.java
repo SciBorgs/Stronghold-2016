@@ -52,4 +52,6 @@ public class ShooterIOCommand extends Command {
 	protected void interrupted() {
 		Robot.shootSubsystem.setSpeed(0);
 	}
+
 }
+	

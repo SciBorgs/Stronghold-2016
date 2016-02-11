@@ -16,8 +16,8 @@ public class PortMap {
 	public static final int SHOOT_LEFT_TALON = 8;
 	public static final int SHOOT_RIGHT_TALON = 9;
 	
-	public static final int INTAKE_TOP_TALON = 10;
-	public static final int INTAKE_BOTTOM_TALON = 11;
+	public static final int INTAKE_ROLLER_TALON = 10;
+	public static final int INTAKE_PIVOT_TALON = 11;
 	
 	//analog channels
 	public static final int[] DRIVE_LEFT_ULTRASONIC = {0, 1};

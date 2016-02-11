@@ -7,13 +7,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TurnToDriveCommand extends Command {
+public class VisionTurnDriveCommand extends Command {
 
 	private double angleToTurn;
 
 	private final double ANGLE_TURN_SPEED = 0.5;
 	private final double ANGLE_BUFFER = .1;
 
+	public VisionTurnDriveCommand(double angle) {
+		angleToTurn = angle;
+	}
 	//Vision must be running parallel 
 	@Override
 	protected void initialize() {

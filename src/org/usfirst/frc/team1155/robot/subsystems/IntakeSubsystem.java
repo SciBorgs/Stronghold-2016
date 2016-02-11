@@ -16,19 +16,22 @@ public class IntakeSubsystem extends Subsystem {
     // here. Call these from Commands.
 	private boolean isRolling;
 	
+	private static final int MAX_ENC_POS = 1023, MIN_ENC_POS = 0;
+	
 	public CANTalon rollerTalon, pivotTalon;
 	
 	public IntakeSubsystem() {
+    	rollerTalon = new CANTalon(PortMap.INTAKE_ROLLER_TALON);
+    	pivotTalon = new CANTalon(PortMap.INTAKE_PIVOT_TALON);
+		
+    	pivotTalon.changeControlMode(TalonControlMode.Position);
+		
 		isRolling = false;
-		pivotTalon.changeControlMode(TalonControlMode.Position);
 	}
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    	rollerTalon = new CANTalon(PortMap.INTAKE_ROLLER_TALON);
-    	pivotTalon = new CANTalon(PortMap.INTAKE_PIVOT_TALON);
-    	
+        //setDefaultCommand(new MySpecialCommand()); 	
     }
     
     public void toggleRoller() {
@@ -36,8 +39,16 @@ public class IntakeSubsystem extends Subsystem {
     	isRolling = !isRolling;
     }
     
-    public void setPivotTalon() {
-    	pivotTalon.set(0);
+    public void setPivotTalon(double deltaEncoderPosition) {
+    	pivotTalon.set(pivotTalon.get() + deltaEncoderPosition);
+    }
+    
+    public boolean canPivotUp() {
+    	return pivotTalon.get() < MAX_ENC_POS;
+    }
+    
+    public boolean canPivotDown() {
+    	return pivotTalon.get() > MIN_ENC_POS;
     }
     
     

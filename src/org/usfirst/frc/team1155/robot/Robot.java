@@ -4,6 +4,7 @@ package org.usfirst.frc.team1155.robot;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Defense;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Position;
+import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
 import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
@@ -41,7 +42,7 @@ public class Robot extends IterativeRobot {
 
 	public static TargetVector targetVector;
 	
-    Command autonomousCommand;
+    Command autonomousCommand, joystickDriveCommand;
     SendableChooser defenseChooser, positionChooser;
 
     /**
@@ -131,6 +132,9 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+
+        joystickDriveCommand = new JoystickDriveCommand();
+        joystickDriveCommand.start();
     }
 
     /**

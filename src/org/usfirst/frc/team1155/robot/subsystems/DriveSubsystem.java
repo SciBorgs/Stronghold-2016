@@ -18,7 +18,6 @@ public class DriveSubsystem extends Subsystem {
     // here. Call these from Commands.
 	public CANTalon frontRightTalon, frontLeftTalon, backRightTalon, backLeftTalon;
 	public Ultrasonic leftUltrasonic, rightUltrasonic;
-	public Gyro chickenGyro; 
 	
 	private static final double WHEEL_RADIUS = 4; //inches
 
@@ -42,9 +41,8 @@ public class DriveSubsystem extends Subsystem {
 		
 		leftUltrasonic.setAutomaticMode(true);
 		leftUltrasonic.setEnabled(true);
-		
-		chickenGyro = new AnalogGyro(PortMap.DRIVE_ANALOG_GYRO);
 	}
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -67,9 +65,6 @@ public class DriveSubsystem extends Subsystem {
     public double getEncoderDistance() {
     	return (frontRightTalon.getEncPosition()/1023.0) * (Math.PI * 2 * WHEEL_RADIUS);
     }
-    
-    public double getAngle() {
-    	return chickenGyro.getAngle() % 360;
-    }
+
 }
 

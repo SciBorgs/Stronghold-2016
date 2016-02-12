@@ -14,14 +14,13 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
  */
 public class DriveSubsystem extends Subsystem {
     
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	public CANTalon frontRightTalon, frontLeftTalon, backRightTalon, backLeftTalon;
 	public Ultrasonic leftUltrasonic, rightUltrasonic;
 	public Gyro chickenGyro; 
 	
 	private static final double WHEEL_RADIUS = 4; //inches
-
+	
+	//instantiates drive hardware
 	public DriveSubsystem() {
 		frontRightTalon = new CANTalon(PortMap.DRIVE_FRONT_RIGHT_TALON);
 		frontLeftTalon = new CANTalon(PortMap.DRIVE_FRONT_LEFT_TALON);
@@ -46,20 +45,18 @@ public class DriveSubsystem extends Subsystem {
 		chickenGyro = new AnalogGyro(PortMap.DRIVE_ANALOG_GYRO);
 	}
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    	//setDefaultCommand(new DriveCommand());
-    	
+                    	    	
     }
+    //alter motor values
     public void setSpeed(double leftVal, double rightVal) {
     	frontRightTalon.set(rightVal);
     	frontLeftTalon.set(leftVal);	
     }
-    
+    //avg ultrasonic distance0
     public double getAverageUltrasonicDistance() {
     	return (leftUltrasonic.getRangeInches() + rightUltrasonic.getRangeInches())/2;
     }
-    
+    //gets closest distance from a specific ultrasonic to an object
     public double getClosestUltrasonicDistance() {
     	return Math.min(leftUltrasonic.getRangeInches(), rightUltrasonic.getRangeInches());
     }

@@ -9,6 +9,7 @@ public class JoystickDriveCommand extends Command{
 
 	private Joystick leftJoystick, rightJoystick;
 	
+	//drive using joysticks
 	public JoystickDriveCommand() {
 		leftJoystick = Robot.oi.leftJoystick;
 		rightJoystick = Robot.oi.rightJoystick;

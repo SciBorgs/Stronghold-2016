@@ -13,42 +13,42 @@ public class ShooterIOCommand extends Command {
 
 	private final double INPUT_SPEED = -0.5, SHOOT_SPEED = 1.0;
 	
+	//takes in ball or shoots the ball
 	public enum Mode {
 		INPUT, OUTPUT;
 	}
-
+	
+	
 	public ShooterIOCommand(Mode mode) {
 		requires(Robot.shootSubsystem);
 		this.mode = mode;
 	}
 
-	// Called just before this Command runs the first time
+	//moves wheels based on mode
 	protected void initialize() {
 		Robot.shootSubsystem.setSpeed((mode == Mode.OUTPUT) ? SHOOT_SPEED : INPUT_SPEED);
 	}
 
-	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
+		
 	protected boolean isFinished() {
+		//finishes if the ball is possessed
 		if (mode == Mode.INPUT) 
 			return Robot.shootSubsystem.isBallPossessed();
+		//also checks if the piston is down 
 		else if (mode == Mode.OUTPUT)
 			return !Robot.shootSubsystem.isBallPossessed() && Robot.shootSubsystem.isPistonRetracted();
 		else 
 			return false;
 	}
 
-	// Called once after isFinished returns true
 	protected void end() {
 		Robot.shootSubsystem.setSpeed(0);
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
 	protected void interrupted() {
 		Robot.shootSubsystem.setSpeed(0);
 	}

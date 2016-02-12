@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1155.robot.subsystems;
 
 import org.usfirst.frc.team1155.robot.PortMap;
+import org.usfirst.frc.team1155.robot.commands.IntakeCommand.Pivot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
@@ -19,7 +20,6 @@ public class IntakeSubsystem extends Subsystem {
 	public CANTalon rollerTalon, pivotTalon;
 	
 	public IntakeSubsystem() {
-		isRolling = false;
 		pivotTalon.changeControlMode(TalonControlMode.Position);
 	}
 	
@@ -28,19 +28,7 @@ public class IntakeSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     	rollerTalon = new CANTalon(PortMap.INTAKE_ROLLER_TALON);
     	pivotTalon = new CANTalon(PortMap.INTAKE_PIVOT_TALON);
-    	
-    }
-    
-    public void toggleRoller() {
-    	rollerTalon.set((isRolling)? 0: 1);
-    	isRolling = !isRolling;
-    }
-    
-    public void setPivotTalon() {
-    	pivotTalon.set(0);
-    }
-    
-    
+    } 
     
 }
 

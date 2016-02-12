@@ -27,6 +27,7 @@ public class UltrasonicDriveCommand extends Command{
 	}
 
 	@Override
+	//stops driving when the robot is close to the wall 
 	protected boolean isFinished() {
 		return Math.abs(Robot.driveSubsystem.getClosestUltrasonicDistance() - stopDistanceFromWall) <= ULTRASONIC_BUFFER;
 	}

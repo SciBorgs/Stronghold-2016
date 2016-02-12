@@ -16,6 +16,7 @@ public class DistanceDriveCommand extends Command {
 	}
 	
 	@Override
+	//drives the robot
 	protected void initialize() {
 		requires(Robot.driveSubsystem);
 		
@@ -29,6 +30,7 @@ public class DistanceDriveCommand extends Command {
 	}
 
 	@Override
+	//finishes when the robot drives a certain number of ticks
 	protected boolean isFinished() {
 		double changeInEncoderDistance = Robot.driveSubsystem.getEncoderDistance() - initialDistance;
 		return Math.abs(changeInEncoderDistance - distanceToDrive) <= DISTANCE_BUFFER;

@@ -58,7 +58,7 @@ public class ShootSubsystem extends Subsystem {
     public void turnOffPiston() {
     	boulderPusher.set(Value.kOff);
     }
-    
+    //checks if the ball is within the shooter compartment
     public boolean isBallPossessed() {
     	return ballChecker.get();
     }

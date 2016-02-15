@@ -6,15 +6,25 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class RotateCommand extends Command {
 
-	Rotate rotate;
+	RobotPosition rotate;
 
-	public enum Rotate {
+	/**
+	 * Angle to turn robot to face window on tower
+	 * <ul>
+	 * <li> SLOT_1: Robot needs to rotate 45 degrees to face closest window </li>
+	 * <li> SLOT_2: Robot needs to rotate 20 degrees to face closest window </li>
+	 * <li> SLOT_3: Robot needs to rotate -10 degrees to face closest window </li>
+	 * <li> SLOT_4: Robot needs to rotate -45 degrees to face closest window </li>
+	 * </ul>
+	 *
+	 */
+	public enum RobotPosition {
 		// Degrees
 		SLOT_1(45), SLOT_2(20), SLOT_3(-10), SLOT_4(-45);
 
 		private final double angle;
 
-		Rotate(double angle) {
+		RobotPosition(double angle) {
 			this.angle = angle;
 		}
 
@@ -25,7 +35,14 @@ public class RotateCommand extends Command {
 
 	private static final int BUFFER = 5;
 
-	public RotateCommand(Rotate rotate) {
+	/**
+	 * Autonomous Command
+	 * <br>
+	 * Rotates robot to face closest tower window without camera guidance
+	 * 
+	 * @param position Position of robot at start of autonomous 
+	 */
+	public RotateCommand(RobotPosition position) {
 		Robot.driveSubsystem.driveGyro.reset();
 		this.rotate = rotate;
 	}

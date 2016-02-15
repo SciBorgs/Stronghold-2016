@@ -5,25 +5,47 @@ import org.usfirst.frc.team1155.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class IntakeCommand extends Command {
-	// Pivot = rotate arm up/down
-	// Pivot/roll = rotates arm up/down + rotates motor on arm
+
 	private static final double ROLLER_SPEED = 1;
-	private static final int POSITION_TO_ROTATE = 512; // Encoder Position.
-														// Approx 1/2 of full
-														// rotation
+	
+	// Encoder Position. 1/2 of Max encoder rotation ticks
+	private static final int POSITION_TO_ROTATE = 512;
+														
 	private static IntakeMode mode;
 	private static Pivot pivot;
 
 	private static int position = 0;
 
+	/**
+	 * Enum for defining the intake mode
+	 * <ul>
+	 * <li> PIVOT rotates arm </li> 
+	 * <li> PIVOT_AND_ROLL rotates arm and also spins arm roller to take in ball </li>
+	 * </ul>
+	 */
 	public enum IntakeMode {
 		PIVOT, PIVOT_AND_ROLL;
 	}
 
+	
+	/**
+	 * Enum for defining how to move arm
+	 * <ul>
+	 * <li> UP Moves to max encoder position </li>
+	 * <li> DOWN Moves to lowest encoder position </li>
+	 * <li> NEUTRAL Moves to middle encoder position </li>
+	 * <ul>
+	 */
 	public enum Pivot {
 		UP, DOWN, NEUTRAL;
 	}
 
+	/**
+	 * Manipulates forward arm of robot to take in ball or raise obstacles
+	 * 
+	 * @param mode How to move arm (Just raise arm or raise and take in ball)
+	 * @param pivot Where to move arm (UP, DOWN, NEUTRAL)
+	 */
 	public IntakeCommand(IntakeMode mode, Pivot pivot) {
 		this.mode = mode;
 		this.pivot = pivot;

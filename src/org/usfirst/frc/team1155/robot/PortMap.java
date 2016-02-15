@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1155.robot;
 
 public class PortMap {
-	//pdb ports
+	// PDB ports
 	public static final int DRIVE_FRONT_LEFT_TALON = 0;
 	public static final int DRIVE_FRONT_RIGHT_TALON = 1;
 	public static final int DRIVE_BACK_LEFT_TALON = 2;
@@ -19,7 +19,7 @@ public class PortMap {
 	public static final int INTAKE_ROLLER_TALON = 10;
 	public static final int INTAKE_PIVOT_TALON = 11;
 	
-	//analog channels
+	// Analog channels
 	public static final int[] DRIVE_LEFT_ULTRASONIC = {0, 1};
 	public static final int[] DRIVE_RIGHT_ULTRASONIC = {2, 3};
 	

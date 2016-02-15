@@ -12,12 +12,24 @@ public class TogglePistonCommand extends Command {
 	private boolean isFinished;
 	private PistonMode mode;
 	
-
+	/**
+	 * Controls piston movement
+	 * <ul>
+	 * <li> EXTEND extends piston </li>
+	 * <li> RETRACT retracts piston </li>
+	 * <ul>
+	 *
+	 */
 	public enum PistonMode {
 		EXTEND,
 		RETRACT;
 	}
 	
+	/**
+	 * Manipulates piston in ball storage compartment
+	 * 
+	 * @param mode Determines if piston will retract or extend
+	 */
     public TogglePistonCommand(PistonMode mode) {
         requires(Robot.shootSubsystem);
         

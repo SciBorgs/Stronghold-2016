@@ -11,6 +11,11 @@ public class UltrasonicDriveCommand extends Command{
 	private static final double ULTRASONIC_BUFFER = 2;
 	private static final double DRIVE_SPEED = 0.5;
 	
+	/**
+	 * 
+	 * 
+	 * @param stopDistanceFromWall How far from wall you want the robot to stop
+	 */
 	public UltrasonicDriveCommand(double stopDistanceFromWall) {
 		this.stopDistanceFromWall = stopDistanceFromWall;
 	}

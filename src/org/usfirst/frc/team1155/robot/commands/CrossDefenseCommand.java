@@ -13,11 +13,16 @@ public class CrossDefenseCommand extends Command{
 	private boolean didPointDown;
 	private double initialAngle;
 	
-	//gets the angle before crossing
+	/**
+	 * Autonomous command to cross most defenses
+	 */
 	public CrossDefenseCommand() {
 		requires(Robot.driveSubsystem);
 		didPointDown = false;
 		Robot.driveSubsystem.stabalizationGyro.reset();
+		
+		// Creates the starting angle to check for after crossing defense 
+		// (IE when the robot is level to the ground again)
 		initialAngle = Robot.driveSubsystem.stabalizationGyro.getAngle();
 	}
 	
@@ -27,7 +32,8 @@ public class CrossDefenseCommand extends Command{
 	}
 
 	@Override
-	//checks if the robot pointed downwards after crossing
+	// Checks if the robot pointed downwards after crossing 
+	// (IE went up a ramp and went back down another ramp)
 	protected void execute() {
 		if(Robot.driveSubsystem.stabalizationGyro.getAngle() > initialAngle) {
 			didPointDown = true;
@@ -35,7 +41,7 @@ public class CrossDefenseCommand extends Command{
 	}
 
 	@Override
-	//finishes when the robot pointed down and its angle is within the buffer
+	// Finishes when the robot pointed down and its angle is within the buffer
 	protected boolean isFinished() {
 		return didPointDown && Math.abs(Robot.driveSubsystem.stabalizationGyro.getAngle() - initialAngle) <= ANGLE_BUFFER;
 	}

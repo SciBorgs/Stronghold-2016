@@ -11,12 +11,17 @@ public class DistanceDriveCommand extends Command {
 	private static final double DRIVE_SPEED = 0.5;
 	private static final double DISTANCE_BUFFER = 2;
 		
+	/**
+	 * Command for driving a certain distance in encoder ticks
+	 * 
+	 * @param distance Distance to travel in encoder ticks
+	 */
 	public DistanceDriveCommand(double distance) {
 		this.distanceToDrive = distance;
 	}
 	
 	@Override
-	//drives the robot
+	// Starts robot's drive
 	protected void initialize() {
 		requires(Robot.driveSubsystem);
 		
@@ -30,7 +35,7 @@ public class DistanceDriveCommand extends Command {
 	}
 
 	@Override
-	//finishes when the robot drives a certain number of ticks
+	// Finishes when the robot drives a certain number of encoder ticks (distance traveled)
 	protected boolean isFinished() {
 		double changeInEncoderDistance = Robot.driveSubsystem.getEncoderDistance() - initialDistance;
 		return Math.abs(changeInEncoderDistance - distanceToDrive) <= DISTANCE_BUFFER;

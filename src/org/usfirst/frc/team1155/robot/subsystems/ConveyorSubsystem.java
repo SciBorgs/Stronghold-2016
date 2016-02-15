@@ -21,6 +21,9 @@ public class ConveyorSubsystem extends Subsystem {
     	bottomTalon.set(topTalon.getDeviceID());
     }
     
+    /**
+    Sets speed of the conveyor talon's.
+     */
     public void setSpeed(double speed){
     	topTalon.set(speed);
     }

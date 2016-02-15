@@ -13,18 +13,30 @@ public class ShooterIOCommand extends Command {
 
 	private final double INPUT_SPEED = -0.5, SHOOT_SPEED = 1.0;
 	
-	//takes in ball or shoots the ball
+	/**
+	 * Sets shooter wheels in put ball in compartment for storage or to shoot ball
+	 * 
+	 * <ul>
+	 * <li> INPUT sets wheels to store ball </li>
+	 * <li> OUTPUT sets wheels to shoot ball </li>
+	 * </ul>
+	 *
+	 */
 	public enum Mode {
 		INPUT, OUTPUT;
 	}
 	
-	
+	/**
+	 * Manipulates shooter for storing ball or shooting
+	 * 
+	 * @param mode Determines if the shooter will take in a ball or shoot the stored ball
+	 */
 	public ShooterIOCommand(Mode mode) {
 		requires(Robot.shootSubsystem);
 		this.mode = mode;
 	}
 
-	//moves wheels based on mode
+	// Moves wheels based on mode
 	protected void initialize() {
 		Robot.shootSubsystem.setSpeed((mode == Mode.OUTPUT) ? SHOOT_SPEED : INPUT_SPEED);
 	}

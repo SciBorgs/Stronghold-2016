@@ -9,7 +9,9 @@ public class JoystickDriveCommand extends Command{
 
 	private Joystick leftJoystick, rightJoystick;
 	
-	//drive using joysticks
+	/**
+	 * Teleop Drive Command
+	 */
 	public JoystickDriveCommand() {
 		leftJoystick = Robot.oi.leftJoystick;
 		rightJoystick = Robot.oi.rightJoystick;

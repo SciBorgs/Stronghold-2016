@@ -18,19 +18,22 @@ public class IntakeSubsystem extends Subsystem {
 	public CANTalon rollerTalon, pivotTalon;
 	
 	public IntakeSubsystem() {
-		pivotTalon.changeControlMode(TalonControlMode.Position);
     	rollerTalon = new CANTalon(PortMap.INTAKE_ROLLER_TALON);
     	pivotTalon = new CANTalon(PortMap.INTAKE_PIVOT_TALON);
 		
     	pivotTalon.changeControlMode(TalonControlMode.Position);
 	}
 	
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    	rollerTalon = new CANTalon(PortMap.INTAKE_ROLLER_TALON);
-    	pivotTalon = new CANTalon(PortMap.INTAKE_PIVOT_TALON);	
-    }
-    
+	public void setPivotIntake(double position){
+		pivotTalon.set(position);
+	}
+	
+	public void setRoller(double speed) {
+		rollerTalon.set(speed);
+	}
+
+	@Override
+	protected void initDefaultCommand() {
+	}    
 }
 

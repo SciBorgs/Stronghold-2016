@@ -3,14 +3,16 @@ package org.usfirst.frc.team1155.robot.commands;
 import org.usfirst.frc.team1155.robot.Robot;
 import org.usfirst.frc.team1155.robot.commands.IntakeCommand.IntakeMode;
 import org.usfirst.frc.team1155.robot.commands.IntakeCommand.Pivot;
+import org.usfirst.frc.team1155.robot.commands.RotateCommand.Rotate;
 import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand.Mode;
-import org.usfirst.frc.team1155.robot.commands.SlowRotateCommand.Rotate;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomousCommand extends CommandGroup{
 	
-	private final double DISTANCE_TO_DEFENSE = 2;
+	private final double DISTANCE_TO_DEFENSE = 24;
+	private final double ANGLE_OF_SHOOTER = 50;
+	
 	//defenses
 	public enum Defense {
 		PORTCULLIS,
@@ -31,7 +33,7 @@ public class AutonomousCommand extends CommandGroup{
 	}
 	//routines based on type of defense
 	public AutonomousCommand(Defense defense, Position position) {
-		addSequential(new DistanceDriveCommand(24)); //drive up to defense
+		addSequential(new DistanceDriveCommand(DISTANCE_TO_DEFENSE)); //drive up to defense
 		switch(defense) {
 		case PORTCULLIS:
 			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.UP)); //lift portcullis
@@ -67,18 +69,27 @@ public class AutonomousCommand extends CommandGroup{
 		
 		//aligns the robot with the tower and then shoots
 		//addSequential(new DriveToTape());
+		addSequential(new DistanceDriveCommand(3));
 		addSequential(new VisionCommand(false)); //starts vision
 		switch(position) {
-		case SLOT_1: case SLOT_2:
-			addSequential(new SlowRotateCommand(Rotate.RIGHT)); //turns until tape is found
+		case SLOT_1:
+			addSequential(new RotateCommand(Rotate.SLOT_1)); //turns towards goal
 			break;
-		case SLOT_3: case SLOT_4:
-			addSequential(new SlowRotateCommand(Rotate.LEFT)); //turns until tape is found
+		case SLOT_2:
+			addSequential(new RotateCommand(Rotate.SLOT_2)); //turns towards goal
+			break;
+		case SLOT_3: 
+			addSequential(new RotateCommand(Rotate.SLOT_3)); //turns towards goal
+			break;
+		case SLOT_4:
+			addSequential(new RotateCommand(Rotate.SLOT_4)); //turns towards goal
 			break;
 		default:
 			break;
 		}
 		addSequential(new VisionTurnDriveCommand(Robot.targetVector.theta)); //rotates to angle of tape
+		double distanceToTarget = Robot.targetVector.xDistance * Math.cos(ANGLE_OF_SHOOTER);
+		addSequential(new DistanceDriveCommand(distanceToTarget));
 		addSequential(new ShooterIOCommand(Mode.OUTPUT)); //shoots
 		
 	}

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DistanceDriveCommand extends Command {
 	
-	private double distanceToDrive;	
+	private double distanceToDrive;	// FEET
 	private double initialDistance;
 	
 	private static final double DRIVE_SPEED = 0.5;

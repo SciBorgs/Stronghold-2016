@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 /**
  *
@@ -17,7 +16,9 @@ public class DriveSubsystem extends Subsystem {
 	public CANTalon frontRightTalon, frontLeftTalon, backRightTalon, backLeftTalon;
 	public Ultrasonic leftUltrasonic, rightUltrasonic;
 	
-	public Gyro chickenGyro;
+	public AnalogGyro stabalizationGyro;
+	public AnalogGyro driveGyro;
+
 	private static final double WHEEL_RADIUS = 4; //inches
 	
 	//instantiates drive hardware
@@ -41,6 +42,9 @@ public class DriveSubsystem extends Subsystem {
 		
 		leftUltrasonic.setAutomaticMode(true);
 		leftUltrasonic.setEnabled(true);
+		
+		stabalizationGyro = new AnalogGyro(PortMap.STABALIZATION_GYRO);
+		driveGyro = new AnalogGyro(PortMap.DRIVE_GYRO);
 	}
 	
     public void initDefaultCommand() {

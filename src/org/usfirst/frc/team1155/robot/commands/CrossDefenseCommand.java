@@ -17,7 +17,8 @@ public class CrossDefenseCommand extends Command{
 	public CrossDefenseCommand() {
 		requires(Robot.driveSubsystem);
 		didPointDown = false;
-		initialAngle = Robot.driveSubsystem.chickenGyro.getAngle();
+		Robot.driveSubsystem.stabalizationGyro.reset();
+		initialAngle = Robot.driveSubsystem.stabalizationGyro.getAngle();
 	}
 	
 	@Override
@@ -28,7 +29,7 @@ public class CrossDefenseCommand extends Command{
 	@Override
 	//checks if the robot pointed downwards after crossing
 	protected void execute() {
-		if(Robot.driveSubsystem.chickenGyro.getAngle() > initialAngle) {
+		if(Robot.driveSubsystem.stabalizationGyro.getAngle() > initialAngle) {
 			didPointDown = true;
 		}
 	}
@@ -36,7 +37,7 @@ public class CrossDefenseCommand extends Command{
 	@Override
 	//finishes when the robot pointed down and its angle is within the buffer
 	protected boolean isFinished() {
-		return didPointDown && Math.abs(Robot.driveSubsystem.chickenGyro.getAngle() - initialAngle) <= ANGLE_BUFFER;
+		return didPointDown && Math.abs(Robot.driveSubsystem.stabalizationGyro.getAngle() - initialAngle) <= ANGLE_BUFFER;
 	}
 
 	@Override

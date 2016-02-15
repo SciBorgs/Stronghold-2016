@@ -23,7 +23,9 @@ public class PortMap {
 	public static final int[] DRIVE_LEFT_ULTRASONIC = {0, 1};
 	public static final int[] DRIVE_RIGHT_ULTRASONIC = {2, 3};
 	
-	public static final int DRIVE_ANALOG_GYRO = 4;
+	public static final int STABALIZATION_GYRO = 0;
+	public static final int DRIVE_GYRO = 1;
+
 	
 	public static final int[] SHOOT_BOULDER_PUSHER = {5,6};
 	
@@ -31,5 +33,4 @@ public class PortMap {
 	public static final int JOYSTICK_RIGHT = 1;
 	
 	public static final int SHOOT_CHECKER_LIMIT_SWITCH = 0;
-
 }

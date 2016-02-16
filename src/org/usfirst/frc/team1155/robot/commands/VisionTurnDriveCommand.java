@@ -14,6 +14,13 @@ public class VisionTurnDriveCommand extends Command {
 	private final double ANGLE_TURN_SPEED = 0.5;
 	private final double ANGLE_BUFFER = .1;
 
+	/**
+	 * Autonomous Command
+	 * <br><br>
+	 * Command for turning robot a certain angle based on changes in the images taken by the camera
+	 * 
+	 * @param angle Angle to turn
+	 */
 	public VisionTurnDriveCommand(double angle) {
 		angleToTurn = angle;
 	}

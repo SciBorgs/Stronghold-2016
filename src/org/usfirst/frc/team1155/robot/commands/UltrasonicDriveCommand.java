@@ -12,7 +12,9 @@ public class UltrasonicDriveCommand extends Command{
 	private static final double DRIVE_SPEED = 0.5;
 	
 	/**
-	 * 
+	 * Autonomous Command
+	 * <br><br>
+	 * Drive for certain distance. Uses ultrasonic to determine when to stop the robot. 
 	 * 
 	 * @param stopDistanceFromWall How far from wall you want the robot to stop
 	 */

@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Subsystem
+ * <br>
+ * Controls the movement of the front intake system of the robot
  */
 public class IntakeSubsystem extends Subsystem {
 	
@@ -24,10 +26,19 @@ public class IntakeSubsystem extends Subsystem {
     	pivotTalon.changeControlMode(TalonControlMode.Position);
 	}
 	
+	/**
+	 * Controls rotational movement of arm
+	 * @param position Encoder position to move to
+	 */
 	public void setPivotIntake(double position){
 		pivotTalon.set(position);
 	}
 	
+	/**
+	 * Controls rolling speed of roller on the arm
+	 * 
+	 * @param speed Speed to set the talons of the roller to
+	 */
 	public void setRoller(double speed) {
 		rollerTalon.set(speed);
 	}

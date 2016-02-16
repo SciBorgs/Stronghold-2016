@@ -9,6 +9,15 @@ public class VisionCommand extends Command {
 	private boolean isFinished;
 	private boolean isTele;
 
+	/**
+	 * Dual-Purpose Command
+	 * <br> <br>
+	 * If Robot is in teleop, camera vision is provided for the driver
+	 * <br>
+	 * If robot is in autonomous,  camera analyzes its image and gives values for automatic targeting
+	 * 
+	 * @param isTele If the robot is currently in teleop or not
+	 */
 	public VisionCommand(boolean isTele) {
 		requires(Robot.imageSubsystem);
 		this.isTele = isTele;

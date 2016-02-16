@@ -9,19 +9,21 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * Controls the movement of the robot. Tank drive
  */
 public class DriveSubsystem extends Subsystem {
     
 	public CANTalon frontRightTalon, frontLeftTalon, backRightTalon, backLeftTalon;
 	public Ultrasonic leftUltrasonic, rightUltrasonic;
 	
-	public AnalogGyro stabalizationGyro;
+	/** Gyro used mostly in autonomous for determining if the defense has been crossed */
+	public AnalogGyro stabalizationGyro; 
+	/** Gyro used mostly for turning robot */
 	public AnalogGyro driveGyro;
 
-	private static final double WHEEL_RADIUS = 4; //inches
+	private static final double WHEEL_RADIUS = 4; // Inches
 	
-	//instantiates drive hardware
+	// Instantiates drive hardware
 	public DriveSubsystem() {
 		frontRightTalon = new CANTalon(PortMap.DRIVE_FRONT_RIGHT_TALON);
 		frontLeftTalon = new CANTalon(PortMap.DRIVE_FRONT_LEFT_TALON);
@@ -50,20 +52,41 @@ public class DriveSubsystem extends Subsystem {
     public void initDefaultCommand() {
                     	    	
     }
-    //alter motor values
+    /**
+     * Method for setting speed of the robot in terms of VBus
+     * 
+     * @param leftVal VBus value to set left talon to
+     * @param rightVal VBus value to set right talon to
+     */
     public void setSpeed(double leftVal, double rightVal) {
     	frontRightTalon.set(rightVal);
     	frontLeftTalon.set(leftVal);	
     }
-    //avg ultrasonic distance0
+	
+	/**
+	 * Calculates average distance detected by the two ultrasonics in front of the robot
+	 * 
+	 * @return Returns the average distance in inches
+	 */
     public double getAverageUltrasonicDistance() {
     	return (leftUltrasonic.getRangeInches() + rightUltrasonic.getRangeInches())/2;
     }
-    //gets closest distance from a specific ultrasonic to an object
+    
+    
+    /**
+     * Returns the closest distance detected by either ultrasonic
+     *  
+     * @return Returns closest distance in inches
+     */
     public double getClosestUltrasonicDistance() {
     	return Math.min(leftUltrasonic.getRangeInches(), rightUltrasonic.getRangeInches());
     }
     
+    /**
+     * Keeps track of and returns total distance traveled by robot relative to its Front Right Talon
+     * 
+     * @return Returns encoder distance traveled total
+     */
     public double getEncoderDistance() {
     	return (frontRightTalon.getEncPosition()/1023.0) * (Math.PI * 2 * WHEEL_RADIUS);
     }

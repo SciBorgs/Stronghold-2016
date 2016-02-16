@@ -16,24 +16,52 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Try not to touch this <br> <br>
+ * Subsystem <br>
+ * Used for detecting a certain color and shape using image filtering and analyzing <br>
+ */
 public class ImageSubsystem extends Subsystem {
-	private Image targetImage, targetFrame;
+	/** Image is filtered. Frame is unfiltered */
+	private Image targetImage, targetFrame; 
 		
-	private int session; // Camera session (Arbitrary required variable)
-	private int numParticles; // Total number of unfiltered particles
-	private int imaqError; // Arbitrary required variable
+	/** Camera session */
+	private int session; 
+	/** Total number of filtered particles */
+	private int numParticles;
+	/** Integer error returned after filtering */
+	private int imaqError; 
 	
 	private boolean isTape; 
 	
-	// Report and Scores classes at very bottom
-	private Vector<Report> particles; //An object that stores values of a specific unfiltered region. Used for analyzing
+	/**
+	 * Report and Scores classes at very bottom
+	 * <br>
+	 * An object that stores values of a specific unfiltered region. Used for analyzing 
+	 */
+	private Vector<Report> particles; 
 	
-	private Scores scores; // The "score" of one analyzed region. From 0 - 100, 100 meaning that the region is very like the tape
+	/** The "score" of one analyzed region. From 0 - 100, 100 meaning that the region is basically the tape */
+	private Scores scores; 
 	
-	private static NIVision.ParticleFilterCriteria2 criteria[]; // Criteria for filtering options (Arbitrary required)
-	private static NIVision.ParticleFilterOptions2 filterOptions; // Filter options for removing noise
+	/** Array of criteria for filtering options */ 
+	private static NIVision.ParticleFilterCriteria2 criteria[]; 
+	/** Filter options for removing noise */
+	private static NIVision.ParticleFilterOptions2 filterOptions; 
 	
-	private static final double TARGET_W_METER = .40, // Longest side of tape
+	/**
+	 * All values in DEGREES or METERS <br> <br>
+	 * 
+	 * <b> TARGET_W_METER </b> is the longest side of the retroreflective tape or shape <br>
+	 * <b> TARGET_H_METER </b> is the shortest side of the retroreflective tape or shape <br>
+	 * <b> TARGET_AREA is </b> the area of the retroreflective tape or shape <br>
+	 * <b> FOV_VERT_ANGLE </b> is the VERTICAL Field of View of the camera <br>
+	 * <b> FOV_HORZ_ANGLE </b> is the HORIZONTAL Field of View of the camera <br>
+	 * <b> FOV_W_PIXEL </b> is the horizontal resolution size of the camera <br>
+	 * <b> FOV_H_PIXEL </b> is the vertical resolution size of the camera <br>
+	 * <b> SCORE_MIN </b> is the lowest score (Percentage) that signifies that what is being observed is the target tape
+	 */
+	private static final double TARGET_W_METER = .40, 
 								TARGET_H_METER = .1, // Shortest side of tape
 								TARGET_AREA = .04, // Area of tape.
 								FOV_VERT_ANGLE = 60, // 60 degrees
@@ -42,14 +70,20 @@ public class ImageSubsystem extends Subsystem {
 								FOV_H_PIXEL = 480, // Resolution of camera
 								SCORE_MIN = 75; // Lowest score that signifies what is being observed is the target tape
 	
-	// Used for trajectory calculation (If we use it)
+	/** 
+	 * Physics Constants <br>
+	 * Used for drawing target circle
+	 */
 	private static final double DRAG_CONSTANT = .209092519013,
 								MASS_OF_BALL = .295,
 								PERIOD = 13.8264152809,
 								SHOT_VELOCITY = 7.8,
 								SHOT_ANGLE = 50 * Math.PI/180;
 								
-	// Hue, Saturation and Color Value that corresponds to Green color
+	/**
+	 * Hue, Saturation, Range values for green color <br>
+	 * Green LED is used to shine off of the retroreflective tape
+	 */
 	private static final Range TAPE_HUE_RANGE = new Range(65, 45);
 	private static final Range TAPE_SAT_RANGE = new Range(88, 120);
 	private static final Range TAPE_VAL_RANGE = new Range(232, 255);
@@ -77,10 +111,19 @@ public class ImageSubsystem extends Subsystem {
 		scores = new Scores();
 	}
 
+	/**
+	 * Begins a continous video stream <br>
+	 * Stores unfiltered picture into <b> targetFrame </b>
+	 */
 	public void recordVideo() {
 		NIVision.IMAQdxGrab(session, targetFrame, 1);
 	}
 
+	/**
+	 * Must be called after {@code} recordVideo <br>
+	 * Filters <b> targetFrame </b> and stores filtered picture into <b> targetImage </b>
+	 * @see recordVideo()
+	 */
 	public void takePicture() {
 		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSV, TAPE_HUE_RANGE, TAPE_SAT_RANGE, TAPE_VAL_RANGE);
 		//NIVision.imaqFlatten(targetImage, NIVision.FlattenType.FLATTEN_IMAGE, NIVision.CompressionType.COMPRESSION_NONE, 100);
@@ -88,6 +131,12 @@ public class ImageSubsystem extends Subsystem {
 		//CameraServer.getInstance().setImage(targetImage);
 	}
 	
+	/**
+	 * Called after takePicture() <br>
+	 * Stores number of particles in <b> targetImage </b> into <b> numParticles </b> and checks if there are particles in the image
+	 * @return True if <b> numParticles </b> > 0 
+	 * @see takePicture()
+	 */
 	public boolean doesTargetExist() {
 		numParticles = NIVision.imaqCountParticles(targetImage, 1);
 
@@ -99,6 +148,23 @@ public class ImageSubsystem extends Subsystem {
 	}
 
 	// Max distance to shoot: 3.5m, Min distance to shoot: 2m
+	/**
+	 * <ol>
+	 * <li>Call if there are particles in the filtered image </li>
+	 * <li>Stores information about the filtered image into <b> report </b> </li>
+	 * <li>Stores reports into <b> particles </b> <br>
+	 * <li>Takes the score of the largest group of particles in <b> particles </b> </li> 
+	 * <li>And compares it with <b> scoreMin </b> to see if the target is tape </li>
+	 * <li>Stores that value into <b> isTape </b> </li>
+	 * </ol>
+	 * 
+	 * 
+	 * @see doesTargetExist() <br>
+	 * aspectScore(Report r) <br>
+	 * areaScore(Report r) <br>
+	 * Report <br>
+	 * Scores 
+	 */
 	public void analyzeImage() {
 		particles.clear();
 		
@@ -132,33 +198,72 @@ public class ImageSubsystem extends Subsystem {
 		isTape = (scores.aspect > SCORE_MIN) && (scores.area > SCORE_MIN);
 	}
 	
-
+	/**
+	 * Method for comparing two reports
+	 * @deprecated
+	 * @param r1
+	 * @param r2
+	 * @return True if r1.percentAreaToImageArea is larger
+	 * @see Report
+	 */
 	static boolean CompareParticleSizes(Report r1, Report r2)
 	{
 		return r1.percentAreaToImageArea > r2.percentAreaToImageArea;
 	}
 	
+	/**
+	 * Call after analyzeImage()
+	 * @return True if group of particles analyzed looks like tape
+	 * @see analyzeImage()
+	 */
 	public boolean isTargetTape() {
 		return isTape;
 	}
 	
 	// Scores aspect ratio of target
+	/**
+	 * Ratio of tapes (width of tape / height of tape) to the particles (width / height)
+	 * @param r (Report) 
+	 * @return aspects (size of shape) score (0-100)
+	 * @see ratioToScore(double r)
+	 */
 	private double aspectScore(Report r) {
 		return ratioToScore((TARGET_W_METER/TARGET_H_METER) * ((r.boundingRectBottom-r.boundingRectTop) / (r.boundingRectRight-r.boundingRectLeft)));
 	}
 	
 	// Scores Area of target
+	/**
+	 * Ratio of particles area and particles width * height <br>
+	 * Particles area may be less than or greater than particles width * height due to holes or extra particles on the sides
+	 * @param r (Report)
+	 * @return area score (0-100)
+	 * @see ratioToScore(double r)
+	 */
 	private double areaScore(Report r) {
 		double boundingArea = (r.boundingRectBottom - r.boundingRectTop) * (r.boundingRectRight - r.boundingRectLeft); // Area 
 		return ratioToScore(r.area/boundingArea);
 	}
 	
 	// Converts above raw scores to a value between 0 - 100
+	/**
+	 * Converts raw scores to a final score
+	 * 
+	 * @param r (double)
+	 * @return final score between 0 and 100 <br>
+	 * if r < 1 and r > 0 , score = r * 100 <br>
+	 * if r = 0 , score = 100 <br>
+	 * else score = 0
+	 */
 	private double ratioToScore(double r) {
 		return (Math.max(0, Math.min(100*(1-Math.abs(1-r)), 100)));
 	}
 	
 	// Calculates vector from Camera to target
+	/**
+	 * Measures the distances and angles from the camera to the target
+	 * @return The vector of the target relative to the robot
+	 * @see TargetVector
+	 */
 	public TargetVector getTargetVector() {
 		double normalizedWidth, targetWidth, normalizedHeight, targetHeight;
 		NIVision.GetImageSizeResult size;
@@ -192,6 +297,13 @@ public class ImageSubsystem extends Subsystem {
 		return targetVector;
 	}
 	
+	/**
+	 * Call after analyzeImage() and if isTape() returns true <br>
+	 * Draws a circle for aiming when the tape is currently on screen <br>
+	 * This is only used for teleoperated
+	 * @see analyzeImage() <br>
+	 * isTape()
+	 */
 	public void drawPredictedShot() {
 		NIVision.GetImageSizeResult size;
 		size = NIVision.imaqGetImageSize(targetImage);
@@ -213,15 +325,25 @@ public class ImageSubsystem extends Subsystem {
 		
 	}
 	
+	/**
+	 * Call after recordVideo() <br>
+	 * If in teleoperated and isTape() is true call after drawPredictedShot() <br>
+	 * Displays raw image on dashboard
+	 * @see recordVideo() <br>
+	 * isTape()
+	 */
 	public void displayImage() {
 		CameraServer.getInstance().setImage(targetFrame);
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-
 	}
 
+	/**
+	 * TargetVector class stores the distance and angles calculated from the camera to the target
+	 * @see getTargetVector()
+	 */
 	public final class TargetVector {
 		public double xDistance = 0;
 		public double theta = 0;
@@ -229,6 +351,21 @@ public class ImageSubsystem extends Subsystem {
 		public double phi = 0;
 	}
 	
+	/**
+	 * Report class stores the information about the filtered particles in the image <br>
+	 * Report class implements Comparator and Comparable and orders the group particles stored from largest to smallest <br>
+	 * <ul>
+	 * <li> <b> area </b> Area of group of particles </li>
+	 * <li> <b> percentAreaToImageArea </b> How much of the camera FOV does the group of particles take up </li>
+	 * <li> <b> boundingRectTop </b> Top most pixel of the group of particles </li>
+	 * <li> <b> boundingRectBottom </b> Bottom most pixel of the group of particles </li>
+	 * <li> <b> boundingRectLeft </b> Left most pixel of the group of particles </li>
+	 * <li> <b> boundingRectRight </b> Right most pixel of the group of particles </li>
+	 * <li> <b> targetX </b> Center particle of the width of the group of particles </li>
+	 * <li> <b> targetY </b> Center particle of the height of the group of particles </li>
+	 * </ul>
+	 *
+	 */
 	private class Report implements Comparator<Report>, Comparable<Report> {
 		double area;
 		double percentAreaToImageArea;
@@ -251,6 +388,13 @@ public class ImageSubsystem extends Subsystem {
 		
 	}
 	
+	/**
+	 * Scores class stores the area score and aspect score of the analyzed particles <br>
+	 * <b>area</b> <br>
+	 * <b>aspect</b>
+	 * 
+	 * @see analyzeImage()
+	 */
 	private class Scores {
 		double area;
 		double aspect;

@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ *Subsystem
+ *<br><br>
+ *Controls movement of Conveyor belts for intake of ball
  */
 public class ConveyorSubsystem extends Subsystem {
     
@@ -22,7 +24,8 @@ public class ConveyorSubsystem extends Subsystem {
     }
     
     /**
-    Sets speed of the conveyor talon's.
+     * Sets speed of the conveyor's talons.
+     * @param speed Speed to set conveyor to by Vbus values
      */
     public void setSpeed(double speed){
     	topTalon.set(speed);

@@ -2,10 +2,10 @@ package org.usfirst.frc.team1155.robot;
 
 public class PortMap {
 	// PDB ports
-	public static final int DRIVE_FRONT_LEFT_TALON = 0;
-	public static final int DRIVE_FRONT_RIGHT_TALON = 1;
-	public static final int DRIVE_BACK_LEFT_TALON = 2;
-	public static final int DRIVE_BACK_RIGHT_TALON = 3;
+	public static final int DRIVE_FRONT_LEFT_TALON = 1;
+	public static final int DRIVE_FRONT_RIGHT_TALON = 2;
+	public static final int DRIVE_BACK_LEFT_TALON = 3;
+	public static final int DRIVE_BACK_RIGHT_TALON = 4;
 
 	public static final int CONVEYOR_TOP_TALON = 4;
 	public static final int CONVEYOR_BOTTOM_TALON = 5;

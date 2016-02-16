@@ -100,7 +100,7 @@ public class ImageSubsystem extends Subsystem {
 		filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
 		
 		// Starts camera recording
-		session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		session = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		NIVision.IMAQdxConfigureGrab(session);
 		NIVision.IMAQdxStartAcquisition(session);
 		

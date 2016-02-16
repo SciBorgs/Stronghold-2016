@@ -6,6 +6,7 @@ import org.usfirst.frc.team1155.robot.PortMap;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -29,6 +30,9 @@ public class DriveSubsystem extends Subsystem {
 		frontLeftTalon = new CANTalon(PortMap.DRIVE_FRONT_LEFT_TALON);
 		backRightTalon = new CANTalon(PortMap.DRIVE_BACK_RIGHT_TALON);
 		backLeftTalon = new CANTalon(PortMap.DRIVE_BACK_LEFT_TALON);
+		
+		backRightTalon.changeControlMode(TalonControlMode.Follower);
+		backLeftTalon.changeControlMode(TalonControlMode.Follower);
 		
 		backRightTalon.setInverted(true);
 		frontRightTalon.setInverted(true);

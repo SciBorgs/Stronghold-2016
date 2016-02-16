@@ -71,6 +71,13 @@ public class Robot extends IterativeRobot {
         
         //chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
+		SmartDashboard.putNumber("H Min", 110);
+		SmartDashboard.putNumber("H Max", 130);
+		SmartDashboard.putNumber("S Min", 255);
+		SmartDashboard.putNumber("S Max", 255);
+		SmartDashboard.putNumber("V Min", 255);
+		SmartDashboard.putNumber("V Max", 255);
+
         SmartDashboard.putData("Defense", defenseChooser);
         SmartDashboard.putData("Position", positionChooser);
     }

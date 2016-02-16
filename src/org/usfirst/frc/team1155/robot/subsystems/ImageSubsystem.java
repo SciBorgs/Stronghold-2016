@@ -84,9 +84,9 @@ public class ImageSubsystem extends Subsystem {
 	 * Hue, Saturation, Range values for green color <br>
 	 * Green LED is used to shine off of the retroreflective tape
 	 */
-	private static final Range TAPE_HUE_RANGE = new Range(65, 45);
-	private static final Range TAPE_SAT_RANGE = new Range(88, 120);
-	private static final Range TAPE_VAL_RANGE = new Range(232, 255);
+	private static Range tapeHueRange = new Range(110, 130);
+	private static Range tapeSatRange = new Range(255, 255);
+	private static Range tapeValRange = new Range(255, 255);
 	
 	public ImageSubsystem() {		
 		targetImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0); // Filtered recording
@@ -112,6 +112,15 @@ public class ImageSubsystem extends Subsystem {
 	}
 
 	/**
+	 * Updates HSV ranges based on user input on SmartDashboard
+	 */
+	public void updateRanges() {
+		tapeHueRange = new Range((int)SmartDashboard.getNumber("H Min"), (int)SmartDashboard.getNumber("H Max"));
+		tapeSatRange = new Range((int)SmartDashboard.getNumber("S Min"), (int)SmartDashboard.getNumber("S Max"));
+		tapeValRange = new Range((int)SmartDashboard.getNumber("V Min"), (int)SmartDashboard.getNumber("V Max"));
+	}
+	
+	/**
 	 * Begins a continous video stream <br>
 	 * Stores unfiltered picture into <b> targetFrame </b>
 	 */
@@ -125,7 +134,7 @@ public class ImageSubsystem extends Subsystem {
 	 * @see recordVideo()
 	 */
 	public void takePicture() {
-		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSV, TAPE_HUE_RANGE, TAPE_SAT_RANGE, TAPE_VAL_RANGE);
+		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSV, tapeHueRange, tapeSatRange, tapeValRange);
 		//NIVision.imaqFlatten(targetImage, NIVision.FlattenType.FLATTEN_IMAGE, NIVision.CompressionType.COMPRESSION_NONE, 100);
 		imaqError = NIVision.imaqParticleFilter4(targetImage, targetImage, criteria, filterOptions, null);		
 		//CameraServer.getInstance().setImage(targetImage);

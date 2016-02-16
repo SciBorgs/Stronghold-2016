@@ -34,6 +34,7 @@ public class VisionCommand extends Command {
 	// Implement "give" box to user method
 	@Override
 	protected void execute() {
+		Robot.imageSubsystem.updateRanges();
 		Robot.imageSubsystem.recordVideo();
 		Robot.imageSubsystem.takePicture();
 		if (isTele) {

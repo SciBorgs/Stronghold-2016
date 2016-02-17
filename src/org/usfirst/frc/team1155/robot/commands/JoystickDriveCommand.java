@@ -13,12 +13,13 @@ public class JoystickDriveCommand extends Command{
 	 * Teleop Drive Command
 	 */
 	public JoystickDriveCommand() {
+		requires(Robot.driveSubsystem);
+
 		leftJoystick = Robot.oi.leftJoystick;
 		rightJoystick = Robot.oi.rightJoystick;
 	}
 	@Override
 	protected void initialize() {
-		requires(Robot.driveSubsystem);
 	}
 
 	@Override

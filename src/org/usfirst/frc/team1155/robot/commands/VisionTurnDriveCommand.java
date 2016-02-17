@@ -22,14 +22,12 @@ public class VisionTurnDriveCommand extends Command {
 	 * @param angle Angle to turn
 	 */
 	public VisionTurnDriveCommand(double angle) {
+		requires(Robot.driveSubsystem);
 		angleToTurn = angle;
 	}
 	//Vision must be running parallel 
 	@Override
-	protected void initialize() {
-		requires(Robot.driveSubsystem);
-
-		double turnSpeed = (angleToTurn > 0) ? -ANGLE_TURN_SPEED : ANGLE_TURN_SPEED;
+	protected void initialize() {double turnSpeed = (angleToTurn > 0) ? -ANGLE_TURN_SPEED : ANGLE_TURN_SPEED;
 		Robot.driveSubsystem.setSpeed(turnSpeed, -turnSpeed);
 		
 		angleToTurn = Robot.targetVector.theta;

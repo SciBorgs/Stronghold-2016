@@ -15,12 +15,11 @@ public class ConveyorBeltCommand extends Command {
 	 * Starts Conveyor belt to move ball up to shooter
 	 */
 	public ConveyorBeltCommand() {
-		
+		requires(Robot.conveyorSubsystem);
 	}
 	
 	// Starts the conveyor belt in the shooter
 	protected void initialize() {
-		requires(Robot.conveyorSubsystem);
 		Robot.conveyorSubsystem.setSpeed(CONVEYOR_SPEED);
 	}
 

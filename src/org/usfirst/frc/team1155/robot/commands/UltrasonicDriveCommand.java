@@ -19,12 +19,11 @@ public class UltrasonicDriveCommand extends Command{
 	 * @param stopDistanceFromWall How far from wall you want the robot to stop
 	 */
 	public UltrasonicDriveCommand(double stopDistanceFromWall) {
+		requires(Robot.driveSubsystem);
 		this.stopDistanceFromWall = stopDistanceFromWall;
 	}
 	@Override
 	protected void initialize() {
-		requires(Robot.driveSubsystem);
-		
 		Robot.driveSubsystem.setSpeed(DRIVE_SPEED, DRIVE_SPEED);
 	}
 

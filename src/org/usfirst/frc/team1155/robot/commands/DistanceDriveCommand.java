@@ -17,14 +17,13 @@ public class DistanceDriveCommand extends Command {
 	 * @param distance Distance to travel in encoder ticks
 	 */
 	public DistanceDriveCommand(double distance) {
+		requires(Robot.driveSubsystem);
 		this.distanceToDrive = distance;
 	}
 	
 	@Override
 	// Starts robot's drive
 	protected void initialize() {
-		requires(Robot.driveSubsystem);
-		
 		initialDistance = Robot.driveSubsystem.getEncoderDistance();
 		Robot.driveSubsystem.setSpeed(DRIVE_SPEED, DRIVE_SPEED);
 	}

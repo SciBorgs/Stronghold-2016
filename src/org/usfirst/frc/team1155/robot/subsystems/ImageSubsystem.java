@@ -61,14 +61,15 @@ public class ImageSubsystem extends Subsystem {
 	 * <b> FOV_H_PIXEL </b> is the vertical resolution size of the camera <br>
 	 * <b> SCORE_MIN </b> is the lowest score (Percentage) that signifies that what is being observed is the target tape
 	 */
-	private static final double TARGET_W_METER = .40, 
-								TARGET_H_METER = .1, // Shortest side of tape
-								TARGET_AREA = .04, // Area of tape.
+	private static final double TARGET_W_METER = 0.4826, 
+								TARGET_H_METER = .3048, // Shortest side of tape
+								TARGET_AREA = TARGET_W_METER * TARGET_H_METER, //  Full area of target.
+								TAPE_AREA =  0.04902, // Area of tape. Added areas of tape slices.
 								FOV_VERT_ANGLE = 60, // 60 degrees
 								FOV_HORZ_ANGLE = 60, // 60 degrees
 								FOV_W_PIXEL = 640, // Resolution of camera
 								FOV_H_PIXEL = 480, // Resolution of camera
-								SCORE_MIN = 75; // Lowest score that signifies what is being observed is the target tape
+								SCORE_MIN = 50; // Lowest score that signifies what is being observed is the target tape
 	
 	/** 
 	 * Physics Constants <br>
@@ -250,7 +251,7 @@ public class ImageSubsystem extends Subsystem {
 	 */
 	private double areaScore(Report r) {
 		double boundingArea = (r.boundingRectBottom - r.boundingRectTop) * (r.boundingRectRight - r.boundingRectLeft); // Area 
-		return ratioToScore(r.area/boundingArea);
+		return ratioToScore((TARGET_AREA / TAPE_AREA) * r.area/boundingArea);
 	}
 	
 	// Converts above raw scores to a value between 0 - 100

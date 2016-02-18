@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1155.robot.commands;
 
-import org.usfirst.frc.team1155.robot.Robot;
 import org.usfirst.frc.team1155.robot.commands.IntakeCommand.IntakeMode;
 import org.usfirst.frc.team1155.robot.commands.IntakeCommand.Pivot;
 import org.usfirst.frc.team1155.robot.commands.RotateCommand.RobotPosition;
@@ -10,7 +9,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutonomousCommand extends CommandGroup{
 	
 	private final double DISTANCE_TO_DEFENSE = 24;
-	private final double ANGLE_OF_SHOOTER = 50;
 	
 	/**
 	 * Types of Defenses
@@ -53,6 +51,7 @@ public class AutonomousCommand extends CommandGroup{
 	 * 
 	 */
 	public AutonomousCommand(Defense defense, Position position) {
+		addSequential(new VisionCommand(false));
 		addSequential(new DistanceDriveCommand(DISTANCE_TO_DEFENSE)); // Drives up to defense
 		
 		switch(defense) {
@@ -108,9 +107,8 @@ public class AutonomousCommand extends CommandGroup{
 		default:
 			break;
 		}
-		addSequential(new VisionTurnDriveCommand(Robot.targetVector.theta)); // Rotates to tape on tower
-		double distanceToTarget = Robot.targetVector.xDistance * Math.cos(ANGLE_OF_SHOOTER);
-		addSequential(new DistanceDriveCommand(distanceToTarget));
+		addSequential(new VisionTurnDriveCommand()); // Rotates to tape on tower
+		addSequential(new VisionDriveCommand());
 		addSequential(new ShooterIOCommand()); // Shoots
 		
 	}

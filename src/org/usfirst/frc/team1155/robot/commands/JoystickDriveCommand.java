@@ -24,7 +24,9 @@ public class JoystickDriveCommand extends Command{
 
 	@Override
 	protected void execute() {
-		Robot.driveSubsystem.setSpeed(leftJoystick.getY(), rightJoystick.getY());
+		//Temporary drive curve, please fix
+		Robot.driveSubsystem.setSpeed(leftJoystick.getY() * Math.abs(leftJoystick.getY()), 
+				rightJoystick.getY() * Math.abs(rightJoystick.getY()));
 	}
 
 	@Override

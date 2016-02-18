@@ -4,7 +4,6 @@ import org.usfirst.frc.team1155.robot.Robot;
 import org.usfirst.frc.team1155.robot.commands.IntakeCommand.IntakeMode;
 import org.usfirst.frc.team1155.robot.commands.IntakeCommand.Pivot;
 import org.usfirst.frc.team1155.robot.commands.RotateCommand.RobotPosition;
-import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand.Mode;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -112,7 +111,7 @@ public class AutonomousCommand extends CommandGroup{
 		addSequential(new VisionTurnDriveCommand(Robot.targetVector.theta)); // Rotates to tape on tower
 		double distanceToTarget = Robot.targetVector.xDistance * Math.cos(ANGLE_OF_SHOOTER);
 		addSequential(new DistanceDriveCommand(distanceToTarget));
-		addSequential(new ShooterIOCommand(Mode.OUTPUT)); // Shoots
+		addSequential(new ShooterIOCommand()); // Shoots
 		
 	}
 

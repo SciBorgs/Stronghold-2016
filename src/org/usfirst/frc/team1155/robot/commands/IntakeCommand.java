@@ -68,13 +68,13 @@ public class IntakeCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.intakeSubsystem.setPivotIntake(position);
+		Robot.intakeSubsystem.setPivotIntakePosition(position);
 		switch (mode) {
 		case PIVOT:
 			//nothing
 			break;
 		case PIVOT_AND_ROLL:
-			Robot.intakeSubsystem.setRoller(ROLLER_SPEED);
+			Robot.intakeSubsystem.setRollerSpeed(ROLLER_SPEED);
 			break;
 		default:
 			break;

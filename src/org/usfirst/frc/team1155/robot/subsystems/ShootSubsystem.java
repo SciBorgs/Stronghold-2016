@@ -21,6 +21,7 @@ public class ShootSubsystem extends Subsystem {
     // here. Call these from Commands.
 	private CANTalon followerTalon, mainTalon;
 	private DigitalInput ballChecker; 
+	private boolean ballPossessed = false;  //Test setup <REMOVE>
 	private DoubleSolenoid boulderPusher;
 		
 	private boolean isPistonRetracted;
@@ -38,9 +39,10 @@ public class ShootSubsystem extends Subsystem {
     	followerTalon.setInverted(true);
     	
     	ballChecker = new DigitalInput(PortMap.SHOOT_CHECKER_LIMIT_SWITCH);
-    	boulderPusher = new DoubleSolenoid(PortMap.SHOOT_BOULDER_PUSHER[0], PortMap.SHOOT_BOULDER_PUSHER[1]);
+    	boulderPusher = new DoubleSolenoid(PortMap.SHOOT_BOULDER_PISTON[0], PortMap.SHOOT_BOULDER_PISTON[1]);
     	
     	isPistonRetracted = false;
+    	extendPiston();  //Extend, ready for ball to be inputed
 	}
 	
     public void initDefaultCommand() {
@@ -51,8 +53,9 @@ public class ShootSubsystem extends Subsystem {
      * Sets speed of the shooter 
      * @param speed Speed to set talons of shooter in terms of Percent VBus
      */
-    public void setSpeed(double speed) {
+    public void setShooterSpeed(double speed) {
     	mainTalon.set(speed);
+    	followerTalon.set(mainTalon.getDeviceID());
     }
     
     /**
@@ -85,7 +88,12 @@ public class ShootSubsystem extends Subsystem {
      * @return True if ball is in storage compartment
      */
     public boolean isBallPossessed() {
-    	return ballChecker.get();
+//    	return ballChecker.get();
+    	return ballPossessed;  //Test setup <REMOVE>
+    }
+    
+    public void setBallPossessed(boolean val) {  //Test setup <REMOVE>
+    	ballPossessed = val;
     }
     
     /**

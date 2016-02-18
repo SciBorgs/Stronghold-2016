@@ -40,14 +40,14 @@ public class DriveSubsystem extends Subsystem {
 		backRightTalon.set(frontRightTalon.getDeviceID());
 		backLeftTalon.set(frontLeftTalon.getDeviceID());
 		
-		leftUltrasonic = new Ultrasonic(PortMap.DRIVE_LEFT_ULTRASONIC[0], PortMap.DRIVE_LEFT_ULTRASONIC[1]);
-		rightUltrasonic = new Ultrasonic(PortMap.DRIVE_RIGHT_ULTRASONIC[0],PortMap.DRIVE_RIGHT_ULTRASONIC[1]);
+//		leftUltrasonic = new Ultrasonic(PortMap.DRIVE_LEFT_ULTRASONIC[0], PortMap.DRIVE_LEFT_ULTRASONIC[1]);
+//		rightUltrasonic = new Ultrasonic(PortMap.DRIVE_RIGHT_ULTRASONIC[0],PortMap.DRIVE_RIGHT_ULTRASONIC[1]);
 				
-		rightUltrasonic.setAutomaticMode(true);
-		rightUltrasonic.setEnabled(true);
+//		rightUltrasonic.setAutomaticMode(true);
+//		rightUltrasonic.setEnabled(true);
 		
-		leftUltrasonic.setAutomaticMode(true);
-		leftUltrasonic.setEnabled(true);
+//		leftUltrasonic.setAutomaticMode(true);
+//		leftUltrasonic.setEnabled(true);
 		
 		stabalizationGyro = new AnalogGyro(PortMap.STABALIZATION_GYRO);
 		driveGyro = new AnalogGyro(PortMap.DRIVE_GYRO);

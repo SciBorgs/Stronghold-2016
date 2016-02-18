@@ -17,20 +17,25 @@ public class IntakeSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 		
-	public CANTalon rollerTalon, pivotTalon;
+	public CANTalon intakeTalon, pivotTalon, conveyorTalon, holderTalon;
 	
 	public IntakeSubsystem() {
-    	rollerTalon = new CANTalon(PortMap.INTAKE_ROLLER_TALON);
+    	intakeTalon = new CANTalon(PortMap.INTAKE_ROLLER_TALON);
     	pivotTalon = new CANTalon(PortMap.INTAKE_PIVOT_TALON);
+    	conveyorTalon = new CANTalon(PortMap.CONVEYOR_TALON);
+    	holderTalon = new CANTalon(PortMap.BOULDER_HOLDER_TALON);
 		
+    	intakeTalon.changeControlMode(TalonControlMode.PercentVbus);
     	pivotTalon.changeControlMode(TalonControlMode.Position);
+    	conveyorTalon.changeControlMode(TalonControlMode.PercentVbus);
+    	holderTalon.changeControlMode(TalonControlMode.PercentVbus);
 	}
 	
 	/**
 	 * Controls rotational movement of arm
 	 * @param position Encoder position to move to
 	 */
-	public void setPivotIntake(double position){
+	public void setPivotIntakePosition(double position){
 		pivotTalon.set(position);
 	}
 	
@@ -39,9 +44,29 @@ public class IntakeSubsystem extends Subsystem {
 	 * 
 	 * @param speed Speed to set the talons of the roller to
 	 */
-	public void setRoller(double speed) {
-		rollerTalon.set(speed);
+	public void setRollerSpeed(double speed) {
+		intakeTalon.set(speed);
 	}
+	
+	/**
+	 * Controls rolling speed of input conveyor
+	 * 
+	 * @param speed Speed to set the talons of the roller to
+	 */
+	public void setConveyorSpeed(double speed) {
+		conveyorTalon.set(speed);
+	}
+	
+	/**
+	 * Controls turning speed of boulder holder
+	 * 
+	 * @param speed Speed to set the talons of the roller to
+	 */
+	public void setHolderSpeed(double speed) {
+		holderTalon.set(speed);
+	}
+	
+	
 
 	@Override
 	protected void initDefaultCommand() {

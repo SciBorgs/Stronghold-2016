@@ -6,7 +6,6 @@ import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Defense;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Position;
 import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
 import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
-import org.usfirst.frc.team1155.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem.TargetVector;
@@ -31,18 +30,17 @@ public class Robot extends IterativeRobot {
 
 	//public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	
-	public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
-	public static final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
-	public static final ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem();
-	public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-	public static final ShootSubsystem shootSubsystem = new ShootSubsystem();
-	public static final ImageSubsystem imageSubsystem = new ImageSubsystem();
+	public static DriveSubsystem driveSubsystem;
+	public static ClimbSubsystem climbSubsystem;
+	public static IntakeSubsystem intakeSubsystem;
+	public static ShootSubsystem shootSubsystem;
+	public static ImageSubsystem imageSubsystem;
 	
 	public static OI oi;
 
 	public static TargetVector targetVector;
 	
-    Command autonomousCommand, joystickDriveCommand;
+    Command autonomousCommand;
     SendableChooser defenseChooser, positionChooser;
 
     /**
@@ -50,6 +48,12 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	DriveSubsystem driveSubsystem = new DriveSubsystem();
+//    	ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+    	IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    	ShootSubsystem shootSubsystem = new ShootSubsystem();
+//    	ImageSubsystem imageSubsystem = new ImageSubsystem();
+    	
 		oi = new OI();
 		
 		defenseChooser = new SendableChooser();
@@ -105,27 +109,16 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+    	//Create the autonomous command based on values from the SmartDashboard
         autonomousCommand = new AutonomousCommand(
         	(Defense) defenseChooser.getSelected(), 
         	(Position) positionChooser.getSelected()
         );
         
+        //If not null (above creation worked) start the command
         if (autonomousCommand != null) {
         	autonomousCommand.start();
-        } 
-
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-    	
-    	// schedule the autonomous command (example)
+        }
     }
 
     /**
@@ -141,9 +134,10 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-
-        joystickDriveCommand = new JoystickDriveCommand();
-        joystickDriveCommand.start();
+        
+        //Create and start OI (user input/output manager)
+        oi = new OI();
+        oi.start();
     }
 
     /**

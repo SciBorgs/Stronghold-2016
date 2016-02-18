@@ -31,6 +31,7 @@ public class ShooterIOCommand extends Command {
 	protected void execute() {
 		if(!Robot.shootSubsystem.isPistonRetracted()) {
 			Robot.shootSubsystem.retractPiston();
+			System.out.println("SHOT");
 			pistonExtendLagTime.start();
 		}
 	}

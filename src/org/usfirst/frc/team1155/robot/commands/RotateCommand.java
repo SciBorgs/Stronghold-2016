@@ -3,6 +3,7 @@ package org.usfirst.frc.team1155.robot.commands;
 import org.usfirst.frc.team1155.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotateCommand extends Command {
 
@@ -20,7 +21,7 @@ public class RotateCommand extends Command {
 	 */
 	public enum RobotPosition {
 		// Degrees
-		SLOT_1(45), SLOT_2(20), SLOT_3(-10), SLOT_4(-45);
+		SLOT_1(45), SLOT_2(10), SLOT_3(-10), SLOT_4(-45);
 
 		private final double angle;
 
@@ -42,31 +43,25 @@ public class RotateCommand extends Command {
 	 * 
 	 * @param position Position of robot at start of autonomous 
 	 */
-	public RotateCommand(RobotPosition position) {
-		Robot.driveSubsystem.driveGyro.reset();
+	public RotateCommand(RobotPosition rotate) {
+		requires(Robot.driveSubsystem);
+		
 		this.rotate = rotate;
 	}
 
 	@Override
 	protected void initialize() {
+		Robot.driveSubsystem.driveGyro.reset();
 		switch (rotate) {
-		case SLOT_1:
-			Robot.driveSubsystem.setSpeed(0, 0.5);
+		case SLOT_1: case SLOT_2:
+			Robot.driveSubsystem.setSpeed(0.2, -0.2);
 			break;
-		case SLOT_2:
-			Robot.driveSubsystem.setSpeed(0, 0.5);
-			break;
-		case SLOT_3:
-			Robot.driveSubsystem.setSpeed(0.5, 0);
-			break;
-		case SLOT_4:
-			Robot.driveSubsystem.setSpeed(0.5, 0);
-			break;
+		case SLOT_3: case SLOT_4:
+			Robot.driveSubsystem.setSpeed(-0.2, 0.2);
+			break;	
 		default:
 			Robot.driveSubsystem.setSpeed(0, 0);
-
 		}
-
 	}
 
 	@Override
@@ -75,8 +70,7 @@ public class RotateCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return (Robot.driveSubsystem.driveGyro.getAngle() + BUFFER >= rotate.getAngle()) || 
-			   (Robot.driveSubsystem.driveGyro.getAngle() - BUFFER <= rotate.getAngle());
+		return Math.abs(Robot.driveSubsystem.driveGyro.getAngle() - BUFFER) >= Math.abs(rotate.getAngle());		 
 	}
 
 	@Override
@@ -88,5 +82,4 @@ public class RotateCommand extends Command {
 	protected void interrupted() {
 		Robot.driveSubsystem.setSpeed(0, 0);
 	}
-
 }

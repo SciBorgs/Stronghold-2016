@@ -90,7 +90,6 @@ public class AutonomousCommand extends CommandGroup{
 		// Aligns the robot with the tower and then shoots
 		//addSequential(new DriveToTape());
 		addSequential(new DistanceDriveCommand(3));
-		addSequential(new VisionCommand(false)); // Starts vision
 		switch(position) {
 		case SLOT_1:
 			addSequential(new RotateCommand(RobotPosition.SLOT_1)); // Turns towards goal

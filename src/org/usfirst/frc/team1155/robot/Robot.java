@@ -4,7 +4,6 @@ package org.usfirst.frc.team1155.robot;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Defense;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Position;
-import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
 import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem;

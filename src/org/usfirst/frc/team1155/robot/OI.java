@@ -3,6 +3,7 @@ package org.usfirst.frc.team1155.robot;
 import org.usfirst.frc.team1155.robot.commands.ConveyorBeltCommand;
 import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
 import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand;
+import org.usfirst.frc.team1155.robot.commands.VisionTurnDriveCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -20,6 +21,7 @@ public class OI extends Command {
   //Input is the conveyor, load is the window motor (loading it into firing position).  Left joystick is input, right joystick is shoot
     private Button inputBall, loadBall, resetHolder;
     private Button revShooter, shoot;
+    private Button aim;
     
     public OI() {
     	leftJoystick = new Joystick(PortMap.JOYSTICK_LEFT);
@@ -31,6 +33,7 @@ public class OI extends Command {
     	loadBall = new JoystickButton(leftJoystick, 2);
     	revShooter = new JoystickButton(rightJoystick, 1);
     	shoot = new JoystickButton(rightJoystick, 2);
+    	aim = new JoystickButton(gamePad, 1);
     	
     	//Initialize drive command
     	joystickDrive = new JoystickDriveCommand(leftJoystick, rightJoystick);
@@ -50,6 +53,8 @@ public class OI extends Command {
     	//Shooting works in two stages.  The first is the motors revving up.  The second is the piston retracting, and pushing the
     	//ball into the shooter
     	shoot.whenPressed(new ShooterIOCommand());
+    	
+    	aim.whenPressed(new VisionTurnDriveCommand());
     }
 
 	@Override
@@ -60,7 +65,7 @@ public class OI extends Command {
 
 	@Override
 	protected void execute() {
-		// Temporary holder speed control <REMOVE>		
+		// Temporary holder speed control <REMOVE>	
 		if(leftJoystick.getPOV() == 0) {
 			Robot.intakeSubsystem.setHolderSpeed(-0.4);
 			Robot.shootSubsystem.setBallPossessed(true);  //Jerry-rigged, test setup

@@ -4,6 +4,7 @@ package org.usfirst.frc.team1155.robot;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Defense;
 import org.usfirst.frc.team1155.robot.commands.AutonomousCommand.Position;
+import org.usfirst.frc.team1155.robot.commands.VisionCommand;
 import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem;
@@ -35,6 +36,8 @@ public class Robot extends IterativeRobot {
 	public static ShootSubsystem shootSubsystem;
 	public static ImageSubsystem imageSubsystem;
 	
+	public static VisionCommand vision;
+	
 	public static OI oi;
 
 	public static TargetVector targetVector;
@@ -51,7 +54,7 @@ public class Robot extends IterativeRobot {
 //    	climbSubsystem = new ClimbSubsystem();
     	intakeSubsystem = new IntakeSubsystem();
     	shootSubsystem = new ShootSubsystem();
-//    	imageSubsystem = new ImageSubsystem();
+    	imageSubsystem = new ImageSubsystem();
     	
 		oi = new OI();
 		
@@ -135,6 +138,8 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.cancel();
         
         //Create and start OI (user input/output manager)
+        vision = new VisionCommand(true);
+        vision.start();
         oi = new OI();
         oi.start();
     }

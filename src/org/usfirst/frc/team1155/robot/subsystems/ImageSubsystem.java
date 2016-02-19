@@ -136,9 +136,9 @@ public class ImageSubsystem extends Subsystem {
 	 */
 	public void takePicture() {
 		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSV, tapeHueRange, tapeSatRange, tapeValRange);
+		CameraServer.getInstance().setImage(targetImage);
 		//NIVision.imaqFlatten(targetImage, NIVision.FlattenType.FLATTEN_IMAGE, NIVision.CompressionType.COMPRESSION_NONE, 100);
 		imaqError = NIVision.imaqParticleFilter4(targetImage, targetImage, criteria, filterOptions, null);		
-		//CameraServer.getInstance().setImage(targetImage);
 	}
 	
 	/**
@@ -343,7 +343,7 @@ public class ImageSubsystem extends Subsystem {
 	 * isTape()
 	 */
 	public void displayImage() {
-		CameraServer.getInstance().setImage(targetFrame);
+		//CameraServer.getInstance().setImage(targetFrame);
 	}
 	
 	@Override

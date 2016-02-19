@@ -12,7 +12,7 @@ public class VisionTurnDriveCommand extends Command {
 
 	private double angleToTurn;
 
-	private final double ANGLE_TURN_SPEED = 0.1;
+	private final double ANGLE_TURN_SPEED = 0.3;
 	private final double ANGLE_BUFFER = 1;
 
 	/**
@@ -28,14 +28,20 @@ public class VisionTurnDriveCommand extends Command {
 	//Vision must be running parallel 
 	@Override
 	protected void initialize() {	
+		System.out.println("Runing Vision Turn");
+		if(!Robot.imageSubsystem.isTargetTape()) {
+			System.out.println("No Tape");
+			end();
+			return;
+		}
 		angleToTurn = Robot.targetVector.theta;
 
 		//double turnSpeed = (angleToTurn > 0) ? ANGLE_TURN_SPEED : -ANGLE_TURN_SPEED;
 		if (angleToTurn > 0) {
-			Robot.driveSubsystem.setSpeed(-ANGLE_TURN_SPEED, ANGLE_TURN_SPEED);
+			Robot.driveSubsystem.setSpeed(ANGLE_TURN_SPEED, -ANGLE_TURN_SPEED);
 		}
 		else if (angleToTurn < 0) {
-			Robot.driveSubsystem.setSpeed(ANGLE_TURN_SPEED, -ANGLE_TURN_SPEED);
+			Robot.driveSubsystem.setSpeed(-ANGLE_TURN_SPEED, ANGLE_TURN_SPEED);
 		}
 	}
 

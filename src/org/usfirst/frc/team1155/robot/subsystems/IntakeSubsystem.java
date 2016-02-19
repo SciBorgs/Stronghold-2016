@@ -26,11 +26,10 @@ public class IntakeSubsystem extends Subsystem {
     	holderTalon = new CANTalon(PortMap.BOULDER_HOLDER_TALON);
 		
     	intakeTalon.changeControlMode(TalonControlMode.PercentVbus);
-    	pivotTalon.changeControlMode(TalonControlMode.Position);
+    	pivotTalon.changeControlMode(TalonControlMode.PercentVbus);
     	conveyorTalon.changeControlMode(TalonControlMode.PercentVbus);
     	holderTalon.changeControlMode(TalonControlMode.PercentVbus);
     	
-    	pivotTalon.setPosition(0);
 	}
 	
 	/**
@@ -41,8 +40,8 @@ public class IntakeSubsystem extends Subsystem {
 		pivotTalon.set(position);
 	}
 	
-	public int getPivotIntakePosition() {
-		return pivotTalon.getEncPosition();
+	public double getPivotIntakePosition() {
+		return pivotTalon.getSetpoint();
 	}
 	
 	/**

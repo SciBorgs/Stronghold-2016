@@ -62,12 +62,12 @@ public class OI extends Command {
 	protected void execute() {
 		// Temporary holder speed control <REMOVE>		
 		if(leftJoystick.getPOV() == 0) {
-			Robot.intakeSubsystem.setHolderSpeed(0.4);
+			Robot.intakeSubsystem.setHolderSpeed(-0.4);
 			Robot.shootSubsystem.setBallPossessed(true);  //Jerry-rigged, test setup
 			System.out.println("Up the ball goes");
 		}
 		else if(leftJoystick.getPOV() == 180) {
-			Robot.intakeSubsystem.setHolderSpeed(-0.4);
+			Robot.intakeSubsystem.setHolderSpeed(0.4);
 			Robot.shootSubsystem.setBallPossessed(false);
 			System.out.println("Down the ball goes");
 		}
@@ -91,11 +91,14 @@ public class OI extends Command {
 		
 		//Temporary intake pivot code <REMOVE>
 		if(gamePad.getPOV() == 0) {
-			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotIntakePosition() + 10);
+			Robot.intakeSubsystem.setPivotIntakePosition(0.7);
 			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition());
-		} else {
-			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotIntakePosition() - 10);
+		} else if(gamePad.getPOV() == 180){
+			Robot.intakeSubsystem.setPivotIntakePosition(-0.4);
 			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition());
+		}
+		else {
+			Robot.intakeSubsystem.setPivotIntakePosition(0);
 		}
 	}
 

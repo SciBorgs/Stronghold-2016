@@ -8,7 +8,7 @@ public class PortMap {
 	public static final int DRIVE_BACK_RIGHT_TALON = 10;
 
 	public static final int CONVEYOR_TALON = 9;
-	public static final int BOULDER_HOLDER_TALON = 2;
+	public static final int BOULDER_HOLDER_TALON = 4;
 	public static final int HOLDER_UPPER_LIMIT_SWITCH = 1;
 	public static final int HOLDER_LOWER_LIMIT_SWITCH = 2;
 	
@@ -18,8 +18,8 @@ public class PortMap {
 	public static final int SHOOT_LEFT_TALON = 5;
 	public static final int SHOOT_RIGHT_TALON = 8;
 	
-	public static final int INTAKE_ROLLER_TALON = 13;
-	public static final int INTAKE_PIVOT_TALON = 13;//switched with boulder_holder_talon
+	public static final int INTAKE_ROLLER_TALON = 11;
+	public static final int INTAKE_PIVOT_TALON = 12;//switched with boulder_holder_talon
 	
 	// Analog channels
 	public static final int[] DRIVE_LEFT_ULTRASONIC = {0, 1};

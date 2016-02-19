@@ -5,6 +5,7 @@ import org.usfirst.frc.team1155.robot.PortMap;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -18,6 +19,7 @@ public class IntakeSubsystem extends Subsystem {
     // here. Call these from Commands.
 		
 	public CANTalon intakeTalon, pivotTalon, conveyorTalon, holderTalon;
+	public DigitalInput holderLimitSwitch_Open, holderLimitSwitch_Closed;
 	
 	public IntakeSubsystem() {
     	intakeTalon = new CANTalon(PortMap.INTAKE_ROLLER_TALON);
@@ -25,6 +27,9 @@ public class IntakeSubsystem extends Subsystem {
     	conveyorTalon = new CANTalon(PortMap.CONVEYOR_TALON);
     	holderTalon = new CANTalon(PortMap.BOULDER_HOLDER_TALON);
 		
+    	holderLimitSwitch_Open = new DigitalInput(PortMap.HOLDER_OPEN_LIMIT_SWITCH);
+    	holderLimitSwitch_Closed = new DigitalInput(PortMap.HOLDER_CLOSED_LIMIT_SWITCH);
+    	
     	intakeTalon.changeControlMode(TalonControlMode.PercentVbus);
     	pivotTalon.changeControlMode(TalonControlMode.PercentVbus);
     	conveyorTalon.changeControlMode(TalonControlMode.PercentVbus);

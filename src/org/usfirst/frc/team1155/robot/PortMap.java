@@ -9,8 +9,8 @@ public class PortMap {
 
 	public static final int CONVEYOR_TALON = 9;
 	public static final int BOULDER_HOLDER_TALON = 4;
-	public static final int HOLDER_UPPER_LIMIT_SWITCH = 1;
-	public static final int HOLDER_LOWER_LIMIT_SWITCH = 2;
+	public static final int HOLDER_OPEN_LIMIT_SWITCH = 1;
+	public static final int HOLDER_CLOSED_LIMIT_SWITCH = 2;
 	
 	public static final int CLIMB_ARM_TALON = 13;
 	public static final int CLIMB_WINCH_TALON = 13;
@@ -28,7 +28,6 @@ public class PortMap {
 	public static final int STABALIZATION_GYRO = 0;
 	public static final int DRIVE_GYRO = 1;
 
-	
 	public static final int[] SHOOT_BOULDER_PISTON = {2,1};
 	
 	public static final int JOYSTICK_LEFT = 0;

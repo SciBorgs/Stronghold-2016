@@ -11,7 +11,7 @@ public class DistanceDriveCommand extends Command {
 	private double changeInEncoderDistance;
 	
 	private static final double DRIVE_SPEED = 0.2;
-	private static final double DISTANCE_BUFFER = 2;
+	private static final double DISTANCE_BUFFER = 5;
 		
 	/**
 	 * Command for driving a certain distance in encoder ticks
@@ -36,14 +36,14 @@ public class DistanceDriveCommand extends Command {
 
 	@Override
 	protected void execute() {
-		changeInEncoderDistance += Math.abs(Robot.driveSubsystem.getEncoderDistance() - initialDistance);
+		changeInEncoderDistance = Math.abs(Robot.driveSubsystem.getEncoderDistance() - initialDistance);
 	}
 
 	@Override
 	// Finishes when the robot drives a certain number of encoder ticks (distance traveled)
 	protected boolean isFinished() {
 		SmartDashboard.putNumber("Distance Driven", changeInEncoderDistance);
-		return Math.abs(changeInEncoderDistance - distanceToDrive) <= DISTANCE_BUFFER;
+		return changeInEncoderDistance >= distanceToDrive;
 	}
 
 	@Override

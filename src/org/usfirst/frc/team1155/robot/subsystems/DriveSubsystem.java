@@ -96,8 +96,8 @@ public class DriveSubsystem extends Subsystem {
      * @return Returns encoder distance traveled total
      */
     public double getEncoderDistance() {
-    	SmartDashboard.putNumber("Encoder Value: ", (frontRightTalon.getEncPosition()/1023.0) * (Math.PI * 2 * WHEEL_RADIUS));
-    	return (frontRightTalon.getEncPosition()/360.0) * (Math.PI * 2 * WHEEL_RADIUS);
+    	SmartDashboard.putNumber("Encoder Value", (frontRightTalon.getEncPosition()/1023.0) * (Math.PI * 2 * WHEEL_RADIUS));
+    	return (frontRightTalon.getEncPosition()/1023.0) * (Math.PI * 2 * WHEEL_RADIUS);
     }
 
 }

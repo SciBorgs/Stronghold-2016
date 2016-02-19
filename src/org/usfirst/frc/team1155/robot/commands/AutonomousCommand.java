@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomousCommand extends CommandGroup{
 	
-	private final double DISTANCE_TO_DEFENSE = 24;
+	private final double DISTANCE_TO_DEFENSE = 99; //or 74 in; conflicting sources 
+	private final double DISTANCE_TO_GREEN_TAPE = 59.5;
 	
 	/**
 	 * Types of Defenses
@@ -89,7 +90,7 @@ public class AutonomousCommand extends CommandGroup{
 		
 		// Aligns the robot with the tower and then shoots
 		//addSequential(new DriveToTape());
-		addSequential(new DistanceDriveCommand(3));
+		addSequential(new DistanceDriveCommand(DISTANCE_TO_GREEN_TAPE));
 		switch(position) {
 		case SLOT_1:
 			addSequential(new RotateCommand(RobotPosition.SLOT_1)); // Turns towards goal

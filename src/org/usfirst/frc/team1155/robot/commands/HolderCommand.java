@@ -4,47 +4,52 @@ import org.usfirst.frc.team1155.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class HolderCommand extends Command {
-	
-	public enum HolderMode {
+public class HolderCommand extends Command{
+
+	public enum HolderPosition {
 		OPEN,
 		CLOSED;
 	}
 	
-	public HolderCommand(HolderMode mode) {
-		if(mode == HolderMode.OPEN) {
-			Robot.intakeSubsystem.setHolderSpeed(-0.4);
-		}else {
-			Robot.intakeSubsystem.setHolderSpeed(0.4);
-		}
+	private HolderPosition holderPosition;
+	
+	public HolderCommand(HolderPosition position) {		
+		requires(Robot.intakeSubsystem);
+		holderPosition = position;
 	}
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-
+		if(holderPosition == HolderPosition.OPEN) {
+			Robot.intakeSubsystem.setHolderSpeed(-0.4);
+		} else {
+			Robot.intakeSubsystem.setHolderSpeed(0.4);
+		}
 	}
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return false;
+		if(holderPosition == HolderPosition.OPEN) {
+			return Robot.intakeSubsystem.holderLimitSwitch_Open.get();
+		}else {
+			return Robot.intakeSubsystem.holderLimitSwitch_Closed.get();
+		}
 	}
 
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Controls the movement of the robot. Tank drive
@@ -95,7 +96,8 @@ public class DriveSubsystem extends Subsystem {
      * @return Returns encoder distance traveled total
      */
     public double getEncoderDistance() {
-    	return (frontRightTalon.getEncPosition()/1023.0) * (Math.PI * 2 * WHEEL_RADIUS);
+    	SmartDashboard.putNumber("Encoder Value: ", (frontRightTalon.getEncPosition()/1023.0) * (Math.PI * 2 * WHEEL_RADIUS));
+    	return (frontRightTalon.getEncPosition()/360.0) * (Math.PI * 2 * WHEEL_RADIUS);
     }
 
 }

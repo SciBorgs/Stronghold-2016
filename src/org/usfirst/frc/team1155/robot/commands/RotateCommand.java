@@ -21,7 +21,7 @@ public class RotateCommand extends Command {
 	 */
 	public enum RobotPosition {
 		// Degrees
-		SLOT_1(45), SLOT_2(10), SLOT_3(-10), SLOT_4(-45);
+		SLOT_1(24.444), SLOT_2(5.194), SLOT_3(-15.255), SLOT_4(-32.471);
 
 		private final double angle;
 
@@ -54,10 +54,10 @@ public class RotateCommand extends Command {
 		Robot.driveSubsystem.driveGyro.reset();
 		switch (rotate) {
 		case SLOT_1: case SLOT_2:
-			Robot.driveSubsystem.setSpeed(0.2, -0.2);
+			Robot.driveSubsystem.setSpeed(-0.2, 0.2);
 			break;
 		case SLOT_3: case SLOT_4:
-			Robot.driveSubsystem.setSpeed(-0.2, 0.2);
+			Robot.driveSubsystem.setSpeed(0.2, -0.2);
 			break;	
 		default:
 			Robot.driveSubsystem.setSpeed(0, 0);

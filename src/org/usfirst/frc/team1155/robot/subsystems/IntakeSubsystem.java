@@ -29,6 +29,8 @@ public class IntakeSubsystem extends Subsystem {
     	pivotTalon.changeControlMode(TalonControlMode.Position);
     	conveyorTalon.changeControlMode(TalonControlMode.PercentVbus);
     	holderTalon.changeControlMode(TalonControlMode.PercentVbus);
+    	
+    	pivotTalon.setPosition(0);
 	}
 	
 	/**
@@ -37,6 +39,10 @@ public class IntakeSubsystem extends Subsystem {
 	 */
 	public void setPivotIntakePosition(double position){
 		pivotTalon.set(position);
+	}
+	
+	public int getPivotIntakePosition() {
+		return pivotTalon.getEncPosition();
 	}
 	
 	/**

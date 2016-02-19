@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ConveyorBeltCommand extends Command {
 
-	private final double CONVEYOR_SPEED = .3;
+	private final double CONVEYOR_SPEED = .7;
 
 	/**
 	 * Starts Conveyor belt to move ball up to shooter
@@ -20,10 +20,13 @@ public class ConveyorBeltCommand extends Command {
 	
 	// Starts the conveyor belt in the shooter
 	protected void initialize() {
-		Robot.intakeSubsystem.setConveyorSpeed(CONVEYOR_SPEED);
+		
 	}
 
 	protected void execute() {
+		System.out.println("Rolling the ball in");
+		Robot.intakeSubsystem.setConveyorSpeed(CONVEYOR_SPEED);
+		Robot.intakeSubsystem.setRollerSpeed(CONVEYOR_SPEED);
 	}
 
 	// Ends when it detects the ball in the compartment
@@ -33,9 +36,11 @@ public class ConveyorBeltCommand extends Command {
 
 	protected void end() {
 		Robot.intakeSubsystem.setConveyorSpeed(0);
+		Robot.intakeSubsystem.setRollerSpeed(0);
 	}
 
 	protected void interrupted() {
 		Robot.intakeSubsystem.setConveyorSpeed(0);
+		Robot.intakeSubsystem.setRollerSpeed(0);
 	}
 }

@@ -34,9 +34,7 @@ public class ShootSubsystem extends Subsystem {
     	
     	mainTalon.changeControlMode(TalonControlMode.PercentVbus);
     	
-    	followerTalon.changeControlMode(TalonControlMode.Follower);
-    	followerTalon.set(mainTalon.getDeviceID());
-    	followerTalon.setInverted(true);
+    	followerTalon.changeControlMode(TalonControlMode.PercentVbus);
     	
     	ballChecker = new DigitalInput(PortMap.SHOOT_CHECKER_LIMIT_SWITCH);
     	boulderPusher = new DoubleSolenoid(PortMap.SHOOT_BOULDER_PISTON[0], PortMap.SHOOT_BOULDER_PISTON[1]);
@@ -55,7 +53,7 @@ public class ShootSubsystem extends Subsystem {
      */
     public void setShooterSpeed(double speed) {
     	mainTalon.set(speed);
-    	followerTalon.set(mainTalon.getDeviceID());
+    	followerTalon.set(-speed);
     }
     
     /**

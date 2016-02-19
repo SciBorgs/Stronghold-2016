@@ -12,11 +12,11 @@ public class JoystickDriveCommand extends Command{
 	/**
 	 * Teleop Drive Command
 	 */
-	public JoystickDriveCommand() {
+	public JoystickDriveCommand(Joystick leftJoy, Joystick rightJoy) {
 		requires(Robot.driveSubsystem);
 
-		leftJoystick = Robot.oi.leftJoystick;
-		rightJoystick = Robot.oi.rightJoystick;
+		leftJoystick = leftJoy;
+		rightJoystick = rightJoy;
 	}
 	@Override
 	protected void initialize() {
@@ -25,8 +25,8 @@ public class JoystickDriveCommand extends Command{
 	@Override
 	protected void execute() {
 		//Temporary drive curve, please fix
-		Robot.driveSubsystem.setSpeed(leftJoystick.getY() * Math.abs(leftJoystick.getY()), 
-				rightJoystick.getY() * Math.abs(rightJoystick.getY()));
+		Robot.driveSubsystem.setSpeed(-leftJoystick.getY() * Math.abs(leftJoystick.getY()), 
+				-rightJoystick.getY() * Math.abs(rightJoystick.getY()));
 	}
 
 	@Override

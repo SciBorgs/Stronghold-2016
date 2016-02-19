@@ -48,11 +48,11 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	DriveSubsystem driveSubsystem = new DriveSubsystem();
-//    	ClimbSubsystem climbSubsystem = new ClimbSubsystem();
-    	IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    	ShootSubsystem shootSubsystem = new ShootSubsystem();
-//    	ImageSubsystem imageSubsystem = new ImageSubsystem();
+    	driveSubsystem = new DriveSubsystem();
+//    	climbSubsystem = new ClimbSubsystem();
+    	intakeSubsystem = new IntakeSubsystem();
+    	shootSubsystem = new ShootSubsystem();
+//    	imageSubsystem = new ImageSubsystem();
     	
 		oi = new OI();
 		

@@ -64,7 +64,10 @@ public class DriveSubsystem extends Subsystem {
      */
     public void setSpeed(double leftVal, double rightVal) {
     	frontRightTalon.set(rightVal);
-    	frontLeftTalon.set(leftVal);	
+    	frontLeftTalon.set(leftVal);
+    	
+    	backRightTalon.set(frontRightTalon.getDeviceID());
+		backLeftTalon.set(frontLeftTalon.getDeviceID());
     }
 	
 	/**

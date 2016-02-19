@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class OI extends Command {
     public Joystick leftJoystick, rightJoystick, gamePad;
     
-    private Command joystickDrive, intakeSystem, shooter;
+    private Command joystickDrive, conveyor;
   //Input is the conveyor, load is the window motor (loading it into firing position).  Left joystick is input, right joystick is shoot
     private Button inputBall, loadBall, resetHolder;
     private Button revShooter, shoot;
@@ -33,7 +33,10 @@ public class OI extends Command {
     	shoot = new JoystickButton(rightJoystick, 2);
     	
     	//Initialize drive command
-    	joystickDrive = new JoystickDriveCommand();
+    	joystickDrive = new JoystickDriveCommand(leftJoystick, rightJoystick);
+    	
+    	//Initialize conveyor command
+    	conveyor = new ConveyorBeltCommand();
     	
     	//Initialize input button mapping (boulder input into the shooter)
     	//Input works in three stages.  The first is the intake, which captures the ball.  In this stage, intake and conveyor are
@@ -41,7 +44,6 @@ public class OI extends Command {
     	//Second stage, intake is pushing the ball into the conveyor, and conveyor rolls it up
     	//Third stage, ball is at top of conveyor, and window motor pushes it up into shooting position
     	//First stage isn't ready
-    	inputBall.whileHeld(new ConveyorBeltCommand());
     	
     	
     	//Initialize shoot button mapping
@@ -53,19 +55,21 @@ public class OI extends Command {
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		
+		joystickDrive.start();
 	}
 
 	@Override
 	protected void execute() {
-		// Temporary holder speed control <REMOVE>
+		// Temporary holder speed control <REMOVE>		
 		if(leftJoystick.getPOV() == 0) {
-			Robot.intakeSubsystem.setHolderSpeed(0.25);
+			Robot.intakeSubsystem.setHolderSpeed(0.4);
 			Robot.shootSubsystem.setBallPossessed(true);  //Jerry-rigged, test setup
+			System.out.println("Up the ball goes");
 		}
 		else if(leftJoystick.getPOV() == 180) {
-			Robot.intakeSubsystem.setHolderSpeed(-0.25);
+			Robot.intakeSubsystem.setHolderSpeed(-0.4);
 			Robot.shootSubsystem.setBallPossessed(false);
+			System.out.println("Down the ball goes");
 		}
 		else {
 			Robot.intakeSubsystem.setHolderSpeed(0);
@@ -73,10 +77,25 @@ public class OI extends Command {
 		
 		//Temporary shooting code <REMOVE>
 		if(revShooter.get()) {
-			Robot.shootSubsystem.setShooterSpeed(rightJoystick.getRawAxis(0));  //Set to the correct axis
+			Robot.shootSubsystem.setShooterSpeed(rightJoystick.getRawAxis(3));  //Set to the correct axis
+			System.out.println("Revving shooter");
 		}
 		else {
 			Robot.shootSubsystem.setShooterSpeed(0);
+		}
+		
+		//Temporary conveyor code <REMOVE>
+		if(inputBall.get()) {
+			conveyor.start();
+		} else conveyor.cancel();
+		
+		//Temporary intake pivot code <REMOVE>
+		if(gamePad.getPOV() == 0) {
+			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotIntakePosition() + 10);
+			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition());
+		} else {
+			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotIntakePosition() - 10);
+			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition());
 		}
 	}
 
@@ -89,13 +108,13 @@ public class OI extends Command {
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
-		
+		joystickDrive.cancel();
 	}
 
 	@Override
 	protected void interrupted() {
 		// TODO Auto-generated method stub
-		
+		joystickDrive.cancel();
 	}
 }
 

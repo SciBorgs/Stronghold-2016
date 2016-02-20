@@ -24,6 +24,7 @@ public class PortMap {
 	// Analog channels
 	public static final int[] DRIVE_LEFT_ULTRASONIC = {0, 1};
 	public static final int[] DRIVE_RIGHT_ULTRASONIC = {2, 3};
+	public static final int[] BALL_DETECTOR_ULTRASONIC = {2, 3};
 	
 	public static final int STABALIZATION_GYRO = 0;
 	public static final int DRIVE_GYRO = 1;

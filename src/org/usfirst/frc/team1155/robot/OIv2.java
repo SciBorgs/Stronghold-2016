@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1155.robot;
 
-import org.usfirst.frc.team1155.robot.commands.ConveyorBeltCommand;
+import org.usfirst.frc.team1155.robot.commands.IntakeCommand;
 import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
 import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand;
 
@@ -39,7 +39,7 @@ public class OIv2 {
     			return leftJoystick.getRawButton(1) && currentMode == Mode.INTAKE;
 			}
     	};
-    	inputBall.whenActive(new ConveyorBeltCommand());
+//    	inputBall.whenActive(new IntakeCommand());
     	
     	loadBall = new Trigger() {
 			@Override
@@ -61,7 +61,7 @@ public class OIv2 {
     	joystickDrive = new JoystickDriveCommand(leftJoystick, rightJoystick);
     	
     	//Inxitialize conveyor command
-    	conveyor = new ConveyorBeltCommand();
+//    	conveyor = new IntakeCommand();
     	
     	//Initialize input button mapping (boulder input into the shooter)
     	//Input works in three stages.  The first is the intake, which captures the ball.  In this stage, intake and conveyor are

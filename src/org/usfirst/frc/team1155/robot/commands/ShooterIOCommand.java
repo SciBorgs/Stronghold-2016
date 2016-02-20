@@ -43,6 +43,8 @@ public class ShooterIOCommand extends Command {
 
 	protected void end() {
 		Robot.shootSubsystem.extendPiston();
+		Robot.shootSubsystem.setBallPossessed(false);
+		Robot.intakeSubsystem.setBallInRobot(false);
 	}
 
 	protected void interrupted() {

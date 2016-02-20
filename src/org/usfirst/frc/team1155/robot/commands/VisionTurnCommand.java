@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class VisionTurnDriveCommand extends Command {
+public class VisionTurnCommand extends Command {
 
 	private double angleToTurn;
 
@@ -22,7 +22,7 @@ public class VisionTurnDriveCommand extends Command {
 	 * 
 	 * @param angle Angle to turn
 	 */
-	public VisionTurnDriveCommand() {
+	public VisionTurnCommand() {
 		requires(Robot.driveSubsystem);
 	}
 	//Vision must be running parallel 

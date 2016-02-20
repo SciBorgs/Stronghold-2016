@@ -6,6 +6,7 @@ import org.usfirst.frc.team1155.robot.PortMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -15,11 +16,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class IntakeSubsystem extends Subsystem {
 	
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+    private static final double BALL_IN_DISTANCE = 7;
 		
 	public CANTalon intakeTalon, pivotTalon, conveyorTalon, holderTalon;
 	public DigitalInput holderLimitSwitch_Open, holderLimitSwitch_Closed;
+	public Ultrasonic ballDetector;
+	public boolean ballInRobot = false;
 	
 	public IntakeSubsystem() {
     	intakeTalon = new CANTalon(PortMap.INTAKE_ROLLER_TALON);
@@ -35,6 +37,7 @@ public class IntakeSubsystem extends Subsystem {
     	conveyorTalon.changeControlMode(TalonControlMode.PercentVbus);
     	holderTalon.changeControlMode(TalonControlMode.PercentVbus);
     	
+    	ballDetector = new Ultrasonic(PortMap.BALL_DETECTOR_ULTRASONIC[0], PortMap.BALL_DETECTOR_ULTRASONIC[1]);
 	}
 	
 	/**
@@ -76,7 +79,22 @@ public class IntakeSubsystem extends Subsystem {
 		holderTalon.set(speed);
 	}
 	
+	/**
+	 * Controls turning speed of boulder holder
+	 * 
+	 * @return booleanWhether the ball is in the robot, based off ultrasonic values
+	 */
+	public boolean isBallIn() {  
+		return ballDetector.getRangeInches() <= BALL_IN_DISTANCE;
+	}
 	
+	public void setBallInRobot(boolean value) {
+		ballInRobot = value;
+	}
+	
+	public boolean isBallInRobot() {
+		return ballInRobot;
+	}
 
 	@Override
 	protected void initDefaultCommand() {

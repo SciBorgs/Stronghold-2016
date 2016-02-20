@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.commands.IntakeCommand.IntakeMode;
-import org.usfirst.frc.team1155.robot.commands.IntakeCommand.Pivot;
 import org.usfirst.frc.team1155.robot.commands.RotateCommand.RobotPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -57,14 +56,14 @@ public class AutonomousCommand extends CommandGroup{
 		
 		switch(defense) {
 		case PORTCULLIS:
-			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.UP)); // Lift portcullis
+//			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.UP)); // Lift portcullis
 			addSequential(new CrossDefenseCommand()); // Drive over defense
-			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.NEUTRAL)); // Drop portcullis
+//			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.NEUTRAL)); // Drop portcullis
 			break;
 		case CHEVALDEFRISE:
-			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.DOWN)); // Push down plates
+//			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.DOWN)); // Push down plates
 			addSequential(new CrossDefenseCommand()); // Drive over defense
-			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.NEUTRAL)); // Release plates
+//			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.NEUTRAL)); // Release plates
 			break;
 		case MOAT:
 			addSequential(new CrossDefenseCommand()); // Drive over defense
@@ -107,7 +106,7 @@ public class AutonomousCommand extends CommandGroup{
 		default:
 			break;
 		}
-		addSequential(new VisionTurnDriveCommand()); // Rotates to tape on tower
+		addSequential(new VisionTurnCommand()); // Rotates to tape on tower
 		addSequential(new VisionDriveCommand());
 		addSequential(new ShooterIOCommand()); // Shoots
 		

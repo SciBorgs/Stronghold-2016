@@ -1,9 +1,9 @@
 package org.usfirst.frc.team1155.robot;
 
-import org.usfirst.frc.team1155.robot.commands.ConveyorBeltCommand;
+import org.usfirst.frc.team1155.robot.commands.IntakeCommand;
 import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
 import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand;
-import org.usfirst.frc.team1155.robot.commands.VisionTurnDriveCommand;
+import org.usfirst.frc.team1155.robot.commands.VisionTurnCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class OI extends Command {
     public Joystick leftJoystick, rightJoystick, gamePad;
     
-    private Command joystickDrive, conveyor;
+    private Command joystickDrive, intakeStart;
   //Input is the conveyor, load is the window motor (loading it into firing position).  Left joystick is input, right joystick is shoot
     private Button inputBall, loadBall, resetHolder;
     private Button revShooter, shoot;
@@ -38,9 +38,6 @@ public class OI extends Command {
     	//Initialize drive command
     	joystickDrive = new JoystickDriveCommand(leftJoystick, rightJoystick);
     	
-    	//Initialize conveyor command
-    	conveyor = new ConveyorBeltCommand();
-    	
     	//Initialize input button mapping (boulder input into the shooter)
     	//Input works in three stages.  The first is the intake, which captures the ball.  In this stage, intake and conveyor are
     	//rolling
@@ -54,7 +51,7 @@ public class OI extends Command {
     	//ball into the shooter
     	shoot.whenPressed(new ShooterIOCommand());
     	
-    	aim.whenPressed(new VisionTurnDriveCommand());
+    	aim.whenPressed(new VisionTurnCommand());
     }
 
 	@Override
@@ -91,19 +88,22 @@ public class OI extends Command {
 		
 		//Temporary conveyor code <REMOVE>
 		if(inputBall.get()) {
-			conveyor.start();
-		} else conveyor.cancel();
+			intakeStart.start();
+		} else intakeStart.cancel();
 		
 		//Temporary intake pivot code <REMOVE>
 		if(gamePad.getPOV() == 0) {
-			Robot.intakeSubsystem.setPivotIntakePosition(0.7);
+			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotIntakePosition() + 10);
 			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition());
 		} else if(gamePad.getPOV() == 180){
-			Robot.intakeSubsystem.setPivotIntakePosition(-0.4);
+			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotIntakePosition() - 10);
 			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition());
 		}
-		else {
-			Robot.intakeSubsystem.setPivotIntakePosition(0);
+		
+		//Restarts drive
+		if(!joystickDrive.isRunning()) {
+			if(leftJoystick.getY() > 0.05 || rightJoystick.getY() > 0.05)
+				joystickDrive.start();
 		}
 	}
 

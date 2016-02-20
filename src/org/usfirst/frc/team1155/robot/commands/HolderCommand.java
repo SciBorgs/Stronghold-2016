@@ -14,7 +14,6 @@ public class HolderCommand extends Command{
 	private HolderPosition holderPosition;
 	
 	public HolderCommand(HolderPosition position) {		
-		requires(Robot.intakeSubsystem);
 		holderPosition = position;
 	}
 	@Override
@@ -34,8 +33,10 @@ public class HolderCommand extends Command{
 	@Override
 	protected boolean isFinished() {
 		if(holderPosition == HolderPosition.OPEN) {
+			Robot.shootSubsystem.setBallPossessed(false);
 			return Robot.intakeSubsystem.holderLimitSwitch_Open.get();
 		}else {
+			Robot.shootSubsystem.setBallPossessed(true);
 			return Robot.intakeSubsystem.holderLimitSwitch_Closed.get();
 		}
 	}

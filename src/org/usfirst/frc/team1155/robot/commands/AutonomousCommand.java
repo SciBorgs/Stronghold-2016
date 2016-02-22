@@ -57,31 +57,31 @@ public class AutonomousCommand extends CommandGroup{
 		switch(defense) {
 		case PORTCULLIS:
 //			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.UP)); // Lift portcullis
-			addSequential(new CrossDefenseCommand()); // Drive over defense
+			addSequential(new CrossDefenseCommand(0.2)); // Drive over defense
 //			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.NEUTRAL)); // Drop portcullis
 			break;
 		case CHEVALDEFRISE:
 //			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.DOWN)); // Push down plates
-			addSequential(new CrossDefenseCommand()); // Drive over defense
+			addSequential(new CrossDefenseCommand(0.2)); // Drive over defense
 //			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.NEUTRAL)); // Release plates
 			break;
 		case MOAT:
-			addSequential(new CrossDefenseCommand()); // Drive over defense
+			addSequential(new CrossDefenseCommand(0.5)); // Drive over defense
 			break;
 		case RAMP:
-			addSequential(new CrossDefenseCommand()); // Drive over defense
+			addSequential(new CrossDefenseCommand(0.5)); // Drive over defense
 			break;
 		case DRAWBRIDGE:
 			// Can't do
 			break;
 		case ROCK_WALL:
-			addSequential(new CrossDefenseCommand()); // Drive over defense
+			addSequential(new CrossDefenseCommand(0.4)); // Drive over defense
 			break;
 		case SALLYPORT:
 			// Can't do
 			break;
 		case ROUGH_TERRAIN:
-			addSequential(new CrossDefenseCommand()); // Drive over defense
+			addSequential(new CrossDefenseCommand(0.5)); // Drive over defense
 			break;
 		default:
 			break;

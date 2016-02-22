@@ -9,7 +9,7 @@ public class CrossDefenseCommand extends Command{
 	
 	private final double ANGLE_BUFFER = 5; 
 	//private final double TIME_TO_CROSS = 1.2;
-	private final double INITIAL_SPEED = 0.5;
+	private double speed = 0.5;
 	
 	private boolean didPointDown;
 	private double initialAngle;
@@ -17,8 +17,9 @@ public class CrossDefenseCommand extends Command{
 	/**
 	 * Autonomous command to cross most defenses
 	 */
-	public CrossDefenseCommand() {
+	public CrossDefenseCommand(double speed) {
 		requires(Robot.driveSubsystem);
+		this.speed = speed;
 		didPointDown = false;
 		Robot.driveSubsystem.stabalizationGyro.reset();
 		Robot.driveSubsystem.driveGyro.reset();
@@ -29,7 +30,7 @@ public class CrossDefenseCommand extends Command{
 	
 	@Override
 	protected void initialize() {
-		Robot.driveSubsystem.setSpeed(-INITIAL_SPEED, -INITIAL_SPEED);
+		Robot.driveSubsystem.setSpeed(-speed, -speed);
 	}
 
 	@Override
@@ -37,11 +38,11 @@ public class CrossDefenseCommand extends Command{
 	// (IE went up a ramp and went back down another ramp)
 	protected void execute() {
 		if((int) Robot.driveSubsystem.driveGyro.getAngle() > 0){
-			Robot.driveSubsystem.setSpeed(-INITIAL_SPEED - .2, -INITIAL_SPEED + .2);
+			Robot.driveSubsystem.setSpeed(-speed - .2, -speed + .2);
 		} else if((int) Robot.driveSubsystem.driveGyro.getAngle() < 0){
-			Robot.driveSubsystem.setSpeed(-INITIAL_SPEED + .2, -INITIAL_SPEED - .2);
+			Robot.driveSubsystem.setSpeed(-speed + .2, -speed - .2);
 		} else {
-			Robot.driveSubsystem.setSpeed(-INITIAL_SPEED, -INITIAL_SPEED);
+			Robot.driveSubsystem.setSpeed(-speed, -speed);
 		}
 		
 		if(Robot.driveSubsystem.stabalizationGyro.getAngle() > initialAngle) {

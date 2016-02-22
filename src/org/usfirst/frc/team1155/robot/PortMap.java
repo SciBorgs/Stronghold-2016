@@ -10,7 +10,7 @@ public class PortMap {
 	public static final int CONVEYOR_TALON = 9;
 	public static final int BOULDER_HOLDER_TALON = 4;
 	public static final int HOLDER_OPEN_LIMIT_SWITCH = 1;
-	public static final int HOLDER_CLOSED_LIMIT_SWITCH = 2;
+	public static final int HOLDER_CLOSED_LIMIT_SWITCH = 0;
 	
 	public static final int CLIMB_ARM_TALON = 13;
 	public static final int CLIMB_WINCH_TALON = 13;
@@ -23,8 +23,8 @@ public class PortMap {
 	
 	// Analog channels
 	public static final int[] DRIVE_LEFT_ULTRASONIC = {0, 1};
-	public static final int[] DRIVE_RIGHT_ULTRASONIC = {2, 3};
-	public static final int[] BALL_DETECTOR_ULTRASONIC = {2, 3};
+	public static final int[] DRIVE_RIGHT_ULTRASONIC = {0, 1};
+	public static final int[] BALL_DETECTOR_ULTRASONIC = {7, 8};
 	
 	public static final int STABALIZATION_GYRO = 0;
 	public static final int DRIVE_GYRO = 1;
@@ -34,6 +34,8 @@ public class PortMap {
 	public static final int JOYSTICK_LEFT = 0;
 	public static final int JOYSTICK_RIGHT = 1;
 	public static final int GAMEPAD = 2;
-	
-	public static final int SHOOT_CHECKER_LIMIT_SWITCH = 0;
+
+	public static final int SHOOT_CHECKER_LIMIT_SWITCH = 3;
+	public static final int UPPER_LIMIT_SWITCH = 0;
+	public static final int CAMERA_TILT = 0;
 }

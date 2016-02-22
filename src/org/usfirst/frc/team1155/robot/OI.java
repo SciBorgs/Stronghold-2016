@@ -1,11 +1,12 @@
 package org.usfirst.frc.team1155.robot;
 
-import org.usfirst.frc.team1155.robot.commands.IntakeCommand;
 import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
+import org.usfirst.frc.team1155.robot.commands.PickUpBoulderCommandGroup;
 import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand;
 import org.usfirst.frc.team1155.robot.commands.VisionTurnCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,6 +23,7 @@ public class OI extends Command {
     private Button inputBall, loadBall, resetHolder;
     private Button revShooter, shoot;
     private Button aim;
+    private Ultrasonic ultra;
     
     public OI() {
     	leftJoystick = new Joystick(PortMap.JOYSTICK_LEFT);
@@ -38,6 +40,9 @@ public class OI extends Command {
     	//Initialize drive command
     	joystickDrive = new JoystickDriveCommand(leftJoystick, rightJoystick);
     	
+    	//Intake command
+    	intakeStart = new PickUpBoulderCommandGroup();
+    	
     	//Initialize input button mapping (boulder input into the shooter)
     	//Input works in three stages.  The first is the intake, which captures the ball.  In this stage, intake and conveyor are
     	//rolling
@@ -52,6 +57,8 @@ public class OI extends Command {
     	shoot.whenPressed(new ShooterIOCommand());
     	
     	aim.whenPressed(new VisionTurnCommand());
+    	
+    	Robot.imageSubsystem.setCameraTilt(90);
     }
 
 	@Override
@@ -62,6 +69,7 @@ public class OI extends Command {
 
 	@Override
 	protected void execute() {
+		System.out.println(Robot.intakeSubsystem.holderLimitSwitch_Open.get() + " " + Robot.intakeSubsystem.holderLimitSwitch_Closed.get());
 		// Temporary holder speed control <REMOVE>	
 		if(leftJoystick.getPOV() == 0) {
 			Robot.intakeSubsystem.setHolderSpeed(-0.4);
@@ -79,7 +87,7 @@ public class OI extends Command {
 		
 		//Temporary shooting code <REMOVE>
 		if(revShooter.get()) {
-			Robot.shootSubsystem.setShooterSpeed(rightJoystick.getRawAxis(3));  //Set to the correct axis
+			Robot.shootSubsystem.setShooterSpeed(-(rightJoystick.getRawAxis(3) - 1) / 2.0);  //Set to the correct axis
 			System.out.println("Revving shooter");
 		}
 		else {
@@ -93,11 +101,11 @@ public class OI extends Command {
 		
 		//Temporary intake pivot code <REMOVE>
 		if(gamePad.getPOV() == 0) {
-			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotIntakePosition() + 10);
-			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition());
+			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotSetPosition() + 10);
+			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition() + " " + Robot.intakeSubsystem.getPivotSetPosition());
 		} else if(gamePad.getPOV() == 180){
-			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotIntakePosition() - 10);
-			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition());
+			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotSetPosition() - 10);
+			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition() + " " + Robot.intakeSubsystem.getPivotSetPosition());
 		}
 		
 		//Restarts drive

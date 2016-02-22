@@ -3,6 +3,7 @@ package org.usfirst.frc.team1155.robot.subsystems;
 import java.util.Comparator;
 import java.util.Vector;
 
+import org.usfirst.frc.team1155.robot.PortMap;
 import org.usfirst.frc.team1155.robot.Robot;
 
 import com.ni.vision.NIVision;
@@ -13,6 +14,7 @@ import com.ni.vision.NIVision.Range;
 import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -89,6 +91,9 @@ public class ImageSubsystem extends Subsystem {
 	private static Range tapeSatRange = new Range(255, 255);
 	private static Range tapeValRange = new Range(255, 255);
 	
+
+	public Servo cameraTilt;
+	
 	public ImageSubsystem() {		
 		targetImage = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0); // Filtered recording
 		targetFrame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0); // Unfiltered recording
@@ -110,7 +115,14 @@ public class ImageSubsystem extends Subsystem {
 		
 		// A place to store all of the scores that are calculated
 		scores = new Scores();
+		
+		cameraTilt = new Servo(PortMap.CAMERA_TILT);
 	}
+	
+	//Servo control
+		public void setCameraTilt(int angle) {
+			cameraTilt.setAngle(angle);
+		}
 
 	/**
 	 * Updates HSV ranges based on user input on SmartDashboard
@@ -409,5 +421,4 @@ public class ImageSubsystem extends Subsystem {
 		double area;
 		double aspect;
 	}
-
 }

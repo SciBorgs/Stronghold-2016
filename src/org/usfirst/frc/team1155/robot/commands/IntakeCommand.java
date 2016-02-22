@@ -30,7 +30,7 @@ public class IntakeCommand extends Command {
 	protected void execute() {
 		if(mode == IntakeMode.ULTRA_BASED) {
 			Robot.intakeSubsystem.setConveyorSpeed(-CONVEYOR_SPEED);
-			Robot.intakeSubsystem.setRollerSpeed(0);
+			Robot.intakeSubsystem.setRollerSpeed(ROLLER_SPEED);
 		} else if (mode == IntakeMode.CONTINUOUS) {
 			Robot.intakeSubsystem.setConveyorSpeed(-CONVEYOR_SPEED);
 		}
@@ -46,6 +46,7 @@ public class IntakeCommand extends Command {
 	}
 
 	protected void end() {
+		System.out.println("Finished");
 		Robot.intakeSubsystem.setConveyorSpeed(0);
 		Robot.intakeSubsystem.setRollerSpeed(0);
 	}

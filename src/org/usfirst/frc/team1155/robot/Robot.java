@@ -13,6 +13,7 @@ import org.usfirst.frc.team1155.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ShootSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -77,11 +78,11 @@ public class Robot extends IterativeRobot {
         
         //chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putNumber("H Min", 110);
+		SmartDashboard.putNumber("H Min", 60);
 		SmartDashboard.putNumber("H Max", 130);
-		SmartDashboard.putNumber("S Min", 255);
+		SmartDashboard.putNumber("S Min", 100);
 		SmartDashboard.putNumber("S Max", 255);
-		SmartDashboard.putNumber("V Min", 255);
+		SmartDashboard.putNumber("V Min", 100);
 		SmartDashboard.putNumber("V Max", 255);
 
         SmartDashboard.putData("Defense", defenseChooser);
@@ -98,6 +99,7 @@ public class Robot extends IterativeRobot {
     }
 	
 	public void disabledPeriodic() {
+		
 		Scheduler.getInstance().run();
 	}
 

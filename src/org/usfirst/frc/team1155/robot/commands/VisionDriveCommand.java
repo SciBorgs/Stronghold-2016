@@ -18,8 +18,14 @@ public class VisionDriveCommand extends Command {
 
 	@Override
 	protected void initialize() {
+		if(!Robot.imageSubsystem.isTargetTape()) {
+			System.out.println("No Tape");
+			end();
+			return;
+		}
+		
 		distanceToDrive = Robot.targetVector.xDistance * Math.cos(50 * Math.PI/180);
-		Robot.driveSubsystem.setSpeed(-DRIVE_SPEED, -DRIVE_SPEED);
+		Robot.driveSubsystem.setSpeed(DRIVE_SPEED, DRIVE_SPEED);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1155.robot.commands;
 
-import org.usfirst.frc.team1155.robot.commands.IntakeCommand.IntakeMode;
+import org.usfirst.frc.team1155.robot.Robot;
 import org.usfirst.frc.team1155.robot.commands.RotateCommand.RobotPosition;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -108,7 +108,9 @@ public class AutonomousCommand extends CommandGroup{
 		}
 		addSequential(new VisionTurnCommand()); // Rotates to tape on tower
 		addSequential(new VisionDriveCommand());
-		addSequential(new ShooterIOCommand()); // Shoots
+		if(Robot.imageSubsystem.isTargetTape()) {
+			addSequential(new ShooterIOCommand()); // Shoots
+		}
 		
 	}
 

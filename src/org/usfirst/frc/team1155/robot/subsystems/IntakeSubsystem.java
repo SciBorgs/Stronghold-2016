@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class IntakeSubsystem extends Subsystem {
 	
-    private static final double BALL_IN_DISTANCE = 7;
+    private static final double BALL_IN_DISTANCE = 8;
 		
 	public CANTalon intakeTalon, pivotTalon, conveyorTalon, holderTalon;
 	public DigitalInput holderLimitSwitch_Open, holderLimitSwitch_Closed;
@@ -33,11 +33,17 @@ public class IntakeSubsystem extends Subsystem {
     	holderLimitSwitch_Closed = new DigitalInput(PortMap.HOLDER_CLOSED_LIMIT_SWITCH);
     	
     	intakeTalon.changeControlMode(TalonControlMode.PercentVbus);
-    	pivotTalon.changeControlMode(TalonControlMode.PercentVbus);
+    	pivotTalon.changeControlMode(TalonControlMode.Position);
+    	pivotTalon.setPID(100, 0, 0);
+    	pivotTalon.reverseSensor(true);
     	conveyorTalon.changeControlMode(TalonControlMode.PercentVbus);
     	holderTalon.changeControlMode(TalonControlMode.PercentVbus);
     	
+    	pivotTalon.setPosition(0);
+    	
     	ballDetector = new Ultrasonic(PortMap.BALL_DETECTOR_ULTRASONIC[0], PortMap.BALL_DETECTOR_ULTRASONIC[1]);
+    	ballDetector.setEnabled(true);
+    	ballDetector.setAutomaticMode(true);
 	}
 	
 	/**
@@ -49,6 +55,10 @@ public class IntakeSubsystem extends Subsystem {
 	}
 	
 	public double getPivotIntakePosition() {
+		return pivotTalon.get();
+	}
+	
+	public double getPivotSetPosition() {
 		return pivotTalon.getSetpoint();
 	}
 	

@@ -12,8 +12,8 @@ public class VisionTurnCommand extends Command {
 
 	private double angleToTurn;
 
-	private final double ANGLE_TURN_SPEED = 0.3;
-	private final double ANGLE_BUFFER = 1;
+	private final double ANGLE_TURN_SPEED = 0.2;
+	private final double ANGLE_BUFFER = 3;
 
 	/**
 	 * Autonomous Command

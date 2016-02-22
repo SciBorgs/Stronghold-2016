@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class JoystickDriveCommand extends Command{
 
 	private Joystick leftJoystick, rightJoystick;
+	private double leftVal, rightVal;
 	
 	/**
 	 * Teleop Drive Command
@@ -25,8 +26,12 @@ public class JoystickDriveCommand extends Command{
 	@Override
 	protected void execute() {
 		//Temporary drive curve, please fix
-		Robot.driveSubsystem.setSpeed(-leftJoystick.getY() * Math.abs(leftJoystick.getY()), 
-				-rightJoystick.getY() * Math.abs(rightJoystick.getY()));
+		leftVal = -leftJoystick.getY() * Math.abs(leftJoystick.getY());
+		rightVal = -rightJoystick.getY() * Math.abs(rightJoystick.getY());
+		double limits = (leftJoystick.getRawAxis(3) + 1) / 2.0;
+		leftVal *= limits;
+		rightVal *= limits;
+		Robot.driveSubsystem.setSpeed(leftVal, rightVal);
 	}
 
 	@Override

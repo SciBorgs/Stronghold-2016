@@ -20,7 +20,7 @@ public class RotateCommand extends Command {
 	 */
 	public enum RobotPosition {
 		// Degrees
-		SLOT_1(24.444), SLOT_2(5.194), SLOT_3(-15.255), SLOT_4(-32.471);
+		SLOT_1(24.444), SLOT_2(5.194), SLOT_3(-15.255), SLOT_4(-32.471), CENTER(0);
 
 		private final double angle;
 

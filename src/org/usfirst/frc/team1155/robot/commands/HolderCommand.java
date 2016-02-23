@@ -33,17 +33,19 @@ public class HolderCommand extends Command{
 		} else {
 			Robot.intakeSubsystem.setHolderSpeed(-0.4);
 		}
+		System.out.println("RUNNING");
 	}
 
 	@Override
 	protected boolean isFinished() {
 		if(holderPosition == HolderPosition.OPEN) {
 			Robot.shootSubsystem.setBallPossessed(false);
-			return !Robot.intakeSubsystem.holderLimitSwitch_Open.get();
-		}else {
+			return Robot.intakeSubsystem.holderLimitSwitch_Open.get();
+		}else if(!Robot.intakeSubsystem.holderLimitSwitch_Closed.get()){
 			Robot.shootSubsystem.setBallPossessed(true);
-			return !Robot.intakeSubsystem.holderLimitSwitch_Closed.get();
+			return true;
 		}
+		return false;
 	}
 
 	@Override

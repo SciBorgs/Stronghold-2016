@@ -6,6 +6,7 @@ import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand;
 import org.usfirst.frc.team1155.robot.commands.VisionTurnCommand;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -24,6 +25,7 @@ public class OI extends Command {
     private Button revShooter, shoot;
     private Button aim, driveStraight;
     private Ultrasonic ultra;
+    private Servo cameraPan, cameraTilt;
     
     public OI() {
     	leftJoystick = new Joystick(PortMap.JOYSTICK_LEFT);
@@ -52,17 +54,22 @@ public class OI extends Command {
     	aim.whenPressed(new VisionTurnCommand());
     	
     	Robot.imageSubsystem.setCameraTilt(90);
+    	
+//    	cameraPan = new Servo(9);
+//    	cameraTilt = new Servo(8);
     }
 
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
 		joystickDrive.start();
+//		cameraPan.setAngle(90);
+//		cameraTilt.setAngle(130);
 	}
 
 	@Override
 	protected void execute() {
-		System.out.println(Robot.intakeSubsystem.holderLimitSwitch_Open.get() + " " + Robot.intakeSubsystem.holderLimitSwitch_Closed.get());
+		System.out.println(Robot.intakeSubsystem.ballDetector.getRangeInches());
 		// Temporary holder speed control <REMOVE>	
 		if(leftJoystick.getPOV() == 0) {
 			Robot.intakeSubsystem.setHolderSpeed(-0.4);

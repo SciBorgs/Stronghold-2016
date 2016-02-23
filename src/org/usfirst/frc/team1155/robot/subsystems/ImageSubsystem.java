@@ -106,7 +106,7 @@ public class ImageSubsystem extends Subsystem {
 		filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
 		
 		// Starts camera recording
-		session = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+		session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
 		NIVision.IMAQdxConfigureGrab(session);
 		NIVision.IMAQdxStartAcquisition(session);
 		
@@ -116,7 +116,7 @@ public class ImageSubsystem extends Subsystem {
 		// A place to store all of the scores that are calculated
 		scores = new Scores();
 		
-		cameraTilt = new Servo(PortMap.CAMERA_TILT);
+		cameraTilt = new Servo(0);
 	}
 	
 	//Servo control

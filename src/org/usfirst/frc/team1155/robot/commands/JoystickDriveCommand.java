@@ -29,17 +29,14 @@ public class JoystickDriveCommand extends Command{
 
 	@Override
 	protected void execute() {
+		System.out.println("RUNNING DRIVE");
 		//Temporary drive curve, please fix
 		leftVal = -leftJoystick.getY() * Math.abs(leftJoystick.getY());
 		rightVal = -rightJoystick.getY() * Math.abs(rightJoystick.getY());
 		double limits = (leftJoystick.getRawAxis(3) + 1) / 2.0;
 		leftVal *= limits;
 		rightVal *= limits;
-		if(driveStraight.get()) {
-			Robot.driveSubsystem.setSpeed(leftVal, leftVal);
-		} else {
-			Robot.driveSubsystem.setSpeed(leftVal, rightVal);
-		}
+		Robot.driveSubsystem.setSpeed(leftVal, rightVal);
 	}
 
 	@Override

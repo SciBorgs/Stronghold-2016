@@ -41,6 +41,8 @@ public class DriveSubsystem extends Subsystem {
 		backRightTalon.set(frontRightTalon.getDeviceID());
 		backLeftTalon.set(frontLeftTalon.getDeviceID());
 		
+		frontRightTalon.setEncPosition(0);
+		
 //		leftUltrasonic = new Ultrasonic(PortMap.DRIVE_LEFT_ULTRASONIC[0], PortMap.DRIVE_LEFT_ULTRASONIC[1]);
 //		rightUltrasonic = new Ultrasonic(PortMap.DRIVE_RIGHT_ULTRASONIC[0],PortMap.DRIVE_RIGHT_ULTRASONIC[1]);
 				

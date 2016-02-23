@@ -14,7 +14,7 @@ public class VisionTurnCommand extends Command {
 	private double turnSpeed = 0;
 
 	private final double ANGLE_TURN_SPEED = 0.35;
-	private final double ANGLE_BUFFER = 3;
+	private final double ANGLE_BUFFER = 1;
 
 	/**
 	 * Autonomous Command
@@ -43,7 +43,7 @@ public class VisionTurnCommand extends Command {
 		angleToTurn = Robot.targetVector.theta;
 		SmartDashboard.putNumber("Angle To Turn" , angleToTurn);
 		
-		turnSpeed = Math.pow(angleToTurn / 1250, 1.0/5.5);  //Determined using desmos grapher
+		turnSpeed = Math.pow(Math.abs(angleToTurn) / 2250, 1.0/5.5);  //Determined using desmos grapher
 		//double turnSpeed = (angleToTurn > 0) ? ANGLE_TURN_SPEED : -ANGLE_TURN_SPEED;
 		if (angleToTurn > 0) {
 			Robot.driveSubsystem.setSpeed(turnSpeed, -turnSpeed);

@@ -31,7 +31,7 @@ public class DistanceDriveCommand extends Command {
 	protected void initialize() {
 		initialDistance = Robot.driveSubsystem.getEncoderDistance();
 		System.out.println("Initial encoder pos: " + initialDistance);
-		Robot.driveSubsystem.setSpeed(-DRIVE_SPEED, -DRIVE_SPEED);
+		Robot.driveSubsystem.setSpeed(DRIVE_SPEED, DRIVE_SPEED);
 	}
 
 	@Override

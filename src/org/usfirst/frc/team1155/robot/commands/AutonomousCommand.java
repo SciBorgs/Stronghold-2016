@@ -51,7 +51,6 @@ public class AutonomousCommand extends CommandGroup{
 	 * 
 	 */
 	public AutonomousCommand(Defense defense, Position position) {
-		addSequential(new VisionCommand(false));
 		addSequential(new DistanceDriveCommand(DISTANCE_TO_DEFENSE)); // Drives up to defense
 		
 		switch(defense) {
@@ -81,7 +80,7 @@ public class AutonomousCommand extends CommandGroup{
 			// Can't do
 			break;
 		case ROUGH_TERRAIN:
-			addSequential(new CrossDefenseCommand(0.5)); // Drive over defense
+			addSequential(new TimedDrive(1.5, 0.8)); // Drive over defense
 			break;
 		default:
 			break;

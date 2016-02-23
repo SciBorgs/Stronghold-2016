@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
+import org.usfirst.frc.team1155.robot.commands.HolderCommand.HolderPosition;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -39,7 +40,11 @@ public class ShooterIOCommand extends Command {
 
 		
 	protected boolean isFinished() {
-		return pistonExtendLagTime.get() >= 1; //Finishes when one second has passed	
+		if(pistonExtendLagTime.get() >= 3) {
+			new HolderCommand(HolderPosition.OPEN).start();
+			return true;//Finishes when one second has passed	
+		}
+		return false;
 	}
 
 	protected void end() {

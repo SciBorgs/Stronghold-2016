@@ -30,7 +30,7 @@ public class CrossDefenseCommand extends Command{
 	
 	@Override
 	protected void initialize() {
-		Robot.driveSubsystem.setSpeed(-speed, -speed);
+		Robot.driveSubsystem.setSpeed(speed, speed);
 	}
 
 	@Override
@@ -38,11 +38,11 @@ public class CrossDefenseCommand extends Command{
 	// (IE went up a ramp and went back down another ramp)
 	protected void execute() {
 		if((int) Robot.driveSubsystem.driveGyro.getAngle() > 0){
-			Robot.driveSubsystem.setSpeed(-speed - .2, -speed + .2);
+			Robot.driveSubsystem.setSpeed(speed - .2, speed + .2);
 		} else if((int) Robot.driveSubsystem.driveGyro.getAngle() < 0){
-			Robot.driveSubsystem.setSpeed(-speed + .2, -speed - .2);
+			Robot.driveSubsystem.setSpeed(speed + .2, speed - .2);
 		} else {
-			Robot.driveSubsystem.setSpeed(-speed, -speed);
+			Robot.driveSubsystem.setSpeed(speed, speed);
 		}
 		
 		if(Robot.driveSubsystem.stabalizationGyro.getAngle() > initialAngle) {

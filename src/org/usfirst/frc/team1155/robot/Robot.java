@@ -118,6 +118,7 @@ public class Robot extends IterativeRobot {
         	(Defense) defenseChooser.getSelected(), 
         	(Position) positionChooser.getSelected()
         );
+        new VisionCommand(false).start();
         
         //If not null (above creation worked) start the command
         if (autonomousCommand != null) {

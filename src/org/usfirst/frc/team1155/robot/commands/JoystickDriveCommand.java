@@ -3,21 +3,25 @@ package org.usfirst.frc.team1155.robot.commands;
 import org.usfirst.frc.team1155.robot.Robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class JoystickDriveCommand extends Command{
 
 	private Joystick leftJoystick, rightJoystick;
+	private Button driveStraight;
 	private double leftVal, rightVal;
 	
 	/**
 	 * Teleop Drive Command
 	 */
-	public JoystickDriveCommand(Joystick leftJoy, Joystick rightJoy) {
+	public JoystickDriveCommand(Joystick leftJoy, Joystick rightJoy, Button driveStraight) {
 		requires(Robot.driveSubsystem);
 
 		leftJoystick = leftJoy;
 		rightJoystick = rightJoy;
+		
+		this.driveStraight = driveStraight;
 	}
 	@Override
 	protected void initialize() {
@@ -31,7 +35,11 @@ public class JoystickDriveCommand extends Command{
 		double limits = (leftJoystick.getRawAxis(3) + 1) / 2.0;
 		leftVal *= limits;
 		rightVal *= limits;
-		Robot.driveSubsystem.setSpeed(leftVal, rightVal);
+		if(driveStraight.get()) {
+			Robot.driveSubsystem.setSpeed(leftVal, leftVal);
+		} else {
+			Robot.driveSubsystem.setSpeed(leftVal, rightVal);
+		}
 	}
 
 	@Override

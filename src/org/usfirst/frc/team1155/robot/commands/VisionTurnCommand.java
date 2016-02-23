@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class VisionTurnCommand extends Command {
 
 	private double angleToTurn;
+	private double turnSpeed = 0;
 
-	private final double ANGLE_TURN_SPEED = 0.2;
+	private final double ANGLE_TURN_SPEED = 0.35;
 	private final double ANGLE_BUFFER = 3;
 
 	/**
@@ -28,27 +29,28 @@ public class VisionTurnCommand extends Command {
 	//Vision must be running parallel 
 	@Override
 	protected void initialize() {	
-		System.out.println("Runing Vision Turn");
+		System.out.println("Running Vision Turn");
 		if(!Robot.imageSubsystem.isTargetTape()) {
 			System.out.println("No Tape");
 			end();
 			return;
 		}
 		angleToTurn = Robot.targetVector.theta;
-
-		//double turnSpeed = (angleToTurn > 0) ? ANGLE_TURN_SPEED : -ANGLE_TURN_SPEED;
-		if (angleToTurn > 0) {
-			Robot.driveSubsystem.setSpeed(ANGLE_TURN_SPEED, -ANGLE_TURN_SPEED);
-		}
-		else if (angleToTurn < 0) {
-			Robot.driveSubsystem.setSpeed(-ANGLE_TURN_SPEED, ANGLE_TURN_SPEED);
-		}
 	}
 
 	@Override
 	protected void execute() {
 		angleToTurn = Robot.targetVector.theta;
 		SmartDashboard.putNumber("Angle To Turn" , angleToTurn);
+		
+		turnSpeed = Math.pow(angleToTurn / 1250, 1.0/5.5);  //Determined using desmos grapher
+		//double turnSpeed = (angleToTurn > 0) ? ANGLE_TURN_SPEED : -ANGLE_TURN_SPEED;
+		if (angleToTurn > 0) {
+			Robot.driveSubsystem.setSpeed(turnSpeed, -turnSpeed);
+		}
+		else if (angleToTurn < 0) {
+			Robot.driveSubsystem.setSpeed(-turnSpeed, turnSpeed);
+		}
 	}
 
 	@Override

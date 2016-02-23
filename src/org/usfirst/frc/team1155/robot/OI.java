@@ -22,7 +22,7 @@ public class OI extends Command {
   //Input is the conveyor, load is the window motor (loading it into firing position).  Left joystick is input, right joystick is shoot
     private Button inputBall, loadBall, resetHolder;
     private Button revShooter, shoot;
-    private Button aim;
+    private Button aim, driveStraight;
     private Ultrasonic ultra;
     
     public OI() {
@@ -36,20 +36,13 @@ public class OI extends Command {
     	revShooter = new JoystickButton(rightJoystick, 1);
     	shoot = new JoystickButton(rightJoystick, 2);
     	aim = new JoystickButton(gamePad, 1);
+    	driveStraight = new JoystickButton(leftJoystick, 2);
     	
     	//Initialize drive command
-    	joystickDrive = new JoystickDriveCommand(leftJoystick, rightJoystick);
+    	joystickDrive = new JoystickDriveCommand(leftJoystick, rightJoystick, driveStraight);
     	
     	//Intake command
     	intakeStart = new PickUpBoulderCommandGroup();
-    	
-    	//Initialize input button mapping (boulder input into the shooter)
-    	//Input works in three stages.  The first is the intake, which captures the ball.  In this stage, intake and conveyor are
-    	//rolling
-    	//Second stage, intake is pushing the ball into the conveyor, and conveyor rolls it up
-    	//Third stage, ball is at top of conveyor, and window motor pushes it up into shooting position
-    	//First stage isn't ready
-    	
     	
     	//Initialize shoot button mapping
     	//Shooting works in two stages.  The first is the motors revving up.  The second is the piston retracting, and pushing the

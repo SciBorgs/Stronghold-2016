@@ -142,9 +142,10 @@ public class ImageSubsystem extends Subsystem {
 	}
 
 	/**
-	 * Must be called after {@code} recordVideo <br>
+	 * Must be called after {@link ImageSubsystem#recordVideo() recordVideo()} <br>
 	 * Filters <b> targetFrame </b> and stores filtered picture into <b> targetImage </b>
-	 * @see recordVideo()
+	 * 
+	 * @see ImageSubsystem#recordVideo() recordVideo()
 	 */
 	public void takePicture() {
 		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSV, tapeHueRange, tapeSatRange, tapeValRange);
@@ -154,10 +155,11 @@ public class ImageSubsystem extends Subsystem {
 	}
 	
 	/**
-	 * Called after takePicture() <br>
+	 * Called after {@link ImageSubsystem#takePicture() takePicture()} <br>
 	 * Stores number of particles in <b> targetImage </b> into <b> numParticles </b> and checks if there are particles in the image
 	 * @return True if <b> numParticles </b> > 0 
-	 * @see takePicture()
+	 * 
+	 * @see ImageSubsystem#takePicture() takePicture()
 	 */
 	public boolean doesTargetExist() {
 		numParticles = NIVision.imaqCountParticles(targetImage, 1);
@@ -172,7 +174,8 @@ public class ImageSubsystem extends Subsystem {
 	// Max distance to shoot: 3.5m, Min distance to shoot: 2m
 	/**
 	 * <ol>
-	 * <li>Call if there are particles in the filtered image </li>
+	 * <li>Call if there are particles in the filtered image. 
+	 * 	   Checked by {@link ImageSubsystem#doesTargetExist() doesTargetExist()} </li>
 	 * <li>Stores information about the filtered image into <b> report </b> </li>
 	 * <li>Stores reports into <b> particles </b> <br>
 	 * <li>Takes the score of the largest group of particles in <b> particles </b> </li> 
@@ -181,11 +184,11 @@ public class ImageSubsystem extends Subsystem {
 	 * </ol>
 	 * 
 	 * 
-	 * @see doesTargetExist() <br>
-	 * aspectScore(Report r) <br>
-	 * areaScore(Report r) <br>
-	 * Report <br>
-	 * Scores 
+	 * @see ImageSubsystem#doesTargetExist() doesTargetExist() 
+	 * @see ImageSubsystem#aspectScore(Report r) aspectScore(Report r) 
+	 * @see ImageSubsystem#areaScore(Report r) areaScore(Report r) 
+	 * @see Report 
+	 * @see Scores 
 	 */
 	public void analyzeImage() {
 		particles.clear();
@@ -234,9 +237,9 @@ public class ImageSubsystem extends Subsystem {
 	}
 	
 	/**
-	 * Call after analyzeImage()
+	 * Call after {@link ImageSubsystem#analyzeImage() analyzeImage()}
 	 * @return True if group of particles analyzed looks like tape
-	 * @see analyzeImage()
+	 * @see ImageSubsystem#analyzeImage() analyzeImage()
 	 */
 	public boolean isTargetTape() {
 		return isTape;
@@ -247,7 +250,7 @@ public class ImageSubsystem extends Subsystem {
 	 * Ratio of tapes (width of tape / height of tape) to the particles (width / height)
 	 * @param r (Report) 
 	 * @return aspects (size of shape) score (0-100)
-	 * @see ratioToScore(double r)
+	 * @see ImageSubsystem#ratioToScore(double r) ratioToScore(double r)
 	 */
 	private double aspectScore(Report r) {
 		return ratioToScore((TARGET_W_METER/TARGET_H_METER) * ((r.boundingRectBottom-r.boundingRectTop) / (r.boundingRectRight-r.boundingRectLeft)));
@@ -259,7 +262,7 @@ public class ImageSubsystem extends Subsystem {
 	 * Particles area may be less than or greater than particles width * height due to holes or extra particles on the sides
 	 * @param r (Report)
 	 * @return area score (0-100)
-	 * @see ratioToScore(double r)
+	 * @see ImageSubsystem#ratioToScore(double r) ratioToScore(double r)
 	 */
 	private double areaScore(Report r) {
 		double boundingArea = (r.boundingRectBottom - r.boundingRectTop) * (r.boundingRectRight - r.boundingRectLeft); // Area 
@@ -323,8 +326,8 @@ public class ImageSubsystem extends Subsystem {
 	 * Call after analyzeImage() and if isTape() returns true <br>
 	 * Draws a circle for aiming when the tape is currently on screen <br>
 	 * This is only used for teleoperated
-	 * @see analyzeImage() <br>
-	 * isTape()
+	 * @see ImageSubsystem#analyzeImage() analyzeImage()
+	 * @see ImageSubsystem#isTargetTape() isTargetTape()
 	 */
 	public void drawPredictedShot() {
 		NIVision.GetImageSizeResult size;
@@ -348,11 +351,11 @@ public class ImageSubsystem extends Subsystem {
 	}
 	
 	/**
-	 * Call after recordVideo() <br>
+	 * Call after {@link ImageSubsystem#recordVideo() recordVideo()} <br>
 	 * If in teleoperated and isTape() is true call after drawPredictedShot() <br>
 	 * Displays raw image on dashboard
-	 * @see recordVideo() <br>
-	 * isTape()
+	 * @see ImageSubsystem#recordVideo() recordVideo()
+	 * @see ImageSubsystem#isTargetTape() isTargetTape()
 	 */
 	public void displayImage() {
 		//CameraServer.getInstance().setImage(targetFrame);
@@ -364,7 +367,7 @@ public class ImageSubsystem extends Subsystem {
 
 	/**
 	 * TargetVector class stores the distance and angles calculated from the camera to the target
-	 * @see getTargetVector()
+	 * @see ImageSubsystem#getTargetVector() getTargetVector()
 	 */
 	public final class TargetVector {
 		public double xDistance = 0;
@@ -415,7 +418,7 @@ public class ImageSubsystem extends Subsystem {
 	 * <b>area</b> <br>
 	 * <b>aspect</b>
 	 * 
-	 * @see analyzeImage()
+	 * @see ImageSubsystem#analyzeImage() analyzeImage()
 	 */
 	private class Scores {
 		double area;

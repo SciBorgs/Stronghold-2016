@@ -13,7 +13,6 @@ import org.usfirst.frc.team1155.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ShootSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -55,7 +54,7 @@ public class Robot extends IterativeRobot {
 //    	climbSubsystem = new ClimbSubsystem();
     	intakeSubsystem = new IntakeSubsystem();
     	shootSubsystem = new ShootSubsystem();
-    	imageSubsystem = new ImageSubsystem();
+    	//imageSubsystem = new ImageSubsystem();
     	
 		oi = new OI();
 		
@@ -140,8 +139,8 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.cancel();
         
         //Create and start OI (user input/output manager)
-        vision = new VisionCommand(true);
-        vision.start();
+        //vision = new VisionCommand(true);
+        //vision.start();
         oi = new OI();
         oi.start();
     }

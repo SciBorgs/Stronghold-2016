@@ -1,10 +1,10 @@
 package org.usfirst.frc.team1155.robot;
 
+
 import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
 import org.usfirst.frc.team1155.robot.commands.PickUpBoulderCommandGroup;
-import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand;
-import org.usfirst.frc.team1155.robot.commands.VisionTurnCommand;
 
+import customGUI.ModeGUI;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -35,6 +35,8 @@ public class OI extends Command {
 	private Servo cameraPan, cameraTilt;
 
 	private Mode mode;
+	
+	private ModeGUI modeDisplay;
 
 	private enum Mode {
 		INPUT, SHOOT, DEFENSE, CLIMB;
@@ -100,19 +102,27 @@ public class OI extends Command {
 		// second is the piston retracting, and pushing the
 		// ball into the shooter
 
-		Robot.imageSubsystem.setCameraTilt(90);
+		//Robot.imageSubsystem.setCameraTilt(90);
 		
 		mode = Mode.INPUT;
 
-		cameraPan = new Servo(9);
-		cameraTilt = new Servo(8);
+		/*cameraPan = new Servo(9);
+		cameraTilt = new Servo(8);*/
+		
+		modeDisplay = new ModeGUI();
+		SmartDashboard.putString("A", "DEFENSE");
+		SmartDashboard.putString("B", "CLIMB");
+		SmartDashboard.putString("X", "SHOOT");
+		SmartDashboard.putString("Y", "INTAKE");
+		
+
 	}
 
 	@Override
 	protected void initialize() {
 		joystickDrive.start();
-		cameraPan.setAngle(90);
-		cameraTilt.setAngle(0);
+		/*cameraPan.setAngle(90);
+		cameraTilt.setAngle(0);*/
 	}
 
 	@Override
@@ -139,8 +149,9 @@ public class OI extends Command {
 
 		switch (mode) {
 		case INPUT: 
+			modeDisplay.changeModeLabel("INPUT");
 			//defaults at intake position (parallel to floor)
-			if(Robot.intakeSubsystem.intakeTalon.get() != 0.5 && !changedToInputMode) {
+			/*if(Robot.intakeSubsystem.intakeTalon.get() != 0.5 && !changedToInputMode) {
 				changedToInputMode = true;
 				changedToShootMode = false;
 				changedToClimbMode = false;
@@ -149,7 +160,7 @@ public class OI extends Command {
 			}
 			
 			//camera servo point down to see floor
-			cameraTilt.setAngle(180);
+			//cameraTilt.setAngle(180);
 			
 			//Dpad should have manual control over window motor, L & R triggers run conveyor
 			if (leftGamepadTrigger.get())
@@ -173,8 +184,8 @@ public class OI extends Command {
 			else if (gamePadPOV == 180)
 				Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotSetPosition() - 10);
 			
-			SmartDashboard.putString("Pivot: ", Robot.intakeSubsystem.getPivotIntakePosition() + " "
-					 						  + Robot.intakeSubsystem.getPivotSetPosition());
+			//SmartDashboard.putString("Pivot: ", Robot.intakeSubsystem.getPivotIntakePosition() + " "
+			//		 						  + Robot.intakeSubsystem.getPivotSetPosition());
 			
 			//Jerry-rigged, test setup
 			if (gamePadPOV == 90) {
@@ -187,12 +198,13 @@ public class OI extends Command {
 				System.out.println("Down the ball goes");
 			} else {
 				Robot.intakeSubsystem.setHolderSpeed(0);
-			}
+			}*/
 			break;
 			
 		case SHOOT: 
+			modeDisplay.changeModeLabel("SHOOT");
 			//intake arm defaults to full down
-			if(Robot.intakeSubsystem.intakeTalon.get() != 0 && !changedToShootMode) {
+			/*if(Robot.intakeSubsystem.intakeTalon.get() != 0 && !changedToShootMode) {
 				changedToInputMode = false;
 				changedToShootMode = true;
 				changedToClimbMode = false;
@@ -201,7 +213,7 @@ public class OI extends Command {
 			}
 			
 			//camera servo point up
-			cameraTilt.setAngle(0);
+			//cameraTilt.setAngle(0);
 			
 			//pushing forward on either hat switch on the joysticks should activate the piston to shoot ball
 			if (leftJoystickPOV == 0 || rightJoystickPOV == 0) {
@@ -211,11 +223,11 @@ public class OI extends Command {
 			}
 			
 			//gamepad L & R bumpers used to allign
-			leftGamepadTrigger.whenPressed(new VisionTurnCommand());
-			rightGamepadTrigger.whenPressed(new VisionTurnCommand());
+			/*leftGamepadTrigger.whenPressed(new VisionTurnCommand());
+			rightGamepadTrigger.whenPressed(new VisionTurnCommand());*/
 
 			//L & R trigger on both joysticks should activate the revving of shooter's wheels
-			rightJoystickTrigger.whenPressed(new ShooterIOCommand());
+			/*rightJoystickTrigger.whenPressed(new ShooterIOCommand());
 			leftJoystickTrigger.whileHeld(new ShooterIOCommand());
 			
 			// Align and shoot button
@@ -226,12 +238,14 @@ public class OI extends Command {
 				System.out.println("Revving shooter");
 			} else {
 				Robot.shootSubsystem.setShooterSpeed(0);
-			}
+			}*/
 			break;
+			
 		case DEFENSE: // Leave it
-			cameraTilt.setAngle(0);
+			modeDisplay.changeModeLabel("DEFENSE");
+			//cameraTilt.setAngle(0);
 			//intake arm defaults to full down
-			if(Robot.intakeSubsystem.intakeTalon.get() != 0 && !changedToDefenseMode) {
+			/*if(Robot.intakeSubsystem.intakeTalon.get() != 0 && !changedToDefenseMode) {
 				changedToInputMode = false;
 				changedToShootMode = false;
 				changedToClimbMode = false;
@@ -243,20 +257,21 @@ public class OI extends Command {
 			if (gamePadPOV == 0)
 				Robot.intakeSubsystem.intakeTalon.set(Robot.intakeSubsystem.intakeTalon.get() + 0.1);
 			else if (gamePadPOV == 180)
-				Robot.intakeSubsystem.intakeTalon.set(Robot.intakeSubsystem.intakeTalon.get() - 0.1);
+				Robot.intakeSubsystem.intakeTalon.set(Robot.intakeSubsystem.intakeTalon.get() - 0.1);*/
 			
 			//L & R trigger gamepad control the piston on second intake IF it is there
 			
 			break;
 		case CLIMB: 
+			modeDisplay.changeModeLabel("CLIMB");
 			//intake arm defaults to full down
-			if(Robot.intakeSubsystem.intakeTalon.get() != 0 && !changedToClimbMode) {
+			/*if(Robot.intakeSubsystem.intakeTalon.get() != 0 && !changedToClimbMode) {
 				changedToInputMode = false;
 				changedToShootMode = false;
 				changedToClimbMode = true;
 				changedToDefenseMode = false;
 				Robot.intakeSubsystem.intakeTalon.set(0);
-			}
+			}*/
 			//gamepad L & R trigger used for climbing, Dpad for moving arm up or down
 			break;
 		}

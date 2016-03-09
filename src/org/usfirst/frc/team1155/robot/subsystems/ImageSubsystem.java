@@ -3,7 +3,6 @@ package org.usfirst.frc.team1155.robot.subsystems;
 import java.util.Comparator;
 import java.util.Vector;
 
-import org.usfirst.frc.team1155.robot.PortMap;
 import org.usfirst.frc.team1155.robot.Robot;
 
 import com.ni.vision.NIVision;

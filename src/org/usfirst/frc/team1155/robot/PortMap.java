@@ -38,4 +38,6 @@ public class PortMap {
 	public static final int SHOOT_CHECKER_LIMIT_SWITCH = 3;
 	public static final int UPPER_LIMIT_SWITCH = 0;
 	public static final int CAMERA_TILT = 2;
+	
+	public static final int ARDUINO_DIGITAL_OUTPUT = 0;
 }

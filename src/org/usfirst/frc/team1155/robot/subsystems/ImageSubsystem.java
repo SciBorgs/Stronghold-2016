@@ -36,6 +36,7 @@ public class ImageSubsystem extends Subsystem {
 	
 	private boolean isTape; 
 	
+	
 	/**
 	 * Report and Scores classes at very bottom
 	 * <br>
@@ -116,13 +117,8 @@ public class ImageSubsystem extends Subsystem {
 		// A place to store all of the scores that are calculated
 		scores = new Scores();
 		
-		cameraTilt = new Servo(0);
+		cameraTilt = new Servo(9);
 	}
-	
-	//Servo control
-		public void setCameraTilt(int angle) {
-			cameraTilt.setAngle(angle);
-		}
 
 	/**
 	 * Updates HSV ranges based on user input on SmartDashboard
@@ -148,7 +144,7 @@ public class ImageSubsystem extends Subsystem {
 	 */
 	public void takePicture() {
 		NIVision.imaqColorThreshold(targetImage, targetFrame, 255, NIVision.ColorMode.HSV, tapeHueRange, tapeSatRange, tapeValRange);
-		CameraServer.getInstance().setImage(targetImage);
+		//CameraServer.getInstance().setImage(targetImage);
 		//NIVision.imaqFlatten(targetImage, NIVision.FlattenType.FLATTEN_IMAGE, NIVision.CompressionType.COMPRESSION_NONE, 100);
 		imaqError = NIVision.imaqParticleFilter4(targetImage, targetImage, criteria, filterOptions, null);		
 	}
@@ -355,7 +351,7 @@ public class ImageSubsystem extends Subsystem {
 	 * isTape()
 	 */
 	public void displayImage() {
-		//CameraServer.getInstance().setImage(targetFrame);
+		CameraServer.getInstance().setImage(targetFrame);
 	}
 	
 	@Override

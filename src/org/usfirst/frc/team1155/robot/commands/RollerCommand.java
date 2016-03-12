@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *	Operatores conveyor belt and roller based on different conditions
  */
-public class IntakeCommand extends Command {
+public class RollerCommand extends Command {
 
 	private final double CONVEYOR_SPEED = .8, ROLLER_SPEED = .7;
 	
@@ -18,7 +18,7 @@ public class IntakeCommand extends Command {
 		CONTINUOUS
 	}
 	
-	public IntakeCommand(IntakeMode mode) {
+	public RollerCommand(IntakeMode mode) {
 		this.mode = mode;
 	}
 	

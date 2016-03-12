@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team1155.robot.subsystems;
 
 import org.usfirst.frc.team1155.robot.PortMap;
@@ -18,6 +17,11 @@ public class IntakeSubsystem extends Subsystem {
 	
     private static final double BALL_IN_DISTANCE = 8;
 		
+    public static final double PIVOT_DOWN_POSITION = 700;
+    public static final double PIVOT_SHOOT_POSITION = 250;
+    
+    public static final double PIVOT_UP_POSITION = 0;
+    
 	public CANTalon intakeTalon, pivotTalon, conveyorTalon, holderTalon;
 	public DigitalInput holderLimitSwitch_Open, holderLimitSwitch_Closed;
 	public Ultrasonic ballDetector;
@@ -34,7 +38,7 @@ public class IntakeSubsystem extends Subsystem {
     	
     	intakeTalon.changeControlMode(TalonControlMode.PercentVbus);
     	pivotTalon.changeControlMode(TalonControlMode.Position);
-    	pivotTalon.setPID(100, 0, 0);
+    	pivotTalon.setPID(140, 0, 1023);
     	pivotTalon.reverseSensor(true);
     	conveyorTalon.changeControlMode(TalonControlMode.PercentVbus);
     	holderTalon.changeControlMode(TalonControlMode.PercentVbus);

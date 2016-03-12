@@ -3,6 +3,7 @@ package org.usfirst.frc.team1155.robot.commands;
 import org.usfirst.frc.team1155.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionCommand extends Command {
 
@@ -45,6 +46,11 @@ public class VisionCommand extends Command {
 			Robot.imageSubsystem.analyzeImage();
 			if (Robot.imageSubsystem.isTargetTape()) {
 				Robot.targetVector = Robot.imageSubsystem.getTargetVector();
+				if (Robot.targetVector.xDistance*Math.cos(50*Math.PI/180) < 2.7 && Robot.targetVector.xDistance*Math.cos(50*Math.PI/180) > 2.3
+						&& Robot.targetVector.theta <= 1 && Robot.targetVector.theta >= -1)
+					SmartDashboard.putString("Tape Goal", "In Range");
+				else 
+					SmartDashboard.putString("Tape Goal", "Not in Range");
 			}
 		}
 	}

@@ -33,9 +33,6 @@ public class JoystickDriveCommand extends Command{
 		//Temporary drive curve, please fix
 		leftVal = -leftJoystick.getY() * Math.abs(leftJoystick.getY());
 		rightVal = -rightJoystick.getY() * Math.abs(rightJoystick.getY());
-		double limits = (leftJoystick.getRawAxis(3) + 1) / 2.0;
-		leftVal *= limits;
-		rightVal *= limits;
 		Robot.driveSubsystem.setSpeed(leftVal, rightVal);
 	}
 

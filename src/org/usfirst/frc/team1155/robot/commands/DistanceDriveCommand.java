@@ -10,7 +10,7 @@ public class DistanceDriveCommand extends Command {
 	private double initialDistance;
 	private double changeInEncoderDistance;
 	
-	private static final double DRIVE_SPEED = 0.2;
+	private static final double DRIVE_SPEED = 0.4;
 	private static final double DISTANCE_BUFFER = 5;
 		
 	/**

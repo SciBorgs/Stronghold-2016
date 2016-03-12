@@ -13,7 +13,6 @@ import org.usfirst.frc.team1155.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ShootSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -42,7 +41,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 
 	public static TargetVector targetVector;
-	
+	public static boolean auto = false;
     Command autonomousCommand;
     SendableChooser defenseChooser, positionChooser;
 
@@ -78,11 +77,11 @@ public class Robot extends IterativeRobot {
         
         //chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putNumber("H Min", 60);
-		SmartDashboard.putNumber("H Max", 130);
-		SmartDashboard.putNumber("S Min", 100);
-		SmartDashboard.putNumber("S Max", 255);
-		SmartDashboard.putNumber("V Min", 100);
+		SmartDashboard.putNumber("H Min", 74);
+		SmartDashboard.putNumber("H Max", 75);
+		SmartDashboard.putNumber("S Min", 102);
+		SmartDashboard.putNumber("S Max", 103);
+		SmartDashboard.putNumber("V Min", 250);
 		SmartDashboard.putNumber("V Max", 255);
 
         SmartDashboard.putData("Defense", defenseChooser);
@@ -113,6 +112,9 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+    	auto = true;
+    	
+    	Robot.intakeSubsystem.pivotTalon.setPosition(0);
     	//Create the autonomous command based on values from the SmartDashboard
         autonomousCommand = new AutonomousCommand(
         	(Defense) defenseChooser.getSelected(), 
@@ -124,6 +126,7 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) {
         	autonomousCommand.start();
         }
+        
     }
 
     /**
@@ -131,10 +134,12 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        
     }
 
     public void teleopInit() {
-		// This makes sure that the autonomous stops running when
+		auto = false;
+    	// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
@@ -158,6 +163,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	Robot.intakeSubsystem.intakeTalon.set(1);
         LiveWindow.run();
     }
 }

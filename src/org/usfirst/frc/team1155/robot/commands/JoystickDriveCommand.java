@@ -10,7 +10,7 @@ public class JoystickDriveCommand extends Command{
 
 	private Joystick leftJoystick, rightJoystick;
 	private Button driveStraight;
-	private double leftVal, rightVal;
+	private double leftVal, rightVal, avgVal;
 	
 	/**
 	 * Teleop Drive Command
@@ -33,7 +33,12 @@ public class JoystickDriveCommand extends Command{
 		//Temporary drive curve, please fix
 		leftVal = -leftJoystick.getY() * Math.abs(leftJoystick.getY());
 		rightVal = -rightJoystick.getY() * Math.abs(rightJoystick.getY());
-		Robot.driveSubsystem.setSpeed(leftVal, rightVal);
+		if(driveStraight.get()) {
+			avgVal = (leftVal + rightVal) / 2;
+			Robot.driveSubsystem.setSpeed(avgVal, avgVal);
+		} else {
+			Robot.driveSubsystem.setSpeed(leftVal, rightVal);
+		}
 	}
 
 	@Override

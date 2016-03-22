@@ -38,6 +38,10 @@ public class ClimbSubsystem extends Subsystem {
     public void retractWinch() {
     	winchTalon.set(-0.5);
     }
+    
+    public void stopWinch() {
+    	winchTalon.set(0);
+    }
 
 	@Override
 	protected void initDefaultCommand() {

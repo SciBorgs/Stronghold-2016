@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonomousCommand extends CommandGroup{
 	
-	private final double DISTANCE_TO_DEFENSE = 70; //or 74 in; conflicting sources 
-	private final double DISTANCE_TO_GREEN_TAPE = 59.5;
+	private final double DISTANCE_TO_DEFENSE = 35; //or 74 in; conflicting sources 
+	private final double DISTANCE_TO_GREEN_TAPE = 12;
 	
 	/**
 	 * Types of Defenses
@@ -56,13 +56,18 @@ public class AutonomousCommand extends CommandGroup{
 		
 		switch(defense) {
 		case PORTCULLIS:
-			addSequential(new PivotCommand(IntakeSubsystem.PIVOT_DOWN_POSITION)); // Lift portcullis
-			addSequential(new TimedDrive(2, .6)); // Drive over defense
+//			addSequential(new PivotCommand(.3, .5)); // Lift portcullis
+//			addSequential(new TimedDrive(2, .6)); // Drive over defense
+//			addParallel(new PivotCommand(-.5, .2));
 //			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.NEUTRAL)); // Drop portcullis
 			break;
 		case CHEVALDEFRISE:
-			addSequential(new PivotCommand(IntakeSubsystem.PIVOT_DOWN_POSITION)); 
-			addSequential(new TimedDrive(1.5, .5));
+//			addSequential(new TimedDrive(.1, .1));
+//			addParallel(new PivotCommand(.3, -1));
+//
+//			addSequential(new TimedDrive(1.5, .5));
+//			addParallel(new PivotCommand(.2, .5));
+			
 //			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.DOWN)); // Push down plates
 			// Drive over defense
 //			addSequential(new IntakeCommand(IntakeMode.PIVOT, Pivot.NEUTRAL)); // Release plates
@@ -77,7 +82,7 @@ public class AutonomousCommand extends CommandGroup{
 			// Can't do
 			break;
 		case ROCK_WALL:
-			addSequential(new TimedDrive(1.5, 0.8)); // Drive over defense
+			addSequential(new TimedDrive(2, 0.8)); // Drive over defense
 			break;
 		case SALLYPORT:
 			// Can't do
@@ -88,16 +93,20 @@ public class AutonomousCommand extends CommandGroup{
 		default:
 			break;
 		}
-		if (!(defense == Defense.PORTCULLIS || defense == Defense.CHEVALDEFRISE))
-			addSequential(new PivotCommand(IntakeSubsystem.PIVOT_SHOOT_POSITION));
+		
+		//if (!(defense == Defense.PORTCULLIS || defense == Defense.CHEVALDEFRISE))
+		//	addSequential(new PivotCommand(IntakeSubsystem.PIVOT_SHOOT_POSITION));
+		
+		addSequential(new DistanceDriveCommand(DISTANCE_TO_GREEN_TAPE));
 		
 		addSequential(new RotateToTape(position));
-		addParallel(new RevShooterCommand());
-		
 		addSequential(new VisionTurnCommand()); // Rotates to tape on tower
 		addSequential(new VisionDriveCommand()); // revs
 		
-		addSequential(new ShooterIOCommand());
+		addSequential(new RevShooterCommand(defense));
+//		
+		
+		
 
 	}
 

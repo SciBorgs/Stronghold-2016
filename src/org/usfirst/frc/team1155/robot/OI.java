@@ -4,6 +4,7 @@ import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
 import org.usfirst.frc.team1155.robot.commands.PickUpBoulderCommandGroup;
 import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand;
 import org.usfirst.frc.team1155.robot.commands.VisionTurnCommand;
+import org.usfirst.frc.team1155.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Servo;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -22,8 +24,9 @@ public class OI extends Command {
     private Command joystickDrive, intakeStart;
   //Input is the conveyor, load is the window motor (loading it into firing position).  Left joystick is input, right joystick is shoot
     private Button inputBall, loadBall, resetHolder;
-    private Button revShooter, shoot;
+    private Button revShooter, shoot, conveyorReverse;
     private Button aim, driveStraight;
+    private Button moveWinchUp, moveWinchDown, moveArmUp, moveArmDown;
     private Ultrasonic ultra;
     private Servo cameraTilt;
     
@@ -38,7 +41,13 @@ public class OI extends Command {
     	revShooter = new JoystickButton(rightJoystick, 1);
     	shoot = new JoystickButton(rightJoystick, 2);
     	aim = new JoystickButton(gamePad, 1);
-    	driveStraight = new JoystickButton(leftJoystick, 2);
+    	driveStraight = new JoystickButton(leftJoystick, 3);
+    	conveyorReverse = new JoystickButton(leftJoystick, 2);
+    	moveWinchUp = new JoystickButton(gamePad, 2);
+    	moveWinchDown = new JoystickButton(gamePad, 3);
+    	moveArmUp = new JoystickButton(gamePad, 4);
+    	moveArmDown = new JoystickButton(gamePad, 5);
+    	
     	
     	//Initialize drive command
     	joystickDrive = new JoystickDriveCommand(leftJoystick, rightJoystick, driveStraight);
@@ -61,7 +70,6 @@ public class OI extends Command {
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
 		joystickDrive.start();
 //		cameraPan.setAngle(90);
 //		cameraTilt.setAngle(130);
@@ -71,21 +79,16 @@ public class OI extends Command {
 	protected void execute() {
 		//System.out.println(cameraTilt.get());
 		//.set(leftJoystick.getRawAxis(3));
-		
+		System.out.println("shooter speed:" + rightJoystick.getRawAxis(3));
 		Robot.intakeSubsystem.setHolderSpeed(gamePad.getRawAxis(5));
-//		if(game) {
-//			Robot.intakeSubsystem.setHolderSpeed(-0.4);
-//			Robot.shootSubsystem.setBallPossessed(true);  //Jerry-rigged, test setup
-//			System.out.println("Up the ball goes");
-//		}
-//		else if(gamePad.getRawAxis(5)) {
-//			Robot.intakeSubsystem.setHolderSpeed(0.4);
-//			Robot.shootSubsystem.setBallPossessed(false);
-//			System.out.println("Down the ball goes");
-//		}
-//		else {
-//			Robot.intakeSubsystem.setHolderSpeed(0);
-//		}
+		//SmartDashboard.putNumber("Window motor position", Robot.intakeSubsystem.holderTalon.getPosition());
+		
+		if(conveyorReverse.get()) {
+			Robot.intakeSubsystem.conveyorTalon.set(.8);
+		}
+		else {
+			Robot.intakeSubsystem.conveyorTalon.set(0);
+		}
 		
 		//Temporary shooting code <REMOVE>
 		if(revShooter.get()) {
@@ -102,15 +105,47 @@ public class OI extends Command {
 		} else intakeStart.cancel();
 		
 		//Temporary intake pivot code <REMOVE>
+//		if(gamePad.getPOV() == 0) {
+//			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotSetPosition() + 50);
+//			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition() + " " + Robot.intakeSubsystem.getPivotSetPosition());
+//		} else if(gamePad.getPOV() == 180){
+//			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotSetPosition() - 50);
+//			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition() + " " + Robot.intakeSubsystem.getPivotSetPosition());
+//		}
+//		if(gamePad.getPOV() == 0) 
+//			Robot.intakeSubsystem.setPivotIntakePosition(IntakeSubsystem.PIVOT_DOWN_POSITION);
+//		else if (gamePad.getPOV() == 180) 
+//			Robot.intakeSubsystem.setPivotIntakePosition(IntakeSubsystem.PIVOT_UP_POSITION);
+//		else if (gamePad.getPOV() == 90 || gamePad.getPOV() == 270)
+//			Robot.intakeSubsystem.setPivotIntakePosition(IntakeSubsystem.PIVOT_SHOOT_POSITION);
 		if(gamePad.getPOV() == 0) {
-			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotSetPosition() + 50);
-			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition() + " " + Robot.intakeSubsystem.getPivotSetPosition());
-		} else if(gamePad.getPOV() == 180){
-			Robot.intakeSubsystem.setPivotIntakePosition(Robot.intakeSubsystem.getPivotSetPosition() - 50);
-			System.out.println("Pivot: " + Robot.intakeSubsystem.getPivotIntakePosition() + " " + Robot.intakeSubsystem.getPivotSetPosition());
+			Robot.intakeSubsystem.setPivotIntakePosition(0.5);
+		}
+		else if(gamePad.getPOV() == 180) {
+			Robot.intakeSubsystem.setPivotIntakePosition(-1);
+		}
+		else {
+			Robot.intakeSubsystem.setPivotIntakePosition(0);
 		}
 		
-		System.out.println(Robot.intakeSubsystem.getPivotIntakePosition() + " " + Robot.intakeSubsystem.getPivotSetPosition());
+		if(moveWinchUp.get()) {
+			Robot.climbSubsystem.extendWinch();
+		}
+		else if (moveWinchDown.get()) {
+			Robot.climbSubsystem.retractWinch();
+		}
+		else {
+			Robot.climbSubsystem.stopWinch();
+		}
+		
+		if (moveArmUp.get()) {
+			Robot.climbSubsystem.openArm();
+		} 
+		else if (moveArmDown.get()) {
+			Robot.climbSubsystem.closeArm();
+		}
+
+		
 		
 		//Restarts drive
 		if(!joystickDrive.isRunning()) {
@@ -121,19 +156,16 @@ public class OI extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		joystickDrive.cancel();
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 		joystickDrive.cancel();
 	}
 }

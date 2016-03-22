@@ -2,6 +2,7 @@ package org.usfirst.frc.team1155.robot.commands;
 
 import org.usfirst.frc.team1155.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -9,19 +10,21 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class PivotCommand extends Command {
 
-	private double position;
-	
-	private final double BUFFER = 10;
-	
-    public PivotCommand(double position) {
+	private double speed, time;
+	private Timer timer;
+		
+    public PivotCommand(double time, double speed) {
         requires(Robot.intakeSubsystem);
         
-        this.position = position;
+        timer = new Timer();
+        this.speed = speed;
+        this.time = time;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.intakeSubsystem.setPivotIntakePosition(position);
+    	Robot.intakeSubsystem.setPivotIntakePosition(speed);
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,11 +34,12 @@ public class PivotCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Robot.intakeSubsystem.getPivotIntakePosition() - BUFFER) <= position;
+        return timer.get() >= time;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.intakeSubsystem.setPivotIntakePosition(0);
     }
 
     // Called when another command which requires one or more of the same

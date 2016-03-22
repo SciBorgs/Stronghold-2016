@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Subsystem
@@ -42,8 +43,9 @@ public class IntakeSubsystem extends Subsystem {
     	pivotTalon.reverseSensor(true);
     	conveyorTalon.changeControlMode(TalonControlMode.PercentVbus);
     	holderTalon.changeControlMode(TalonControlMode.PercentVbus);
-    	
     	pivotTalon.setPosition(0);
+    	pivotTalon.changeControlMode(TalonControlMode.PercentVbus);
+    	pivotTalon.set(0);
     	
     	ballDetector = new Ultrasonic(PortMap.BALL_DETECTOR_ULTRASONIC[0], PortMap.BALL_DETECTOR_ULTRASONIC[1]);
     	ballDetector.setEnabled(true);
@@ -99,6 +101,7 @@ public class IntakeSubsystem extends Subsystem {
 	 * @return booleanWhether the ball is in the robot, based off ultrasonic values
 	 */
 	public boolean isBallIn() {  
+		SmartDashboard.putBoolean("Is Ball In", ballDetector.getRangeInches() <= BALL_IN_DISTANCE);
 		return ballDetector.getRangeInches() <= BALL_IN_DISTANCE;
 	}
 	

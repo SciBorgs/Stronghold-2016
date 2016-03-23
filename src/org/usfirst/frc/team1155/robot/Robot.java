@@ -12,6 +12,7 @@ import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem.TargetVector;
 import org.usfirst.frc.team1155.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ShootSubsystem;
 
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -94,7 +95,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-
+    	climbSubsystem.winchTalon.changeControlMode(TalonControlMode.Disabled);
     }
 	
 	public void disabledPeriodic() {

@@ -13,7 +13,7 @@ public class PortMap {
 	public static final int HOLDER_CLOSED_LIMIT_SWITCH = 1;
 	
 	public static final int CLIMB_ARM_TALON = 13;
-	public static final int CLIMB_WINCH_TALON = 13;
+	public static final int CLIMB_WINCH_TALON = 14;
 	
 	public static final int SHOOT_LEFT_TALON = 5;
 	public static final int SHOOT_RIGHT_TALON = 8;

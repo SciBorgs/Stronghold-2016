@@ -4,6 +4,7 @@ import org.usfirst.frc.team1155.robot.commands.JoystickDriveCommand;
 import org.usfirst.frc.team1155.robot.commands.PickUpBoulderCommandGroup;
 import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand;
 import org.usfirst.frc.team1155.robot.commands.VisionTurnCommand;
+import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,9 +27,9 @@ public class OI extends Command {
     private Button inputBall, loadBall, resetHolder;
     private Button revShooter, shoot, conveyorReverse;
     private Button aim, driveStraight;
-    private Button moveWinchUp, moveWinchDown, moveArmUp, moveArmDown;
+    private Button moveWinchUp, moveWinchDown, moveArmUp, moveArmDown, tiltCamDown, tiltCamUp;
+    private Button breakMode, coastMode;
     private Ultrasonic ultra;
-    private Servo cameraTilt;
     
     public OI() {
     	leftJoystick = new Joystick(PortMap.JOYSTICK_LEFT);
@@ -47,6 +48,8 @@ public class OI extends Command {
     	moveWinchDown = new JoystickButton(gamePad, 3);
     	moveArmUp = new JoystickButton(gamePad, 4);
     	moveArmDown = new JoystickButton(gamePad, 5);
+    	tiltCamDown = new JoystickButton(gamePad, 7);
+    	tiltCamUp = new JoystickButton(gamePad, 8);
     	
     	
     	//Initialize drive command
@@ -62,10 +65,7 @@ public class OI extends Command {
     	
     	aim.whenPressed(new VisionTurnCommand());
     	
-    	
-    	
 //    	cameraPan = new Servo(9);
-//    	cameraTilt = new Servo(8);
     }
 
 	@Override
@@ -80,7 +80,7 @@ public class OI extends Command {
 		//System.out.println(cameraTilt.get());
 		//.set(leftJoystick.getRawAxis(3));
 		System.out.println("shooter speed:" + rightJoystick.getRawAxis(3));
-		Robot.intakeSubsystem.setHolderSpeed(gamePad.getRawAxis(5));
+		Robot.intakeSubsystem.setHolderSpeed(Math.min(gamePad.getRawAxis(5), 0.6));
 		//SmartDashboard.putNumber("Window motor position", Robot.intakeSubsystem.holderTalon.getPosition());
 		
 		if(conveyorReverse.get()) {
@@ -128,15 +128,15 @@ public class OI extends Command {
 			Robot.intakeSubsystem.setPivotIntakePosition(0);
 		}
 		
-		if(moveWinchUp.get()) {
-			Robot.climbSubsystem.extendWinch();
-		}
-		else if (moveWinchDown.get()) {
-			Robot.climbSubsystem.retractWinch();
-		}
-		else {
-			Robot.climbSubsystem.stopWinch();
-		}
+//		if(moveWinchUp.get()) {
+//			Robot.climbSubsystem.extendWinch();
+//		}
+//		else if (moveWinchDown.get()) {
+//			Robot.climbSubsystem.retractWinch();
+//		}
+//		else {
+//			Robot.climbSubsystem.stopWinch();
+//		}
 		
 		if (moveArmUp.get()) {
 			Robot.climbSubsystem.openArm();
@@ -145,7 +145,12 @@ public class OI extends Command {
 			Robot.climbSubsystem.closeArm();
 		}
 
-		
+		if (tiltCamDown.get()) {
+			Robot.imageSubsystem.cameraTilt.setAngle(ImageSubsystem.CAMERA_DOWN_POSITION);
+		}
+		if (tiltCamUp.get()) {
+			Robot.imageSubsystem.cameraTilt.setAngle(ImageSubsystem.CAMERA_UP_POSITION);
+		}
 		
 		//Restarts drive
 		if(!joystickDrive.isRunning()) {

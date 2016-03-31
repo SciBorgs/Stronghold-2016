@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	driveSubsystem = new DriveSubsystem();
-//    	climbSubsystem = new ClimbSubsystem();
+    	climbSubsystem = new ClimbSubsystem();
     	intakeSubsystem = new IntakeSubsystem();
     	shootSubsystem = new ShootSubsystem();
     	imageSubsystem = new ImageSubsystem();
@@ -77,12 +77,12 @@ public class Robot extends IterativeRobot {
         
         //chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putNumber("H Min", 74);
-		SmartDashboard.putNumber("H Max", 75);
-		SmartDashboard.putNumber("S Min", 102);
-		SmartDashboard.putNumber("S Max", 103);
-		SmartDashboard.putNumber("V Min", 250);
-		SmartDashboard.putNumber("V Max", 255);
+		SmartDashboard.putNumber("H Min", 73);
+		SmartDashboard.putNumber("H Max", 74);
+		SmartDashboard.putNumber("S Min", 101);
+		SmartDashboard.putNumber("S Max", 102);
+		SmartDashboard.putNumber("V Min", 252);
+		SmartDashboard.putNumber("V Max", 253);
 
         SmartDashboard.putData("Defense", defenseChooser);
         SmartDashboard.putData("Position", positionChooser);
@@ -114,6 +114,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	auto = true;
     	
+    	Robot.driveSubsystem.toBreakMode();
     	Robot.intakeSubsystem.pivotTalon.setPosition(0);
     	//Create the autonomous command based on values from the SmartDashboard
         autonomousCommand = new AutonomousCommand(

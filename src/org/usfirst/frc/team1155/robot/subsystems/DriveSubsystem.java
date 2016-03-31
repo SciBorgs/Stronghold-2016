@@ -101,6 +101,20 @@ public class DriveSubsystem extends Subsystem {
     	SmartDashboard.putNumber("Encoder Value", (frontRightTalon.getEncPosition()/1023.0) * (Math.PI * 2 * WHEEL_RADIUS));
     	return (frontRightTalon.getEncPosition()/1023.0) * (Math.PI * 2 * WHEEL_RADIUS);
     }
+    
+    public void toBreakMode() {
+    	frontRightTalon.enableBrakeMode(true);
+    	frontLeftTalon.enableBrakeMode(true);
+    	backRightTalon.enableBrakeMode(true);
+    	backLeftTalon.enableBrakeMode(true);
+    }
+    
+    public void toCoastMode() {
+    	frontRightTalon.enableBrakeMode(false);
+    	frontLeftTalon.enableBrakeMode(false);
+    	backRightTalon.enableBrakeMode(false);
+    	backLeftTalon.enableBrakeMode(false);
+    }
 
 }
 

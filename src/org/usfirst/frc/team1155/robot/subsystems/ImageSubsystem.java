@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ImageSubsystem extends Subsystem {
 	/** Image is filtered. Frame is unfiltered */
 	private Image targetImage, targetFrame; 
-		
+	
 	/** Camera session */
 	private int session; 
 	/** Total number of filtered particles */
@@ -64,6 +64,10 @@ public class ImageSubsystem extends Subsystem {
 	 * <b> FOV_H_PIXEL </b> is the vertical resolution size of the camera <br>
 	 * <b> SCORE_MIN </b> is the lowest score (Percentage) that signifies that what is being observed is the target tape
 	 */
+
+    public static final double CAMERA_DOWN_POSITION = 0;
+    public static final double CAMERA_UP_POSITION = 140;
+	
 	private static final double TARGET_W_METER = 0.4826, 
 								TARGET_H_METER = .3048, // Shortest side of tape
 								TARGET_AREA = TARGET_W_METER * TARGET_H_METER, //  Full area of target.
@@ -117,7 +121,7 @@ public class ImageSubsystem extends Subsystem {
 		// A place to store all of the scores that are calculated
 		scores = new Scores();
 		
-		cameraTilt = new Servo(9);
+		cameraTilt = new Servo(0);
 	}
 
 	/**

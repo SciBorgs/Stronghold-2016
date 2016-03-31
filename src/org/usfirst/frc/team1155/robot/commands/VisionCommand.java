@@ -52,6 +52,7 @@ public class VisionCommand extends Command {
 				else 
 					SmartDashboard.putString("Tape Goal", "Not in Range");
 			}
+			System.out.println("vision");
 		}
 	}
 

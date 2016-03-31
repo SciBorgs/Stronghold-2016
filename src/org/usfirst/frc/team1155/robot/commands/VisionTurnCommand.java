@@ -51,10 +51,10 @@ public class VisionTurnCommand extends Command {
 		turnSpeed = Math.pow(Math.abs(angleToTurn) / 2250, 1.0/5.5);  //Determined using desmos grapher
 		//double turnSpeed = (angleToTurn > 0) ? ANGLE_TURN_SPEED : -ANGLE_TURN_SPEED;
 		if (angleToTurn > 0) {
-			Robot.driveSubsystem.setSpeed(-turnSpeed, turnSpeed);
+			Robot.driveSubsystem.setSpeed(turnSpeed, -turnSpeed);
 		}
 		else if (angleToTurn < 0) {
-			Robot.driveSubsystem.setSpeed(turnSpeed, -turnSpeed);
+			Robot.driveSubsystem.setSpeed(-turnSpeed, turnSpeed);
 		}
 	}
 

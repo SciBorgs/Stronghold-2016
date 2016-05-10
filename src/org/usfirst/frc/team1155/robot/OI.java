@@ -33,17 +33,24 @@ public class OI extends Command {
     private Ultrasonic ultra;
     
     public OI() {
-    	leftJoystick = new Joystick(PortMap.JOYSTICK_LEFT);
-    	rightJoystick = new Joystick(PortMap.JOYSTICK_RIGHT);
     	gamePad = new Joystick(PortMap.GAMEPAD);
     	
     	//Button map
-    	conveyorIn = new JoystickButton(gamePad, 1);
-    	loadBall = new JoystickButton(gamePad, 2);
-    	revShooter = new JoystickButton(gamePad, 3);
-    	shoot = new JoystickButton(gamePad, 4);
-    	driveStraight = new JoystickButton(gamePad, 5);
-    	conveyorOut = new JoystickButton(gamePad, 6);
+    	/*analog for drive
+			RB straight drive
+			RT rev + A to shoot
+			Dpad window motor
+			LT LB conveyor
+    	 */
+    	//conveyorIn = new JoystickButton(gamePad, 1);
+    	conveyorOut = new JoystickButton(gamePad, 5);
+    	
+    	driveStraight = new JoystickButton(gamePad, 6);
+    	//revShooter = new JoystickButton(gamePad, 3);
+    	shoot = new JoystickButton(gamePad, 1);
+    	
+    	//loadBall = new JoystickButton(gamePad, 2);
+    	
     	moveArmUp = new JoystickButton(gamePad, 7);
     	moveArmDown = new JoystickButton(gamePad, 8);
     	
@@ -75,7 +82,7 @@ public class OI extends Command {
 		}
 		
 		//Temporary shooting code <REMOVE>
-		if(revShooter.get()) {
+		if(gamePad.getRawAxis(3) < 0) {
 			Robot.shootSubsystem.setShooterSpeed(.47);  //Set to the correct axis
 			System.out.println("Revving shooter");
 		}
@@ -94,7 +101,7 @@ public class OI extends Command {
 		}
 		
 		//Temporary conveyor code <REMOVE>
-		if(conveyorIn.get()) {
+		if(gamePad.getRawAxis(3) > 0) {
 			intakeStart.start();
 		} else intakeStart.cancel();
 		

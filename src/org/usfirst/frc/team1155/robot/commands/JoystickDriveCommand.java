@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class JoystickDriveCommand extends Command{
 
 	private Joystick leftJoystick, rightJoystick;
+	private Joystick gamePad;
 	private Button driveStraight;
 	private double leftVal, rightVal, avgVal;
 	
@@ -23,6 +24,15 @@ public class JoystickDriveCommand extends Command{
 		
 		this.driveStraight = driveStraight;
 	}
+	
+	public JoystickDriveCommand(Joystick gamePad, Button driveStraight) {
+		requires(Robot.driveSubsystem);
+		
+		this.gamePad = gamePad;
+		leftVal = gamePad.getRawAxis(2);
+		rightVal = gamePad.getRawAxis(5);
+	}
+	
 	@Override
 	protected void initialize() {
 	}

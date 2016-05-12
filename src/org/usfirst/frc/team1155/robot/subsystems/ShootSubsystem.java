@@ -25,6 +25,7 @@ public class ShootSubsystem extends Subsystem {
 	private boolean ballPossessed = false;  //Test setup <REMOVE>
 	private DoubleSolenoid boulderPusher;
 		
+	public final double SHOOT_SPEED = 0.40; //.47 is tower speed
 	private boolean isPistonRetracted;
 	
 	public ShootSubsystem() {

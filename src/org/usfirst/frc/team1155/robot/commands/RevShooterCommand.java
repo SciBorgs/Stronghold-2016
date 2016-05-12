@@ -25,7 +25,7 @@ public class RevShooterCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.shootSubsystem.setShooterSpeed(.47);
+    	Robot.shootSubsystem.setShooterSpeed(Robot.shootSubsystem.SHOOT_SPEED);
     	timer.start();
     }
 

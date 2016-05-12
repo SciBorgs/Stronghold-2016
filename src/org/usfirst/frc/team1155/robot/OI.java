@@ -38,19 +38,21 @@ public class OI extends Command {
     	gamePad = new Joystick(PortMap.GAMEPAD);
     	
     	//Button map
-    	inputBall = new JoystickButton(leftJoystick, 1);
+    	//inputBall = new JoystickButton(leftJoystick, 1);
+    	inputBall = new JoystickButton(gamePad, 7);
     	loadBall = new JoystickButton(leftJoystick, 2);
     	revShooter = new JoystickButton(rightJoystick, 1);
     	shoot = new JoystickButton(rightJoystick, 2);
     	aim = new JoystickButton(gamePad, 1);
     	driveStraight = new JoystickButton(leftJoystick, 4);
-    	conveyorReverse = new JoystickButton(leftJoystick, 2);
+    	//conveyorReverse = new JoystickButton(leftJoystick, 2);
+    	conveyorReverse = new JoystickButton(gamePad, 8);
     	moveWinchUp = new JoystickButton(gamePad, 2);
     	moveWinchDown = new JoystickButton(gamePad, 3);
     	moveArmUp = new JoystickButton(gamePad, 5);
     	moveArmDown = new JoystickButton(gamePad, 6);
-    	tiltCamDown = new JoystickButton(gamePad, 7);
-    	tiltCamUp = new JoystickButton(gamePad, 8);
+    	//tiltCamDown = new JoystickButton(gamePad, 7);
+    	//tiltCamUp = new JoystickButton(gamePad, 8);
     	
     	
     	//Initialize drive command
@@ -97,7 +99,7 @@ public class OI extends Command {
 		
 		//Temporary shooting code <REMOVE>
 		if(revShooter.get()) {
-			Robot.shootSubsystem.setShooterSpeed(.47);  //Set to the correct axis
+			Robot.shootSubsystem.setShooterSpeed(Robot.shootSubsystem.SHOOT_SPEED);  //Set to the correct axis
 			System.out.println("Revving shooter");
 		}
 		else {
@@ -160,12 +162,12 @@ public class OI extends Command {
 			Robot.climbSubsystem.armTalon.set(0);
 		}
 
-		if (tiltCamDown.get()) {
+		/*if (tiltCamDown.get()) {
 			Robot.imageSubsystem.cameraTilt.setAngle(ImageSubsystem.CAMERA_DOWN_POSITION);
 		}
 		if (tiltCamUp.get()) {
 			Robot.imageSubsystem.cameraTilt.setAngle(ImageSubsystem.CAMERA_UP_POSITION);
-		}
+		}*/
 		
 		//Restarts drive
 		if(!joystickDrive.isRunning()) {

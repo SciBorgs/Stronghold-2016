@@ -5,7 +5,6 @@ import org.usfirst.frc.team1155.robot.commands.PickUpBoulderCommandGroup;
 import org.usfirst.frc.team1155.robot.commands.ShooterIOCommand;
 import org.usfirst.frc.team1155.robot.commands.VisionTurnCommand;
 import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem;
-import org.usfirst.frc.team1155.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;

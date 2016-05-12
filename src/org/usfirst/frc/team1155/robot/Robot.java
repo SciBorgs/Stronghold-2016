@@ -9,8 +9,8 @@ import org.usfirst.frc.team1155.robot.commands.VisionCommand;
 import org.usfirst.frc.team1155.robot.subsystems.ClimbSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem;
-import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem.TargetVector;
 import org.usfirst.frc.team1155.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team1155.robot.subsystems.ImageSubsystem.TargetVector;
 import org.usfirst.frc.team1155.robot.subsystems.ShootSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;

@@ -25,38 +25,38 @@ public class OI extends Command {
     
     private Command joystickDrive, intakeStart;
   //Input is the conveyor, load is the window motor (loading it into firing position).  Left joystick is input, right joystick is shoot
-    private Button inputBall, loadBall, resetHolder;
-    private Button revShooter, shoot, conveyorReverse;
-    private Button aim, driveStraight;
-    private Button moveWinchUp, moveWinchDown, moveArmUp, moveArmDown, tiltCamDown, tiltCamUp;
-    private Button breakMode, coastMode;
+    private Button conveyorIn, loadBall, resetHolder;
+    private Button revShooter, shoot, conveyorOut;
+    private Button driveStraight;
+    private Button moveArmUp, moveArmDown;
+  
     private Ultrasonic ultra;
-    private CANTalon iWork;
+    
     public OI() {
-    	leftJoystick = new Joystick(PortMap.JOYSTICK_LEFT);
-    	rightJoystick = new Joystick(PortMap.JOYSTICK_RIGHT);
     	gamePad = new Joystick(PortMap.GAMEPAD);
     	
     	//Button map
-    	//inputBall = new JoystickButton(leftJoystick, 1);
-    	inputBall = new JoystickButton(gamePad, 7);
-    	loadBall = new JoystickButton(leftJoystick, 2);
-    	revShooter = new JoystickButton(rightJoystick, 1);
-    	shoot = new JoystickButton(rightJoystick, 2);
-    	aim = new JoystickButton(gamePad, 1);
-    	driveStraight = new JoystickButton(leftJoystick, 4);
-    	//conveyorReverse = new JoystickButton(leftJoystick, 2);
-    	conveyorReverse = new JoystickButton(gamePad, 8);
-    	moveWinchUp = new JoystickButton(gamePad, 2);
-    	moveWinchDown = new JoystickButton(gamePad, 3);
-    	moveArmUp = new JoystickButton(gamePad, 5);
-    	moveArmDown = new JoystickButton(gamePad, 6);
-    	//tiltCamDown = new JoystickButton(gamePad, 7);
-    	//tiltCamUp = new JoystickButton(gamePad, 8);
+    	/*analog for drive
+			RB straight drive
+			RT rev + A to shoot
+			Dpad window motor
+			LT LB conveyor
+    	 */
+    	//conveyorIn = new JoystickButton(gamePad, 1);
+    	conveyorOut = new JoystickButton(gamePad, 5);
+    	
+    	driveStraight = new JoystickButton(gamePad, 6);
+    	//revShooter = new JoystickButton(gamePad, 3);
+    	shoot = new JoystickButton(gamePad, 1);
+    	
+    	//loadBall = new JoystickButton(gamePad, 2);
+    	
+    	moveArmUp = new JoystickButton(gamePad, 7);
+    	moveArmDown = new JoystickButton(gamePad, 8);
     	
     	
     	//Initialize drive command
-    	joystickDrive = new JoystickDriveCommand(leftJoystick, rightJoystick, driveStraight);
+    	joystickDrive = new JoystickDriveCommand(gamePad, driveStraight);
     	
     	//Intake command
     	intakeStart = new PickUpBoulderCommandGroup();
@@ -65,32 +65,16 @@ public class OI extends Command {
     	//Shooting works in two stages.  The first is the motors revving up.  The second is the piston retracting, and pushing the
     	//ball into the shooter
     	shoot.whenPressed(new ShooterIOCommand());
-    	
-    	aim.whenPressed(new VisionTurnCommand());
-    	
-//    	cameraPan = new Servo(9);
-    	
-    	iWork = new CANTalon(4);
     }
 
 	@Override
 	protected void initialize() {
 		joystickDrive.start();
-//		cameraPan.setAngle(90);
-//		cameraTilt.setAngle(130);
 	}
 
 	@Override
 	protected void execute() {
-		//System.out.println(cameraTilt.get());
-		//.set(leftJoystick.getRawAxis(3));
-		System.out.println("shooter speed:" + -(rightJoystick.getRawAxis(3) - 1) / 2.0);
-		Robot.intakeSubsystem.setHolderSpeed(Math.min(gamePad.getRawAxis(5) * 0.6 , 0.7));
-		System.out.println(gamePad.getRawAxis(5));
-		
-		//SmartDashboard.putNumber("Window motor position", Robot.intakeSubsystem.holderTalon.getPosition());
-		
-		if(conveyorReverse.get()) {
+		if(conveyorOut.get()) {
 			Robot.intakeSubsystem.conveyorTalon.set(.8);
 		}
 		else {
@@ -98,21 +82,26 @@ public class OI extends Command {
 		}
 		
 		//Temporary shooting code <REMOVE>
-		if(revShooter.get()) {
-			Robot.shootSubsystem.setShooterSpeed(Robot.shootSubsystem.SHOOT_SPEED);  //Set to the correct axis
+		if(gamePad.getRawAxis(3) < 0) {
+			Robot.shootSubsystem.setShooterSpeed(.47);  //Set to the correct axis
 			System.out.println("Revving shooter");
 		}
 		else {
 			Robot.shootSubsystem.setShooterSpeed(0);
 		}
 		
-		if(gamePad.getRawAxis(5) < -0.2) {
-			Robot.shootSubsystem.mainTalon.set(0.25);
-			Robot.shootSubsystem.followerTalon.set(-0.1);
+		if(gamePad.getRawAxis(6) == 0) {
+			/*Robot.shootSubsystem.mainTalon.set(0.25);
+			Robot.shootSubsystem.followerTalon.set(-0.1);*/
+			Robot.intakeSubsystem.setHolderSpeed(0.5);
+		} else if (gamePad.getRawAxis(6) == 180) {
+			Robot.intakeSubsystem.setHolderSpeed(-0.5);
+		} else {
+			Robot.intakeSubsystem.setHolderSpeed(0);
 		}
 		
 		//Temporary conveyor code <REMOVE>
-		if(inputBall.get()) {
+		if(gamePad.getRawAxis(3) > 0) {
 			intakeStart.start();
 		} else intakeStart.cancel();
 		
@@ -140,17 +129,6 @@ public class OI extends Command {
 			Robot.intakeSubsystem.setPivotIntakePosition(0);
 		}
 		
-		if(gamePad.getRawButton(3)) {
-			iWork.set(1);
-
-			System.out.println("go");
-		}
-		else if (gamePad.getRawButton(2)) {
-			iWork.set(-1);
-		}
-		else {
-			iWork.set(0);
-		}
 		
 		if (moveArmUp.get()) {
 			Robot.climbSubsystem.armTalon.set(1);
@@ -161,13 +139,6 @@ public class OI extends Command {
 		else {
 			Robot.climbSubsystem.armTalon.set(0);
 		}
-
-		/*if (tiltCamDown.get()) {
-			Robot.imageSubsystem.cameraTilt.setAngle(ImageSubsystem.CAMERA_DOWN_POSITION);
-		}
-		if (tiltCamUp.get()) {
-			Robot.imageSubsystem.cameraTilt.setAngle(ImageSubsystem.CAMERA_UP_POSITION);
-		}*/
 		
 		//Restarts drive
 		if(!joystickDrive.isRunning()) {

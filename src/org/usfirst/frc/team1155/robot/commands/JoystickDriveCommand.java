@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class JoystickDriveCommand extends Command{
 
-	private Joystick leftJoystick, rightJoystick;
 	private Joystick gamePad;
 	private Button driveStraight;
 	private double leftVal, rightVal, avgVal;
@@ -16,20 +15,13 @@ public class JoystickDriveCommand extends Command{
 	/**
 	 * Teleop Drive Command
 	 */
-	public JoystickDriveCommand(Joystick leftJoy, Joystick rightJoy, Button driveStraight) {
-		requires(Robot.driveSubsystem);
-
-		leftJoystick = leftJoy;
-		rightJoystick = rightJoy;
-		
-		this.driveStraight = driveStraight;
-	}
 	
 	public JoystickDriveCommand(Joystick gamePad, Button driveStraight) {
 		requires(Robot.driveSubsystem);
 		
 		this.gamePad = gamePad;
-		leftVal = gamePad.getRawAxis(2);
+		this.driveStraight = driveStraight;
+		leftVal = gamePad.getRawAxis(1);
 		rightVal = gamePad.getRawAxis(5);
 	}
 	
@@ -41,8 +33,8 @@ public class JoystickDriveCommand extends Command{
 	protected void execute() {
 		System.out.println("RUNNING DRIVE");
 		//Temporary drive curve, please fix
-		leftVal = -leftJoystick.getY() * Math.abs(leftJoystick.getY());
-		rightVal = -rightJoystick.getY() * Math.abs(rightJoystick.getY());
+		leftVal = -gamePad.getRawAxis(1) * Math.abs(gamePad.getRawAxis(1));
+		rightVal = -gamePad.getRawAxis(5) * Math.abs(gamePad.getRawAxis(5));
 		if(driveStraight.get()) {
 			avgVal = (leftVal + rightVal) / 2;
 			Robot.driveSubsystem.setSpeed(avgVal, avgVal);

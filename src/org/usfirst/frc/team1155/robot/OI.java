@@ -29,6 +29,7 @@ public class OI extends Command {
     private Button revShooter, shoot, conveyorOut;
     private Button driveStraight;
     private Button moveArmUp, moveArmDown;
+    private Button revIn;
   
     private Ultrasonic ultra;
     
@@ -52,7 +53,9 @@ public class OI extends Command {
     	//loadBall = new JoystickButton(gamePad, 2);
     	
     	moveArmUp = new JoystickButton(gamePad, 7);
-    	moveArmDown = new JoystickButton(gamePad, 8);
+    	//moveArmDown = new JoystickButton(gamePad, 8);
+    	
+    	revIn = new JoystickButton(gamePad, 8);
     	
     	
     	//Initialize drive command
@@ -82,26 +85,23 @@ public class OI extends Command {
 		}
 		
 		//Temporary shooting code <REMOVE>
-		if(gamePad.getRawAxis(3) < 0) {
+		if(gamePad.getRawAxis(3) > 0) {
 			Robot.shootSubsystem.setShooterSpeed(.47);  //Set to the correct axis
 			System.out.println("Revving shooter");
+		}
+		else if (revIn.get()) {
+			Robot.shootSubsystem.setShooterSpeed(-.2);
 		}
 		else {
 			Robot.shootSubsystem.setShooterSpeed(0);
 		}
 		
-		if(gamePad.getRawAxis(6) == 0) {
-			/*Robot.shootSubsystem.mainTalon.set(0.25);
-			Robot.shootSubsystem.followerTalon.set(-0.1);*/
-			Robot.intakeSubsystem.setHolderSpeed(0.5);
-		} else if (gamePad.getRawAxis(6) == 180) {
-			Robot.intakeSubsystem.setHolderSpeed(-0.5);
-		} else {
-			Robot.intakeSubsystem.setHolderSpeed(0);
-		}
+		
+		//Robot.intakeSubsystem.setHolderSpeed(gamePad.getPOV());
+		
 		
 		//Temporary conveyor code <REMOVE>
-		if(gamePad.getRawAxis(3) > 0) {
+		if(gamePad.getRawAxis(2) > 0) {
 			intakeStart.start();
 		} else intakeStart.cancel();
 		
@@ -120,31 +120,31 @@ public class OI extends Command {
 //		else if (gamePad.getPOV() == 90 || gamePad.getPOV() == 270)
 //			Robot.intakeSubsystem.setPivotIntakePosition(IntakeSubsystem.PIVOT_SHOOT_POSITION);
 		if(gamePad.getPOV() == 0) {
-			Robot.intakeSubsystem.setPivotIntakePosition(0.5);
+			Robot.intakeSubsystem.setHolderSpeed(-0.5);
 		}
 		else if(gamePad.getPOV() == 180) {
-			Robot.intakeSubsystem.setPivotIntakePosition(-1);
+			Robot.intakeSubsystem.setHolderSpeed(0.5);
 		}
 		else {
-			Robot.intakeSubsystem.setPivotIntakePosition(0);
+			Robot.intakeSubsystem.setHolderSpeed(0);
 		}
 		
 		
-		if (moveArmUp.get()) {
-			Robot.climbSubsystem.armTalon.set(1);
-		} 
-		else if (moveArmDown.get()) {
-			Robot.climbSubsystem.armTalon.set(-1);
-		}
-		else {
-			Robot.climbSubsystem.armTalon.set(0);
-		}
+//		if (moveArmUp.get()) {
+//			Robot.climbSubsystem.armTalon.set(1);
+//		} 
+//		else if (moveArmDown.get()) {
+//			Robot.climbSubsystem.armTalon.set(-1);
+//		}
+//		else {
+//			Robot.climbSubsystem.armTalon.set(0);
+//		}
 		
-		//Restarts drive
 		if(!joystickDrive.isRunning()) {
-			if(leftJoystick.getY() > 0.05 || rightJoystick.getY() > 0.05)
+			if(gamePad.getRawAxis(1) > 0.05 || gamePad.getRawAxis(5) > 0.05)
 				joystickDrive.start();
 		}
+		
 	}
 
 	@Override

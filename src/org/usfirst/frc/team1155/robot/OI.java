@@ -89,7 +89,7 @@ public class OI extends Command {
 			System.out.println("Revving shooter");
 		}
 		else if (revIn.get()) {
-			Robot.shootSubsystem.setShooterSpeed(-.2);
+			Robot.shootSubsystem.setShooterSpeed(-.37);
 		}
 		else {
 			Robot.shootSubsystem.setShooterSpeed(0);
